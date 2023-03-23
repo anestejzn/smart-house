@@ -1,1 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-size: 1rem;
+  background-color: var(--white);
+  color: var(--deep-blue);
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+:root {
+  --gray: #A6B1BB;
+  --deep-blue: #0F5490;
+  --red: #b73e3e;
+  --white: #ffffff;
+  --gray-transparent: rgba(231, 230, 230, 0.47);
+}
