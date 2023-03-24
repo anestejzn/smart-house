@@ -1,0 +1,61 @@
+<div class="form-container mat-elevation-z1" style="margin-top:7rem;">
+    <h1 class="text-center">My home</h1>
+    <form color="primary" [formGroup]="loginForm">
+      <mat-form-field
+        class="full-width"
+        appearance="fill"
+        style="min-height: 30px">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          placeholder="email@domain.com"
+          formControlName="email"
+          name="email"
+          required />
+        <mat-error *ngIf="loginForm.invalid">
+          {{ getErrorMessage() }}
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field class="password-field" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          formControlName="password"
+          name="password"
+          placeholder="Enter password" />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide">
+          <mat-icon class="mat-icon-deep-blue">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error
+          *ngIf="
+            loginForm.get('password').hasError('minlength') &&
+            !loginForm.get('password').hasError('required')
+          ">
+          Password should contains at least 8 characters
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('password').hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <a [routerLink]="['/serb-uber/auth/forgot-password']" class="link">Forgot password?</a>
+  
+      <div class="center margin-top">
+        <button mat-raised-button (click)="logIn()" class="login-button" id="submit-login">
+          Log in
+        </button>
+      </div>
+
+      <span class="center margin-top" style="color: var(--deep-blue)"
+        >Don't have an account?
+        <a [routerLink]="['']" style="margin-left: 5px" class="link">Sign up</a>
+      </span>
+    </form>
+  </div>
+  
