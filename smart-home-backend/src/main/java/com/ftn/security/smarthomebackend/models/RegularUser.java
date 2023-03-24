@@ -22,8 +22,21 @@ public class RegularUser extends User {
     @Column(name="account_type", nullable = false)
     protected AccountType accountType;
 
-    public RegularUser(String email, String password, String name, String surname, String salt, AccountStatus status, int failedAttempts, LocalDateTime lockedUntil, Boolean verified, AccountType accountType) {
-        super(email, password, name, surname, salt, status, failedAttempts, lockedUntil);
+    public RegularUser(
+            String email,
+            String password,
+            String name,
+            String surname,
+            String salt,
+            AccountStatus status,
+            int failedAttempts,
+            LocalDateTime lockedUntil,
+            String country,
+            String city,
+            Boolean verified,
+            AccountType accountType
+    ) {
+        super(email, password, name, surname, salt, status, failedAttempts, lockedUntil, country, city);
         this.verified = verified;
         this.accountType = accountType;
     }

@@ -28,6 +28,10 @@ public abstract class User {
     protected String name;
     @Column(name="surname", nullable = false)
     protected String surname;
+    @Column(name="country", nullable = false)
+    protected String country;
+    @Column(name="city", nullable = false)
+    protected String city;
     @Column(name="salt", nullable = false)
     protected String salt;
     @Column(name="status", nullable = false)
@@ -37,7 +41,18 @@ public abstract class User {
     @Column(name="locked_until")
     protected LocalDateTime lockedUntil;
 
-    public User(String email, String password, String name, String surname, String salt, AccountStatus status, int failedAttempts, LocalDateTime lockedUntil) {
+    public User(
+            String email,
+            String password,
+            String name,
+            String surname,
+            String salt,
+            AccountStatus status,
+            int failedAttempts,
+            LocalDateTime lockedUntil,
+            String country,
+            String city
+    ) {
         this.email = email;
         this.password = password;
         this.name = name;
@@ -46,5 +61,7 @@ public abstract class User {
         this.status = status;
         this.failedAttempts = failedAttempts;
         this.lockedUntil = lockedUntil;
+        this.country = country;
+        this.city = city;
     }
 }
