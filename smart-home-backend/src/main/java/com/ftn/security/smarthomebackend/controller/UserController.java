@@ -2,9 +2,9 @@ package com.ftn.security.smarthomebackend.controller;
 
 import com.ftn.security.smarthomebackend.exception.EntityAlreadyExistsException;
 import com.ftn.security.smarthomebackend.exception.PasswordsDoNotMatchException;
-import com.ftn.security.smarthomebackend.services.implementation.UserService;
 import com.ftn.security.smarthomebackend.dto.response.UserDTO;
 import com.ftn.security.smarthomebackend.dto.request.RegularUserRegistrationRequest;
+import com.ftn.security.smarthomebackend.service.implementation.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @CrossOrigin(origins = "http://localhost:4201")
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO create(@Valid @RequestBody RegularUserRegistrationRequest request)

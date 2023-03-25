@@ -62,7 +62,8 @@ public abstract class User {
             int failedAttempts,
             LocalDateTime lockedUntil,
             String country,
-            String city
+            String city,
+            Role role
     ) {
         this.email = email;
         this.password = password;
@@ -74,5 +75,6 @@ public abstract class User {
         this.lockedUntil = lockedUntil;
         this.country = country;
         this.city = city;
+        this.role = role;
     }
 }

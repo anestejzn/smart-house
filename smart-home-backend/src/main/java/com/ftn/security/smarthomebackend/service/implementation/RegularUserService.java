@@ -1,7 +1,7 @@
-package com.ftn.security.smarthomebackend.services.implementation;
+package com.ftn.security.smarthomebackend.service.implementation;
 
 import com.ftn.security.smarthomebackend.enums.AccountStatus;
-import com.ftn.security.smarthomebackend.enums.AccountType;
+import com.ftn.security.smarthomebackend.enums.Role;
 import com.ftn.security.smarthomebackend.model.RegularUser;
 import com.ftn.security.smarthomebackend.repository.RegularUserRepository;
 import com.ftn.security.smarthomebackend.dto.response.UserDTO;
@@ -24,7 +24,7 @@ public class RegularUserService {
             String name,
             String surname,
             String password,
-            AccountType role,
+            Role role,
             String country,
             String city
     ) {

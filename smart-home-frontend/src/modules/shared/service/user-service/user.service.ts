@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from 'src/modules/auth/model/login/user';
 import { RegularUserRegistration } from 'src/modules/auth/model/regular-user-registration';
+import { User } from '../../model/user';
 import { ConfigService } from '../config-service/config.service';
 
 @Injectable({

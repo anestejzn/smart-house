@@ -2,7 +2,7 @@ package com.ftn.security.smarthomebackend.dto.response;
 
 import com.ftn.security.smarthomebackend.enums.AccountStatus;
 import com.ftn.security.smarthomebackend.enums.Role;
-import com.ftn.security.smarthomebackend.models.User;
+import com.ftn.security.smarthomebackend.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

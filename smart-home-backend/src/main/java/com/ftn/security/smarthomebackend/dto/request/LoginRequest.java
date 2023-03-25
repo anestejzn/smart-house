@@ -9,8 +9,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import static com.ftn.security.smarthomebackend.utils.Constants.LEGIT_PASSWORD_REG;
-import static com.ftn.security.smarthomebackend.utils.ErrorMessageConstants.*;
+import static com.ftn.security.smarthomebackend.util.Constants.LEGIT_PASSWORD_REG;
+import static com.ftn.security.smarthomebackend.util.ErrorMessageConstants.*;
 
 @Getter
 @Setter

@@ -33,9 +33,9 @@ public class RegularUser extends User {
             String country,
             String city,
             Boolean verified,
-            AccountType accountType
+            Role accountType
     ) {
-        super(email, password, name, surname, salt, status, failedAttempts, lockedUntil, country, city);
+        super(email, password, name, surname, salt, status, failedAttempts, lockedUntil, country, city, accountType);
         this.verified = verified;
     }
 }

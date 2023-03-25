@@ -1,4 +1,4 @@
-package com.ftn.security.smarthomebackend.utils;
+package com.ftn.security.smarthomebackend.util;
 
 public class ErrorMessageConstants {
 

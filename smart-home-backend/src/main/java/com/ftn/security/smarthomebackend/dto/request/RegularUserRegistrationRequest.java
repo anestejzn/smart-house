@@ -1,6 +1,6 @@
 package com.ftn.security.smarthomebackend.dto.request;
 
-import com.ftn.security.smarthomebackend.enums.AccountType;
+import com.ftn.security.smarthomebackend.enums.Role;
 import com.ftn.security.smarthomebackend.util.Constants;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,7 +26,7 @@ public class RegularUserRegistrationRequest extends UserRequest {
     private final String confirmPassword;
 
     @NotNull(message = WRONG_ROLE)
-    private final AccountType role;
+    private final Role role;
 
     public RegularUserRegistrationRequest(
             String email,
@@ -36,7 +36,7 @@ public class RegularUserRegistrationRequest extends UserRequest {
             String city,
             String password,
             String confirmPassword,
-            AccountType role
+            Role role
     ) {
         super(email, name, surname, country, city);
         this.password = password;
