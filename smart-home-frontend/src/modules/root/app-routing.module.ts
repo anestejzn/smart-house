@@ -4,14 +4,21 @@ import { RootLayoutComponent } from './components/root-layout/root-layout.compon
 
 const routes: Routes = [
   {
-    path: "my-home",
-    component: RootLayoutComponent
+    path: "smart-home",
+    component: RootLayoutComponent,
+    children: [
+      {
+        path: "user",
+        loadChildren: () =>
+          import("./../user/user.module").then((m) => m.UserModule),
+      }
+    ]
   },
   {
     path: "",
     redirectTo: "login",
     pathMatch: "full",
-  },
+  }
 ];
 
 @NgModule({

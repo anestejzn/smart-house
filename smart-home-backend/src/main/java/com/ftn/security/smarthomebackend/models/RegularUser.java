@@ -1,7 +1,7 @@
 package com.ftn.security.smarthomebackend.models;
 
 import com.ftn.security.smarthomebackend.enums.AccountStatus;
-import com.ftn.security.smarthomebackend.enums.AccountType;
+import com.ftn.security.smarthomebackend.enums.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -19,12 +19,9 @@ import java.time.LocalDateTime;
 public class RegularUser extends User {
     @Column(name="verified", nullable = false)
     protected Boolean verified;
-    @Column(name="account_type", nullable = false)
-    protected AccountType accountType;
 
-    public RegularUser(String email, String password, String name, String surname, String salt, AccountStatus status, int failedAttempts, LocalDateTime lockedUntil, Boolean verified, AccountType accountType) {
+    public RegularUser(String email, String password, String name, String surname, String salt, AccountStatus status, int failedAttempts, LocalDateTime lockedUntil, Boolean verified) {
         super(email, password, name, surname, salt, status, failedAttempts, lockedUntil);
         this.verified = verified;
-        this.accountType = accountType;
     }
 }

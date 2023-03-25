@@ -1,6 +1,7 @@
 package com.ftn.security.smarthomebackend.models;
 
 import com.ftn.security.smarthomebackend.enums.AccountStatus;
+import com.ftn.security.smarthomebackend.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,6 @@ public abstract class User {
     protected Long id;
     @Column(name="email", nullable = false, unique = true)
     protected String email;
-
     @Column(name="password", nullable = false)
     protected String password;
     @Column(name="name", nullable = false)
@@ -36,6 +36,8 @@ public abstract class User {
     protected Integer failedAttempts;
     @Column(name="locked_until")
     protected LocalDateTime lockedUntil;
+    @Column(name="role", nullable = false)
+    protected Role role;
 
     public User(String email, String password, String name, String surname, String salt, AccountStatus status, int failedAttempts, LocalDateTime lockedUntil) {
         this.email = email;
