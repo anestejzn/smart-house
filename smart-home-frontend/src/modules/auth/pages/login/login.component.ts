@@ -50,15 +50,16 @@ export class LoginComponent implements OnInit, OnDestroy {
         email: this.loginForm.get('email').value,
         password: this.loginForm.get('password').value,
       };
-      this.authSubscription = this.authService.login(loginRequest).subscribe({
-        next(loggedUser: LoginResponse): void {
-          this.authService.setLocalStorage(loggedUser);
-          this.router.navigate(['']);
+      this.authSubscription = this.authService.login(loginRequest).subscribe(
+        user => {
+          this.authService.setLocalStorage(user);
+          console.log("blalala");
+          this.router.navigate(['/smart-home/user/home']);
         },
-        error(error): void {
+        error => {
           this.toast.error('Email or password is not correct!', 'Login failed');
         }
-      });
+      );
     }
   }
 

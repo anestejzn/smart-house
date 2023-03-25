@@ -1,6 +1,7 @@
 package com.ftn.security.smarthomebackend.enums;
 
-public enum AccountType {
+public enum Role {
     TENANT,
-    OWNER
+    OWNER,
+    ADMIN
 }

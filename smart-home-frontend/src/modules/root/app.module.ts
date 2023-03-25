@@ -8,6 +8,8 @@ import { MaterialModule } from '../material/material.module';
 import { RootLayoutComponent } from './components/root-layout/root-layout.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { AuthModule } from '../auth/auth.module';
+import { UserModule } from '../user/user.module';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -17,10 +19,11 @@ import { AuthModule } from '../auth/auth.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
     AuthModule,
+    UserModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

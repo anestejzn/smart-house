@@ -1,7 +1,7 @@
 package com.ftn.security.smarthomebackend.model;
 
 import com.ftn.security.smarthomebackend.enums.AccountStatus;
-import com.ftn.security.smarthomebackend.enums.AccountType;
+import com.ftn.security.smarthomebackend.enums.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -21,9 +21,6 @@ public class RegularUser extends User {
     @Column(name="verified", nullable = false)
     protected Boolean verified;
 
-    @Column(name="account_type", nullable = false)
-    protected AccountType accountType;
-
     public RegularUser(
             String email,
             String password,
@@ -40,6 +37,5 @@ public class RegularUser extends User {
     ) {
         super(email, password, name, surname, salt, status, failedAttempts, lockedUntil, country, city);
         this.verified = verified;
-        this.accountType = accountType;
     }
 }
