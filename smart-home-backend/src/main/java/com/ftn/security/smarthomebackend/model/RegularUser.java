@@ -1,4 +1,4 @@
-package com.ftn.security.smarthomebackend.models;
+package com.ftn.security.smarthomebackend.model;
 
 import com.ftn.security.smarthomebackend.enums.AccountStatus;
 import com.ftn.security.smarthomebackend.enums.AccountType;

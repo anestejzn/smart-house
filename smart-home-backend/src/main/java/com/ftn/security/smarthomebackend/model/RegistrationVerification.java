@@ -1,4 +1,4 @@
-package com.ftn.security.smarthomebackend.models;
+package com.ftn.security.smarthomebackend.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;

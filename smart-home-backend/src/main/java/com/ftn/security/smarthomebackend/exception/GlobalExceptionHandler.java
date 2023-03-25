@@ -1,4 +1,4 @@
-package com.ftn.security.smarthomebackend.exceptions;
+package com.ftn.security.smarthomebackend.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;

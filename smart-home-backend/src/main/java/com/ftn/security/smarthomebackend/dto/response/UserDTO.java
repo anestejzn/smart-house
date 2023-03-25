@@ -1,6 +1,6 @@
-package com.ftn.security.smarthomebackend.transfer_objects.dtos;
+package com.ftn.security.smarthomebackend.dto.response;
 
-import com.ftn.security.smarthomebackend.models.RegularUser;
+import com.ftn.security.smarthomebackend.model.RegularUser;
 import lombok.Getter;
 import lombok.Setter;
 

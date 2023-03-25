@@ -1,6 +1,6 @@
-package com.ftn.security.smarthomebackend.repositories;
+package com.ftn.security.smarthomebackend.repository;
 
-import com.ftn.security.smarthomebackend.models.User;
+import com.ftn.security.smarthomebackend.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

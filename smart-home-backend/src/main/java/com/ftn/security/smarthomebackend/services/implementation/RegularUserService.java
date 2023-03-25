@@ -2,14 +2,12 @@ package com.ftn.security.smarthomebackend.services.implementation;
 
 import com.ftn.security.smarthomebackend.enums.AccountStatus;
 import com.ftn.security.smarthomebackend.enums.AccountType;
-import com.ftn.security.smarthomebackend.models.RegularUser;
-import com.ftn.security.smarthomebackend.repositories.RegularUserRepository;
-import com.ftn.security.smarthomebackend.transfer_objects.dtos.UserDTO;
+import com.ftn.security.smarthomebackend.model.RegularUser;
+import com.ftn.security.smarthomebackend.repository.RegularUserRepository;
+import com.ftn.security.smarthomebackend.dto.response.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import static com.ftn.security.smarthomebackend.util.Constants.ZERO_FAILED_ATTEMPTS;
-
-import java.time.LocalDateTime;
 
 import static com.ftn.security.smarthomebackend.util.Constants.SALT_LENGTH;
 import static com.ftn.security.smarthomebackend.util.Helper.generateRandomString;

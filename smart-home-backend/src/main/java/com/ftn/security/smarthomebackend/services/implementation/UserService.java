@@ -1,11 +1,11 @@
 package com.ftn.security.smarthomebackend.services.implementation;
 
 import com.ftn.security.smarthomebackend.enums.AccountType;
-import com.ftn.security.smarthomebackend.exceptions.EntityAlreadyExistsException;
-import com.ftn.security.smarthomebackend.exceptions.PasswordsDoNotMatchException;
-import com.ftn.security.smarthomebackend.models.User;
-import com.ftn.security.smarthomebackend.repositories.UserRepository;
-import com.ftn.security.smarthomebackend.transfer_objects.dtos.UserDTO;
+import com.ftn.security.smarthomebackend.exception.EntityAlreadyExistsException;
+import com.ftn.security.smarthomebackend.exception.PasswordsDoNotMatchException;
+import com.ftn.security.smarthomebackend.model.User;
+import com.ftn.security.smarthomebackend.repository.UserRepository;
+import com.ftn.security.smarthomebackend.dto.response.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

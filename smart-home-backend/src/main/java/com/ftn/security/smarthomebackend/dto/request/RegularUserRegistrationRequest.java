@@ -1,4 +1,4 @@
-package com.ftn.security.smarthomebackend.transfer_objects.requests;
+package com.ftn.security.smarthomebackend.dto.request;
 
 import com.ftn.security.smarthomebackend.enums.AccountType;
 import com.ftn.security.smarthomebackend.util.Constants;
