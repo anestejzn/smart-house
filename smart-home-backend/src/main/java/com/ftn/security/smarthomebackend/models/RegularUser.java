@@ -17,8 +17,10 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class RegularUser extends User {
+
     @Column(name="verified", nullable = false)
     protected Boolean verified;
+
     @Column(name="account_type", nullable = false)
     protected AccountType accountType;
 

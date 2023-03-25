@@ -19,25 +19,34 @@ public abstract class User {
     @SequenceGenerator(name = "generator1", sequenceName = "usersIdGen", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator1")
     protected Long id;
+
     @Column(name="email", nullable = false, unique = true)
     protected String email;
 
     @Column(name="password", nullable = false)
     protected String password;
+
     @Column(name="name", nullable = false)
     protected String name;
+
     @Column(name="surname", nullable = false)
     protected String surname;
+
     @Column(name="country", nullable = false)
     protected String country;
+
     @Column(name="city", nullable = false)
     protected String city;
+
     @Column(name="salt", nullable = false)
     protected String salt;
+
     @Column(name="status", nullable = false)
     protected AccountStatus status;
+
     @Column(name="failed_attempts", nullable = false)
     protected Integer failedAttempts;
+
     @Column(name="locked_until")
     protected LocalDateTime lockedUntil;
 

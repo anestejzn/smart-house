@@ -17,21 +17,15 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field class="colomn" appearance="fill">
-                <mat-label>Country</mat-label>
-                <input type="text" matInput [errorStateMatcher]="matcher" aria-label="State" [matAutocomplete]="autoCountry"
-                    formControlName="countryFormControl" placeholder="Choose a country" />
-                <mat-autocomplete #autoCountry="matAutocomplete" style="background-color: var(--gray)!important;">
-                    <mat-option *ngFor="let country of filteredCountries | async" [value]="country.name"
-                        style="background-color: rgb(205,209,211) !important; color:var(--deep-blue)!important;">
-                        {{country.name}}
+            <mat-form-field appearance="fill" class="password-colomn">
+                <mat-label>Role</mat-label>
+                <mat-select formControlName="roleFormControl">
+                    <mat-option *ngFor="let role of regularUserRoles" [value]="role">
+                        {{role}}
                     </mat-option>
-                </mat-autocomplete>
-                <mat-error name="invalidCity" *ngIf="registrationForm.get('countryFormControl').hasError('pattern')">
-                    Country cannot contain digits
-                </mat-error>
-                <mat-error name="emptyCountry" *ngIf="registrationForm.get('countryFormControl').hasError('required')">
-                    Country is <strong>required</strong>
+                </mat-select>
+                <mat-error name="emptyRole" *ngIf="registrationForm.get('roleFormControl').hasError('required')">
+                    Role is <strong>required</strong>
                 </mat-error>
             </mat-form-field>
 
@@ -67,7 +61,26 @@
         </div>
 
         <div style="display: flex">
-            <mat-form-field appearance="fill">
+
+            <mat-form-field class="colomn" appearance="fill">
+                <mat-label>Country</mat-label>
+                <input type="text" matInput [errorStateMatcher]="matcher" aria-label="State" [matAutocomplete]="autoCountry"
+                    formControlName="countryFormControl" placeholder="Choose a country" />
+                <mat-autocomplete #autoCountry="matAutocomplete" style="background-color: var(--gray)!important;">
+                    <mat-option *ngFor="let country of filteredCountries | async" [value]="country.name"
+                        style="background-color: rgb(205,209,211) !important; color:var(--deep-blue)!important;">
+                        {{country.name}}
+                    </mat-option>
+                </mat-autocomplete>
+                <mat-error name="invalidCity" *ngIf="registrationForm.get('countryFormControl').hasError('pattern')">
+                    Country cannot contain digits
+                </mat-error>
+                <mat-error name="emptyCountry" *ngIf="registrationForm.get('countryFormControl').hasError('required')">
+                    Country is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="password-colomn">
                 <mat-label>City</mat-label>
                 <input type="text" matInput [errorStateMatcher]="matcher" aria-label="State" [matAutocomplete]="auto"
                     formControlName="cityFormControl" placeholder="Choose city" />
@@ -84,6 +97,7 @@
                     City is <strong>required</strong>
                 </mat-error>
             </mat-form-field>
+
         </div>
 
         <div style="display: flex">
@@ -151,13 +165,13 @@
         </div>
         <br />
         <div class="center">
-            <button mat-raised-button class="green-button">
+            <button mat-raised-button class="green-button" (click)="register()">
                 Register
             </button>
         </div>
 
         <span class="center margin-top">Already a member?
-            <a [routerLink]="['/serb-uber/auth/login']" style="margin-left: 5px" class="link">Log in</a>
+            <a [routerLink]="['/auth/login']" style="margin-left: 5px" class="link">Log in</a>
         </span>
     </form>
 </div>
