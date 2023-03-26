@@ -6,7 +6,7 @@ import { Country } from 'src/modules/shared/model/country';
 import { countries } from 'src/modules/shared/model/country-data';
 import { matchPasswordsValidator } from 'src/modules/shared/validators/confirm-password.validator';
 import { ToastrService } from 'ngx-toastr';
-import { RegularUserRegistration } from '../../model/regular-user-registration';
+import { RegularUserRegistration } from '../../model/registration_and_verification/regular-user-registration';
 import { Router } from '@angular/router';
 import { UserService } from 'src/modules/shared/service/user-service/user.service';
 

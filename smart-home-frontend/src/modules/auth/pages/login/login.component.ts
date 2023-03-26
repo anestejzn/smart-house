@@ -3,9 +3,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoginRequest } from '../../model/login/login-request';
-import { AuthService } from '../../service/auth.service';
 import { Subscription } from 'rxjs';
 import { LoginResponse } from '../../model/login/login-response';
+import { AuthService } from '../../service/auth/auth.service';
 
 @Component({
   selector: 'app-login',

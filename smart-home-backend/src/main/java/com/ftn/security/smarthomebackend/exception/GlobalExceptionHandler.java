@@ -45,4 +45,18 @@ public class GlobalExceptionHandler {
             .orElse("Error not found");
     }
 
+    @ExceptionHandler(value = WrongVerifyTryException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String wrongVerifyTryException(WrongVerifyTryException wrongVerifyTryException) {
+
+        return wrongVerifyTryException.getMessage();
+    }
+
+    @ExceptionHandler(value = MailCannotBeSentException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String mailCannotBeSentException(MailCannotBeSentException mailCannotBeSentException) {
+
+        return mailCannotBeSentException.getMessage();
+    }
+
 }

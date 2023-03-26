@@ -4,6 +4,10 @@ package com.ftn.security.smarthomebackend.util;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Random;
 
 public class Helper {
@@ -15,7 +19,7 @@ public class Helper {
         return !password.equals(confirmationPassword);
     }
 
-    public static String getHashedNewUserPassword(String password) {
+    public static String getHash(String password) {
         final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
     }
@@ -35,6 +39,18 @@ public class Helper {
         }
 
         return sb.toString();
+    }
+
+    public static String generateHashForURL(String input) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
+            String base64Hash = Base64.getUrlEncoder().withoutPadding().encodeToString(hash);
+            return base64Hash;
+        } catch (NoSuchAlgorithmException e) {
+            // Handle exception
+            return null;
+        }
     }
 
 }

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { LoginRequest } from '../model/login/login-request';
-import { LoginResponse } from '../model/login/login-response';
 import { ConfigService } from 'src/modules/shared/service/config-service/config.service';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../../shared/model/user';
+import { LoginRequest } from '../../model/login/login-request';
+import { User } from 'src/modules/shared/model/user';
+import { LoginResponse } from '../../model/login/login-response';
 
 @Injectable({
   providedIn: 'root'

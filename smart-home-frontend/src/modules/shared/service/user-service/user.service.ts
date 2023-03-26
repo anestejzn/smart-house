@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RegularUserRegistration } from 'src/modules/auth/model/regular-user-registration';
+import { RegularUserRegistration } from 'src/modules/auth/model/registration_and_verification/regular-user-registration';
+import { VerifyRequest } from 'src/modules/auth/model/registration_and_verification/verify-request';
 import { User } from '../../model/user';
 import { ConfigService } from '../config-service/config.service';
 
@@ -17,6 +18,10 @@ export class UserService {
       this.configService.CREATE_REGULAR_USER_URL,
       newUser
     );
+  }
+
+  verify(verifyRequest: VerifyRequest): Observable<boolean> {
+    return this.http.put<boolean>(this.configService.ACTIVATE_ACCOUNT_URL, verifyRequest);
   }
 
 }

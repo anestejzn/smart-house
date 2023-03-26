@@ -3,15 +3,15 @@ package com.ftn.security.smarthomebackend.service.implementation;
 import com.ftn.security.smarthomebackend.dto.response.UserDTO;
 import com.ftn.security.smarthomebackend.enums.EntityType;
 import com.ftn.security.smarthomebackend.enums.Role;
-import com.ftn.security.smarthomebackend.exception.EntityAlreadyExistsException;
-import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
-import com.ftn.security.smarthomebackend.exception.PasswordsDoNotMatchException;
+import com.ftn.security.smarthomebackend.exception.*;
+import com.ftn.security.smarthomebackend.model.RegistrationVerification;
 import com.ftn.security.smarthomebackend.model.User;
 import com.ftn.security.smarthomebackend.repository.UserRepository;
 import com.ftn.security.smarthomebackend.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import static com.ftn.security.smarthomebackend.util.Helper.passwordsDontMatch;
@@ -24,6 +24,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private RegularUserService regularUserService;
+
+    @Autowired
+    private VerificationService verificationService;
 
     public User getVerifiedUser(String email) throws EntityNotFoundException {
         return userRepository.getVerifiedUser(email)
@@ -46,7 +49,7 @@ public class UserService implements IUserService {
             Role role,
             String country,
             String city
-    ) throws EntityAlreadyExistsException, PasswordsDoNotMatchException {
+    ) throws EntityAlreadyExistsException, PasswordsDoNotMatchException, IOException, MailCannotBeSentException {
         if (passwordsDontMatch(password, confirmPassword)) {
             throw new PasswordsDoNotMatchException();
         }
@@ -55,9 +58,19 @@ public class UserService implements IUserService {
             throw new EntityAlreadyExistsException(String.format("User with email %s already exists.", email));
         }
 
+        verificationService.create(email);
+
         return regularUserService.create(
                 email, name, surname, password, role, country, city
         );
+    }
+
+    public boolean activate(String verifyId, int securityCode)
+            throws EntityNotFoundException, WrongVerifyTryException {
+        RegistrationVerification verify = verificationService.update(verifyId, securityCode);
+        regularUserService.activateAccount(verify.getUserEmail());
+
+        return true;
     }
 
 }
