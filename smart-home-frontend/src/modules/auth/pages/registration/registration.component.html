@@ -1,0 +1,137 @@
+<div class="form-container mat-elevation-z2">
+    <h1 class="text-center">Registration</h1>
+    <form color="primary" [formGroup]="registrationForm">
+        <div style="display: flex">
+            <mat-form-field class="colomn" appearance="fill">
+                <mat-label>Email</mat-label>
+                <input type="email" matInput formControlName="emailFormControl" [errorStateMatcher]="matcher"
+                    placeholder="email@domain.com" />
+                <mat-error name="invalidEmail" *ngIf="
+            registrationForm.get('emailFormControl').hasError('email') &&
+            !registrationForm.get('emailFormControl').hasError('required')
+          ">
+                    Please enter a valid email address
+                </mat-error>
+                <mat-error name="emptyEmail" *ngIf="registrationForm.get('emailFormControl').hasError('required')">
+                    Email is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="password-colomn">
+                <mat-label>Role</mat-label>
+                <mat-select formControlName="roleFormControl">
+                    <mat-option *ngFor="let role of regularUserRoles" [value]="role">
+                        {{role}}
+                    </mat-option>
+                </mat-select>
+                <mat-error name="emptyRole" *ngIf="registrationForm.get('roleFormControl').hasError('required')">
+                    Role is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+        </div>
+        <div style="display: flex">
+            <mat-form-field class="colomn" appearance="fill">
+                <mat-label>Name</mat-label>
+                <input type="text" matInput formControlName="nameFormControl" [errorStateMatcher]="matcher"
+                    placeholder="Enter name" />
+                <mat-error name="emptyName" *ngIf="registrationForm.get('nameFormControl').hasError('required')">
+                    Name is <strong>required</strong>
+                </mat-error>
+                <mat-error name="invalidName" *ngIf="registrationForm.get('nameFormControl').hasError('pattern')">
+                    Please enter a valid name
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="colomn" appearance="fill">
+                <mat-label>Surname</mat-label>
+                <input type="text" matInput formControlName="surnameFormControl" [errorStateMatcher]="matcher"
+                    placeholder="Enter surname" />
+                <mat-error name="emptySurname" *ngIf="
+            registrationForm.get('surnameFormControl').hasError('required')
+          ">
+                    Surname is <strong>required</strong>
+                </mat-error>
+                <mat-error name="invalidSurname" *ngIf="
+            registrationForm.get('surnameFormControl').hasError('pattern')
+          ">
+                    Please enter a valid surname
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div style="display: flex">
+            <mat-form-field class="password-colomn" appearance="fill">
+                <mat-label>Password</mat-label>
+                <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="passwordFormControl"
+                    [errorStateMatcher]="matcher" placeholder="Enter password" />
+                <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                    <mat-icon class="mat-icon-deep-blue">{{
+                        hidePassword ? 'visibility_off' : 'visibility'
+                        }}</mat-icon>
+                </button>
+                <mat-error name="invalidPassword" *ngIf="
+            registrationForm.get('passwordFormControl').hasError('minlength') &&
+            !registrationForm.get('passwordFormControl').hasError('required')
+          ">
+                    Password should contains at least 8 characters, one digit and one
+                    special character
+                </mat-error>
+                <mat-error name="emptyPassword" *ngIf="
+            registrationForm.get('passwordFormControl').hasError('required')
+          ">
+                    Password is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="password-colomn" appearance="fill">
+                <mat-label>Confirm password</mat-label>
+                <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="passwordAgainFormControl"
+                    [errorStateMatcher]="matcher" placeholder="Enter confirm password" />
+                <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
+                    <mat-icon class="mat-icon-deep-blue">{{
+                        hideConfirmPassword ? 'visibility_off' : 'visibility'
+                        }}</mat-icon>
+                </button>
+                <mat-error name="invalidPasswordAgain" *ngIf="
+                        registrationForm
+                          .get('passwordAgainFormControl')
+                          .hasError('minlength') &&
+                        !registrationForm
+                          .get('passwordAgainFormControl')
+                          .hasError('required')
+                      ">
+                    Password should contains at least 8 characters, one digit and one
+                    special character
+                </mat-error>
+                <mat-error name="emptyPasswordAgain" *ngIf="
+                        registrationForm
+                          .get('passwordAgainFormControl')
+                          .hasError('required')
+                      ">
+                    Confirm password is <strong>required</strong>
+                </mat-error>
+                <mat-error name="notMatchPass" *ngIf="
+                        getError() &&
+                        !registrationForm
+                          .get('passwordAgainFormControl')
+                          .hasError('minlength')
+                      ">
+                    Passwords are not match
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <br />
+        <div class="center">
+            <button mat-raised-button class="green-button" (click)="register()">
+                Register
+            </button>
+        </div>
+
+        <span class="center margin-top">Already have an account?
+            <a [routerLink]="['/smart-home/auth/login']" style="margin-left: 5px" class="link">Log in</a>
+        </span>
+    </form>
+</div>

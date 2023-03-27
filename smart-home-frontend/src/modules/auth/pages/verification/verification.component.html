@@ -1,0 +1,32 @@
+<div class="form-container mat-elevation-z1">
+    <div id="wrapper">
+        <div *ngIf="showForm; else check_mail_page">
+            <h3>Please enter the 4-digit verification code we sent via email:</h3>
+            <span id="explanation-text">(we want to make sure it's you before we activate your account)</span>
+            <div id="form">
+                <span id="input-places">
+                    <input [(ngModel)]="firstDigit" autofocus type="text" maxLength="1" size="1" min="0" max="9"
+                        pattern="[0-9]" />
+                    <input [(ngModel)]="secondDigit" type="text" maxLength="1" size="1" min="0" max="9"
+                        pattern="[0-9]" />
+                    <input [(ngModel)]="thirdDigit" type="text" maxLength="1" size="1" min="0" max="9"
+                        pattern="[0-9]" />
+                    <input [(ngModel)]="fourthDigit" type="text" maxLength="1" size="1" min="0" max="9"
+                        pattern="[0-9]" />
+                </span>
+                <button class="btn-verify green-button" (click)="verify()">Verify</button>
+                <div>
+                    Didn't receive the code?<br />
+                    <button class="btn-link" (click)="sendCodeAgain()">Send code again</button><br /><br />
+                    <button class="btn-link" (click)="goToLoginPage()">Go to login page</button>
+                </div>
+
+            </div>
+        </div>
+        <ng-template #check_mail_page>
+            <mat-icon aria-hidden="false" class="mail-icon" aria-label="Example home icon" fontIcon="email"></mat-icon>
+            <h3>Check your email, we sent you new link.</h3>
+        </ng-template>
+    </div>
+</div>
+

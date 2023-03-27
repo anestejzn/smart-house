@@ -1,6 +1,7 @@
 package com.ftn.security.smarthomebackend.model;
 
-import com.ftn.security.smarthomebackend.enumeration.AccountStatus;
+import com.ftn.security.smarthomebackend.enums.AccountStatus;
+import com.ftn.security.smarthomebackend.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,25 +20,45 @@ public abstract class User {
     @SequenceGenerator(name = "generator1", sequenceName = "usersIdGen", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator1")
     protected Long id;
+
     @Column(name="email", nullable = false, unique = true)
     protected String email;
-
     @Column(name="password", nullable = false)
     protected String password;
+
     @Column(name="name", nullable = false)
     protected String name;
+
     @Column(name="surname", nullable = false)
     protected String surname;
+
     @Column(name="salt", nullable = false)
     protected String salt;
+
     @Column(name="status", nullable = false)
     protected AccountStatus status;
+
     @Column(name="failed_attempts", nullable = false)
     protected Integer failedAttempts;
+
     @Column(name="locked_until")
     protected LocalDateTime lockedUntil;
+    @Column(name="role", nullable = false)
+    protected Role role;
+    @Column(name="verified", nullable = false)
+    protected Boolean verified=false;
 
-    public User(String email, String password, String name, String surname, String salt, AccountStatus status, int failedAttempts, LocalDateTime lockedUntil) {
+    public User(
+            String email,
+            String password,
+            String name,
+            String surname,
+            String salt,
+            AccountStatus status,
+            int failedAttempts,
+            LocalDateTime lockedUntil,
+            Role role
+    ) {
         this.email = email;
         this.password = password;
         this.name = name;
@@ -46,5 +67,6 @@ public abstract class User {
         this.status = status;
         this.failedAttempts = failedAttempts;
         this.lockedUntil = lockedUntil;
+        this.role = role;
     }
 }

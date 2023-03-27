@@ -1,0 +1,88 @@
+#wrapper {
+    font-size: 1.2rem;
+    text-align: center;
+    box-sizing: border-box;
+    color: #2c4b61 !important;
+}
+
+h3 {
+    margin: 0 0 10px;
+    padding: 0;
+    line-height: 1.25;
+    font-size: 1.8rem;
+}
+
+span#explanation-text {
+    font-size: 1rem;
+}
+
+span#input-places {
+    display: inline;
+}
+
+#form {
+    max-width: 350px;
+    margin: 25px auto 0;
+}
+
+input {
+    margin: 0 5px;
+    text-align: center;
+    line-height: 80px;
+    font-size: 50px;
+    border: solid 1px #ccc;
+    box-shadow: 0 0 5px #ccc inset;
+    outline: none;
+    width: 20%;
+    transition: all .2s ease-in-out;
+    border-radius: 3px;
+}
+
+input:focus {
+    border-color: rgb(0, 2, 128);
+    box-shadow: 0 0 5px rgb(0, 2, 128) inset;
+}
+
+input::selection {
+    background: transparent;
+}
+
+button.btn-verify {
+    margin: 30px 0 50px;
+    width: 100%;
+    padding: 6px;
+    border: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 10px;
+    font-size: 1.5rem;
+}
+
+button.btn-link {
+    background: none !important;
+    border: none;
+    padding: 0 !important;
+    font-family: arial, sans-serif;
+    text-decoration: underline;
+    cursor: pointer;
+    color: var(--deep-blue);
+    font-size: 1.2rem;
+}
+
+div {
+    position: relative;
+    z-index: 1;
+}
+
+input:invalid {
+    border: 2px solid red;
+}
+
+mat-icon.mail-icon {
+    transform: scale(4);
+    margin-bottom: 5%;
+}
+
+.button-back {
+    background-color: transparent;
+}

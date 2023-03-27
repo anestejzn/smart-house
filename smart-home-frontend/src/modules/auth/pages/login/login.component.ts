@@ -3,9 +3,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoginRequest } from '../../model/login/login-request';
-import { AuthService } from '../../service/auth.service';
 import { Subscription } from 'rxjs';
-import { LoginResponse } from '../../model/login/login-response';
+import { AuthService } from '../../service/auth/auth.service';
+import { WebSocketService } from 'src/modules/shared/service/web-socket-service/web-socket.service';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private toast: ToastrService,
+    private webSocketService: WebSocketService
   ) { }
 
   ngOnInit(): void {
@@ -50,15 +51,17 @@ export class LoginComponent implements OnInit, OnDestroy {
         email: this.loginForm.get('email').value,
         password: this.loginForm.get('password').value,
       };
-      this.authSubscription = this.authService.login(loginRequest).subscribe({
-        next(loggedUser: LoginResponse): void {
-          this.authService.setLocalStorage(loggedUser);
-          this.router.navigate(['']);
+      this.authSubscription = this.authService.login(loginRequest).subscribe(
+        user => {
+          this.authService.setLocalStorage(user);
+          this.webSocketService.connect();
+          
+          this.router.navigate(['/smart-home/user/home']);
         },
-        error(error): void {
+        error => {
           this.toast.error('Email or password is not correct!', 'Login failed');
         }
-      });
+      );
     }
   }
 

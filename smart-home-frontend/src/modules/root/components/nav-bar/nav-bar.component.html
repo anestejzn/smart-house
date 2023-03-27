@@ -1,0 +1,42 @@
+<mat-toolbar color="accent" class="mat-elevation-z3">
+    <a [routerLink]="['/smart-home/user/home']" routerLinkActive="active">
+      <img
+        src="./assets/images/uber-icon.png"
+        alt="MyHome"
+        class="app-icon" />
+    </a>
+    <div class="spacer">
+      <div *ngIf="loggedUser">
+        &nbsp;&nbsp;
+        <a
+          [routerLink]="['']"
+          routerLinkActive="active"
+          mat-button
+          color="primary"
+          >Devices</a>
+        </div>
+    </div>
+  
+    <a
+      *ngIf="!loggedUser"
+      [routerLink]="['/smart-home/auth/login']"
+      routerLinkActive="active"
+      mat-button
+      color="primary"
+      id="login"
+      >Log in</a>
+    <a
+      *ngIf="!loggedUser"
+      [routerLink]="['/smart-home/auth/register']"
+      routerLinkActive="active"
+      mat-raised-button
+      class="a-sign-up"
+      >Sign up</a
+    >
+  
+
+    <div *ngIf="loggedUser" class="temp">
+       <button mat-raised-button (click)="logOut()">Log out</button>
+    </div>
+  
+  </mat-toolbar>

@@ -29,7 +29,8 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/my-theme.css"
+              "src/my-theme.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },
@@ -102,12 +103,16 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/my-theme.css"
+              "src/my-theme.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

@@ -1,1 +1,38 @@
-<p>nav-bar works!</p>
+<mat-toolbar color="accent" class="mat-elevation-z3">
+    <a [routerLink]="['/smart-home/admin/home']" routerLinkActive="active">
+      <img
+        src="./assets/images/uber-icon.png"
+        alt="MyHome"
+        class="app-icon" />
+    </a>
+    <div class="spacer">
+      <div *ngIf="loggedUser">
+        &nbsp;&nbsp;
+        <a
+          [routerLink]="['/smart-home/admin/home']"
+          routerLinkActive="active"
+          mat-button
+          color="primary"
+          >CSRs</a>
+          <a
+          [routerLink]="['', loggedUser?.id]"
+          routerLinkActive="active"
+          mat-button
+          color="primary"
+          >Users</a>
+          <a
+          [routerLink]="['', loggedUser?.id]"
+          routerLinkActive="active"
+          mat-button
+          color="primary"
+          >Certificates</a>
+        </div>
+    </div>
+
+  
+
+    <div *ngIf="loggedUser" class="temp">
+       <button mat-raised-button (click)="logOut()">Log out</button>
+    </div>
+  
+  </mat-toolbar>
