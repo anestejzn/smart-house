@@ -1,4 +1,4 @@
-package com.ftn.security.smarthomebackend.enums;
+package com.ftn.security.smarthomebackend.enumeration;
 
 public enum AccountStatus {
     ACTIVE,

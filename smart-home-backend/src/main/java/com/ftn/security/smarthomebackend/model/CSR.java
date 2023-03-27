@@ -1,6 +1,6 @@
-package com.ftn.security.smarthomebackend.models;
+package com.ftn.security.smarthomebackend.model;
 
-import com.ftn.security.smarthomebackend.enums.CSRStatus;
+import com.ftn.security.smarthomebackend.enumeration.CSRStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

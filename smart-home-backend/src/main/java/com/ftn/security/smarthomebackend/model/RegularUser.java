@@ -1,7 +1,7 @@
-package com.ftn.security.smarthomebackend.models;
+package com.ftn.security.smarthomebackend.model;
 
-import com.ftn.security.smarthomebackend.enums.AccountStatus;
-import com.ftn.security.smarthomebackend.enums.AccountType;
+import com.ftn.security.smarthomebackend.enumeration.AccountStatus;
+import com.ftn.security.smarthomebackend.enumeration.AccountType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
