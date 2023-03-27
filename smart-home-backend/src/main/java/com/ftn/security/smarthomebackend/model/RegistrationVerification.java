@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 import static com.ftn.security.smarthomebackend.util.Constants.MAX_NUM_VERIFY_TRIES;
 
+
 @Entity
 @Table(name="registration_verification")
 @Getter

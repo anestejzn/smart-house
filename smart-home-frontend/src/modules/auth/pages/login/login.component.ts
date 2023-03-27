@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoginRequest } from '../../model/login/login-request';
 import { Subscription } from 'rxjs';
-import { LoginResponse } from '../../model/login/login-response';
 import { AuthService } from '../../service/auth/auth.service';
+import { WebSocketService } from 'src/modules/shared/service/web-socket-service/web-socket.service';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private toast: ToastrService,
+    private webSocketService: WebSocketService
   ) { }
 
   ngOnInit(): void {
@@ -53,7 +54,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authSubscription = this.authService.login(loginRequest).subscribe(
         user => {
           this.authService.setLocalStorage(user);
-          console.log("blalala");
+          this.webSocketService.connect();
+          
           this.router.navigate(['/smart-home/user/home']);
         },
         error => {

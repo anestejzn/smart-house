@@ -27,14 +27,6 @@ public class UserRequest {
     @Pattern(regexp = Constants.LEGIT_NAME_REG, message = WRONG_SURNAME)
     private final String surname;
 
-    @NotBlank(message = WRONG_COUNTRY)
-    @Pattern(regexp = Constants.LEGIT_NAME_REG, message = WRONG_COUNTRY)
-    private final String country;
-
-    @NotBlank(message = WRONG_CITY)
-    @Pattern(regexp = Constants.LEGIT_NAME_REG, message = WRONG_CITY)
-    private final String city;
-
     public UserRequest(
             String email,
             String name,
@@ -45,7 +37,5 @@ public class UserRequest {
         this.email = email;
         this.name = name;
         this.surname = surname;
-        this.country = country;
-        this.city = city;
     }
 }

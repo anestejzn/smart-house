@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/modules/auth/service/auth/auth.service';
 import { User } from 'src/modules/shared/model/user';
+import { CsrService } from '../../service/csr-service/csr.service';
 
 @Component({
   selector: 'app-home',
@@ -12,9 +13,10 @@ export class HomeComponent implements OnInit {
 
   authSubscription: Subscription;
   loggedUser: User;
+  csrSubscription: Subscription;
 
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private csrService: CsrService) { }
 
   ngOnInit(): void {
 
@@ -27,7 +29,10 @@ export class HomeComponent implements OnInit {
   }
 
   sendCsr(){
-    console.log("send");
+    this.csrSubscription = this.csrService.sendCsr(this.loggedUser.email).subscribe(response=>{
+      this.loggedUser.accountStatus = 'NON_CERTIFICATED';
+      localStorage.setItem('user',  JSON.stringify(this.loggedUser));
+    })
   }
 
 }

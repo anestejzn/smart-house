@@ -32,12 +32,6 @@ public abstract class User {
     @Column(name="surname", nullable = false)
     protected String surname;
 
-    @Column(name="country", nullable = false)
-    protected String country;
-
-    @Column(name="city", nullable = false)
-    protected String city;
-
     @Column(name="salt", nullable = false)
     protected String salt;
 
@@ -51,6 +45,8 @@ public abstract class User {
     protected LocalDateTime lockedUntil;
     @Column(name="role", nullable = false)
     protected Role role;
+    @Column(name="verified", nullable = false)
+    protected Boolean verified=false;
 
     public User(
             String email,
@@ -61,8 +57,6 @@ public abstract class User {
             AccountStatus status,
             int failedAttempts,
             LocalDateTime lockedUntil,
-            String country,
-            String city,
             Role role
     ) {
         this.email = email;
@@ -73,8 +67,6 @@ public abstract class User {
         this.status = status;
         this.failedAttempts = failedAttempts;
         this.lockedUntil = lockedUntil;
-        this.country = country;
-        this.city = city;
         this.role = role;
     }
 }

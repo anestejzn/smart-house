@@ -1,0 +1,23 @@
+.demo-table {
+    width: 100%;
+    background-color: var(--gray);
+    margin:2rem;
+  }
+  
+
+  .demo-button-container {
+    padding-bottom: 16px;
+  }
+  
+  .demo-button + .demo-button {
+    margin-left: 8px;
+  }
+
+td, th {
+  padding-left: 1rem;
+}
+
+.mat-cell, .mat-header-cell {
+  padding-left: 2rem;
+}
+

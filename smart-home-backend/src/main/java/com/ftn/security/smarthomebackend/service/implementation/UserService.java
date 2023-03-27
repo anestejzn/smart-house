@@ -2,6 +2,7 @@ package com.ftn.security.smarthomebackend.service.implementation;
 
 import com.ftn.security.smarthomebackend.dto.response.UserDTO;
 import com.ftn.security.smarthomebackend.enums.EntityType;
+
 import com.ftn.security.smarthomebackend.enums.Role;
 import com.ftn.security.smarthomebackend.exception.*;
 import com.ftn.security.smarthomebackend.model.RegistrationVerification;
@@ -35,7 +36,7 @@ public class UserService implements IUserService {
     }
 
     public boolean checkIfUserAlreadyExists(String email) {
-        Optional<User> user = userRepository.getUserByEmail(email);
+        Optional<User> user = userRepository.findByEmail(email);
 
         return user.isPresent();
     }
@@ -46,9 +47,7 @@ public class UserService implements IUserService {
             String surname,
             String password,
             String confirmPassword,
-            Role role,
-            String country,
-            String city
+            Role role
     ) throws EntityAlreadyExistsException, PasswordsDoNotMatchException, IOException, MailCannotBeSentException {
         if (passwordsDontMatch(password, confirmPassword)) {
             throw new PasswordsDoNotMatchException();
@@ -61,7 +60,7 @@ public class UserService implements IUserService {
         verificationService.create(email);
 
         return regularUserService.create(
-                email, name, surname, password, role, country, city
+                email, name, surname, password, role
         );
     }
 
@@ -73,4 +72,7 @@ public class UserService implements IUserService {
         return true;
     }
 
+    public User save(User user){
+        return userRepository.save(user);
+    }
 }

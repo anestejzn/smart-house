@@ -32,15 +32,13 @@ public class RegularUserService {
             String name,
             String surname,
             String password,
-            Role role,
-            String country,
-            String city
+            Role role
     ) {
         String salt = generateRandomString(SALT_LENGTH);
         String hashedPassword = getHash(salt + password);
         RegularUser regularUser = regularUserRepository.save(
                 new RegularUser(email, hashedPassword, name, surname, salt, AccountStatus.NON_CERTIFICATED,
-                        ZERO_FAILED_ATTEMPTS, null, country, city, false, role
+                        ZERO_FAILED_ATTEMPTS, null, role
         ));
 
         return new UserDTO(regularUser);

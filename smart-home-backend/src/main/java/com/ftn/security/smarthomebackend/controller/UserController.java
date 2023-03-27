@@ -30,9 +30,7 @@ public class UserController {
             request.getSurname(),
             request.getPassword(),
             request.getConfirmPassword(),
-            request.getRole(),
-            request.getCountry(),
-            request.getCity()
+            request.getRole()
         );
     }
 

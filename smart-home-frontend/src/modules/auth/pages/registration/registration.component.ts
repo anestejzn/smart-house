@@ -32,17 +32,17 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     private router: Router,
     private userService: UserService
   ) {
-    this.filteredCities = this.registrationForm
-      .get('cityFormControl')
-      .valueChanges.pipe(
-        startWith(''),
-        map(city => (city ? this._filterCities(city) : this.cities.slice()))
-      );
+    // this.filteredCities = this.registrationForm
+    //   .get('cityFormControl')
+    //   .valueChanges.pipe(
+    //     startWith(''),
+    //     map(city => (city ? this._filterCities(city) : this.cities.slice()))
+    //   );
 
-      this.filteredCountries = this.registrationForm.get('countryFormControl')?.valueChanges.pipe(
-        startWith(''),
-        map((country: string) => (country ? this._filterCountries(country) : this.countries.slice()))
-      );  
+    //   this.filteredCountries = this.registrationForm.get('countryFormControl')?.valueChanges.pipe(
+    //     startWith(''),
+    //     map((country: string) => (country ? this._filterCountries(country) : this.countries.slice()))
+    //   );  
   }
 
   ngOnInit(): void {}
@@ -69,14 +69,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.minLength(9),
       ]),
-      cityFormControl: new FormControl('', [
-        Validators.required,
-        Validators.pattern('[a-zA-Z ]*'),
-      ]),
-      countryFormControl: new FormControl('', [
-        Validators.required,
-        Validators.pattern('[a-zA-Z ]*'),
-      ]),
       roleFormControl: new FormControl('', [
         Validators.required,
       ]),
@@ -85,24 +77,24 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   );
 
   matcher = new MyErrorStateMatcher();
-  cities: string[] = [
-    'Beograd',
-    'Novi Sad',
-    'Kraljevo',
-    'Kragujevac',
-    'Jagodina',
-    'Mladenovac',
-    'Subotica',
-    'Ruma',
-    'Priboj',
-    'Sabac',
-    'Leskovac',
-    'Vranje',
-    'Smederevo',
-    'Pozarevac',
-    'Zrenjanin',
-    'Sombor',
-  ];
+  // cities: string[] = [
+  //   'Beograd',
+  //   'Novi Sad',
+  //   'Kraljevo',
+  //   'Kragujevac',
+  //   'Jagodina',
+  //   'Mladenovac',
+  //   'Subotica',
+  //   'Ruma',
+  //   'Priboj',
+  //   'Sabac',
+  //   'Leskovac',
+  //   'Vranje',
+  //   'Smederevo',
+  //   'Pozarevac',
+  //   'Zrenjanin',
+  //   'Sombor',
+  // ];
 
   register(): void {
     if (this.registrationForm.hasError('mismatch')) {
@@ -114,8 +106,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         email: this.registrationForm.get('emailFormControl').value,
         name: this.registrationForm.get('nameFormControl').value,
         surname: this.registrationForm.get('surnameFormControl').value,
-        country: this.registrationForm.get('countryFormControl').value,
-        city: this.registrationForm.get('cityFormControl').value,
         password: this.registrationForm.get('passwordFormControl').value,
         confirmPassword: this.registrationForm.get('passwordAgainFormControl').value,
         role: this.registrationForm.get('roleFormControl').value
@@ -140,17 +130,17 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     return this.registrationForm.hasError('mismatch');
   }
 
-  _filterCountries(value: string): Country[] {
-    const filterValue = value.toLowerCase();
+  // _filterCountries(value: string): Country[] {
+  //   const filterValue = value.toLowerCase();
 
-    return this.countries.filter(country => country.name.toLowerCase().includes(filterValue));
-  }
+  //   return this.countries.filter(country => country.name.toLowerCase().includes(filterValue));
+  // }
 
-  _filterCities(value: string): string[] {
-    const filterValue = value.toLowerCase();
+  // _filterCities(value: string): string[] {
+  //   const filterValue = value.toLowerCase();
 
-    return this.cities.filter(city => city.toLowerCase().includes(filterValue));
-  }
+  //   return this.cities.filter(city => city.toLowerCase().includes(filterValue));
+  // }
 
   ngOnDestroy(): void {
     if (this.registrationSubscription) {

@@ -1,0 +1,58 @@
+.spacer {
+    flex: 1 1 auto;
+  }
+
+
+.temp {
+position: relative;
+display: inline-block;
+}
+
+.bottomRight {
+bottom: 0;
+right: 0;
+}
+
+.signUp {
+background-color: var(--white);
+margin-left: 0.5rem;
+color: var(--deep-blue);
+}
+
+.app-icon {
+margin-top: 0.6rem;
+height: 3.5rem;
+width: 3.5rem;
+}
+
+.a-sign-up {
+background-color: var(--white);
+color: var(--deep-blue);
+}
+
+
+
+a {
+font-weight: bold;
+}
+.mat-toolbar {
+position: sticky;
+position: -webkit-sticky; /* For macOS/iOS Safari */
+top: 0;
+z-index: 1000;
+}
+
+.toggle-activity-status {
+color: white;
+margin-left: 0.4rem;
+}
+
+.toggle {
+margin-left: -0.2rem;
+transform: scale(0.9);
+}
+  
+.mat-raised-button{
+    border:2px solid var(--white);
+}
+  

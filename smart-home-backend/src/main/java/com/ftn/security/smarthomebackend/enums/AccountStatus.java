@@ -4,5 +4,7 @@ public enum AccountStatus {
     ACTIVE,
     LOCKED,
     NON_CERTIFICATED,
-    BLOCKED
+    BLOCKED,
+    NON_CSR,
+    REJECTED_CSR
 }

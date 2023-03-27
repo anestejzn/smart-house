@@ -8,10 +8,8 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -27,12 +25,13 @@ public class SpringConfig {
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**", "/users/register", "/users/activate-account", "/verify/**")
+                .requestMatchers("/auth/**", "/users/register", "/users/activate-account", "/verify/**", "/csr/**", "/ws/**")
                 .permitAll().anyRequest().authenticated()
                 .and().authenticationProvider(authenticationProvider)
                 .httpBasic()
                 .and()
                 .exceptionHandling();
+
 
        return http.build();
         }

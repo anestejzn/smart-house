@@ -17,9 +17,7 @@ public class UserDTO {
 
     private final String surname;
 
-    private final String country;
 
-    private final String city;
 
     public UserDTO(
             String email,
@@ -31,8 +29,6 @@ public class UserDTO {
         this.email = email;
         this.name = name;
         this.surname = surname;
-        this.country = country;
-        this.city = city;
     }
 
     public UserDTO(RegularUser regularUser) {
@@ -40,7 +36,5 @@ public class UserDTO {
         this.email = regularUser.getEmail();
         this.name = regularUser.getName();
         this.surname = regularUser.getSurname();
-        this.country = regularUser.getCountry();
-        this.city = regularUser.getCity();
     }
 }

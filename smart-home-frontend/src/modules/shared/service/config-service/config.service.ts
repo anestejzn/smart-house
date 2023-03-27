@@ -27,4 +27,11 @@ export class ConfigService {
   getLoginUrl(): string {
     return this.LOGIN_URL;
   }
+
+  ///////////CSR/////////////////////////
+  CSR_URL = `${this.API_URL}/csr`;
+ 
+  getCreateCsrUrl(): string {
+    return this.CSR_URL;
+  }
 }
