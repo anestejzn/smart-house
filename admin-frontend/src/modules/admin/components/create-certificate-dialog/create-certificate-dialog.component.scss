@@ -1,0 +1,35 @@
+.mat-dialog-actions{
+    margin-bottom:0px;
+    position: relative;
+}
+
+.mat-dialog-content{
+    height: 25rem;
+}
+
+.mat-checkbox{
+    margin-right:0.5rem;
+}
+
+* {
+    box-sizing: border-box;
+  }
+  
+  .row {
+    display: flex;
+  }
+  
+  /* Create two equal columns that sits next to each other */
+  .column {
+    flex: 50%;
+    padding: 10px;
+    height: 300px; /* Should be removed. Only for demonstration */
+  }
+
+  label{
+    font-size: 1.3rem;
+  }
+
+  .mat-tab-label, .mat-tab-link{
+    color: var(--deep-blue);
+  }

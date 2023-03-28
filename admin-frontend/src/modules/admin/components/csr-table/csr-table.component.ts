@@ -5,6 +5,7 @@ import { CsrDataSource } from '../../model/csr-data-source';
 import { Csr } from '../../model/csr';
 import { MatDialog } from '@angular/material/dialog';
 import { CsrDetailsDialogComponent } from '../csr-details-dialog/csr-details-dialog.component';
+import { CreateCertificateDialogComponent } from '../create-certificate-dialog/create-certificate-dialog.component';
 @Component({
   selector: 'app-csr-table',
   templateUrl: './csr-table.component.html',
@@ -35,8 +36,12 @@ export class CsrTableComponent implements OnInit {
     )
   }
 
-  acceptCsr(id: number){
-    console.log(id);
+  acceptCsr(element: Csr){
+    this.dialog.open(CreateCertificateDialogComponent, {
+      data: element,
+      width: '37rem',
+      height: '35rem'
+    });
   }
 
   rejectCsr(id:number){
@@ -49,7 +54,7 @@ export class CsrTableComponent implements OnInit {
 
   viewDetails(element:Csr){
     this.dialog.open(CsrDetailsDialogComponent, {
-      data: element,
+      data: element
     });
   }
 
