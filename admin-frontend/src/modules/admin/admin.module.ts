@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { AdminRoutes } from './admin.routes';
 import { HomeComponent } from './pages/home/home.component';
 import { CsrDetailsDialogComponent } from './components/csr-details-dialog/csr-details-dialog.component';
+import { CreateCertificateDialogComponent } from './components/create-certificate-dialog/create-certificate-dialog.component';
 
 
 
@@ -14,7 +15,8 @@ import { CsrDetailsDialogComponent } from './components/csr-details-dialog/csr-d
   declarations: [
     CsrTableComponent,
     HomeComponent,
-    CsrDetailsDialogComponent
+    CsrDetailsDialogComponent,
+    CreateCertificateDialogComponent
   ],
   imports: [
     CommonModule,

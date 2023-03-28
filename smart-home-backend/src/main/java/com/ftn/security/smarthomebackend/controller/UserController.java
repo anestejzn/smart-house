@@ -4,7 +4,7 @@ import com.ftn.security.smarthomebackend.dto.request.VerifyRequest;
 import com.ftn.security.smarthomebackend.exception.*;
 import com.ftn.security.smarthomebackend.dto.response.UserDTO;
 import com.ftn.security.smarthomebackend.dto.request.RegularUserRegistrationRequest;
-import com.ftn.security.smarthomebackend.service.implementation.UserService;
+import com.ftn.security.smarthomebackend.service.interfaces.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import java.io.IOException;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)

@@ -1,5 +1,6 @@
 package com.ftn.security.smarthomebackend.service.interfaces;
 
+import com.ftn.security.smarthomebackend.dto.request.CancelCertificateRequest;
 import com.ftn.security.smarthomebackend.dto.request.NewCertificateRequest;
 import com.ftn.security.smarthomebackend.dto.response.CertificateResponse;
 import com.ftn.security.smarthomebackend.exception.AliasAlreadyExistsException;
@@ -19,4 +20,5 @@ public interface ICertificateService {
     void createAndSaveLeafCertificate(NewCertificateRequest certRequest) throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException;
     List<String> getAliases() throws KeyStoreCertificateException;
     List<CertificateResponse> getCertificateByAlias(String alias) throws KeyStoreCertificateException;
+    void cancelCertificate(String alias, String reason) throws EntityNotFoundException, AliasAlreadyExistsException;
 }

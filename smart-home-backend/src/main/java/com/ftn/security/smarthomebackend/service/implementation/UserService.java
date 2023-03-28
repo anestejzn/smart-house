@@ -29,18 +29,21 @@ public class UserService implements IUserService {
     @Autowired
     private VerificationService verificationService;
 
+    @Override
     public User getVerifiedUser(String email) throws EntityNotFoundException {
         return userRepository.getVerifiedUser(email)
                 .orElseThrow(() -> new EntityNotFoundException(email, EntityType.USER));
 
     }
 
+    @Override
     public boolean checkIfUserAlreadyExists(String email) {
         Optional<User> user = userRepository.findByEmail(email);
 
         return user.isPresent();
     }
 
+    @Override
     public UserDTO create(
             String email,
             String name,
@@ -64,6 +67,7 @@ public class UserService implements IUserService {
         );
     }
 
+    @Override
     public boolean activate(String verifyId, int securityCode)
             throws EntityNotFoundException, WrongVerifyTryException {
         RegistrationVerification verify = verificationService.update(verifyId, securityCode);
@@ -72,6 +76,7 @@ public class UserService implements IUserService {
         return true;
     }
 
+    @Override
     public User save(User user){
         return userRepository.save(user);
     }

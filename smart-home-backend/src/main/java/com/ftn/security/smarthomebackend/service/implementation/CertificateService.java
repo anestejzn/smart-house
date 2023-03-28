@@ -2,12 +2,15 @@ package com.ftn.security.smarthomebackend.service.implementation;
 
 import com.ftn.security.smarthomebackend.dto.request.NewCertificateRequest;
 import com.ftn.security.smarthomebackend.dto.response.CertificateResponse;
+import com.ftn.security.smarthomebackend.enums.EntityType;
 import com.ftn.security.smarthomebackend.exception.AliasAlreadyExistsException;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 import com.ftn.security.smarthomebackend.exception.KeyStoreCertificateException;
 import com.ftn.security.smarthomebackend.model.CSR;
+import com.ftn.security.smarthomebackend.model.CancelCertificate;
 import com.ftn.security.smarthomebackend.model.IssuerData;
 import com.ftn.security.smarthomebackend.model.SubjectData;
+import com.ftn.security.smarthomebackend.repository.CancelCertificateRepository;
 import com.ftn.security.smarthomebackend.service.interfaces.ICertificateService;
 import com.ftn.security.smarthomebackend.service.interfaces.ICsrService;
 import com.ftn.security.smarthomebackend.service.interfaces.IKeyStoreService;
@@ -40,6 +43,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 
@@ -49,6 +53,9 @@ public class CertificateService implements ICertificateService {
     private IKeyStoreService keyStoreService;
     @Autowired
     private ICsrService csrService;
+
+    @Autowired
+    private CancelCertificateRepository cancelCertificateRepository;
 
 
     static {
@@ -96,6 +103,19 @@ public class CertificateService implements ICertificateService {
     public List<CertificateResponse> getCertificateByAlias(String alias) throws KeyStoreCertificateException {
 
         return keyStoreService.readCertificateChain(alias);
+    }
+
+    public void cancelCertificate(String alias, String reason) throws EntityNotFoundException, AliasAlreadyExistsException {
+        if(!keyStoreService.containsAlias(alias)){
+            throw new EntityNotFoundException(alias, EntityType.CERTIFICATE);
+        }
+        Optional<CancelCertificate> existedCancellation = cancelCertificateRepository.findByAlias(alias);
+        if(existedCancellation.isPresent()){
+            String message = String.format("Certificate with alias %s have already cancelled.", alias);
+            throw new AliasAlreadyExistsException(message);
+        }
+        CancelCertificate cancelCertificate = new CancelCertificate(alias, reason);
+        cancelCertificateRepository.save(cancelCertificate);
     }
 
     @Override

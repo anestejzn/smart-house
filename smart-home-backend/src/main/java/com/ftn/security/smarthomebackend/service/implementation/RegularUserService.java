@@ -27,6 +27,7 @@ public class RegularUserService {
                 .orElseThrow(() -> new EntityNotFoundException(email, EntityType.USER));
     }
 
+
     public UserDTO create(
             String email,
             String name,

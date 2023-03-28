@@ -3,9 +3,10 @@ package com.ftn.security.smarthomebackend.controller;
 import com.ftn.security.smarthomebackend.dto.request.CSRRequest;
 import com.ftn.security.smarthomebackend.dto.response.CsrResponse;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
-import com.ftn.security.smarthomebackend.service.implementation.CsrService;
+import com.ftn.security.smarthomebackend.service.interfaces.ICsrService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,16 +18,18 @@ import java.util.List;
 public class CsrController {
 
     @Autowired
-    private CsrService csrService;
+    private ICsrService csrService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyRole('ROLE_TENANT', 'ROLE_OWNER')")
     public void createCsr(@Valid @RequestBody final CSRRequest csrRequest) throws EntityNotFoundException {
         csrService.createCSR(csrRequest.getEmail());
     }
 
     @GetMapping("/pending")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public List<CsrResponse> getPendingCsrs(){
         return csrService.getPendingCsrs();
     }
@@ -34,6 +37,7 @@ public class CsrController {
 
     @PostMapping("/reject")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public CsrResponse rejectCsr(@Valid @NotNull @RequestBody Long id) throws EntityNotFoundException {
         return csrService.rejectCSR(id);
     }

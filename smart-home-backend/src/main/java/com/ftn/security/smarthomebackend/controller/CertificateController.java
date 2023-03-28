@@ -1,6 +1,7 @@
 package com.ftn.security.smarthomebackend.controller;
 
 
+import com.ftn.security.smarthomebackend.dto.request.CancelCertificateRequest;
 import com.ftn.security.smarthomebackend.dto.request.NewCertificateRequest;
 import com.ftn.security.smarthomebackend.dto.response.CertificateResponse;
 import com.ftn.security.smarthomebackend.exception.AliasAlreadyExistsException;
@@ -9,6 +10,7 @@ import com.ftn.security.smarthomebackend.exception.KeyStoreCertificateException;
 import com.ftn.security.smarthomebackend.service.interfaces.ICertificateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -52,10 +54,16 @@ public class CertificateController {
 
     @PostMapping("/create/leaf")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createLeafCertificate(@Valid @RequestBody final NewCertificateRequest certRequest)
-            throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException
-    {
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public void createLeafCertificate(@Valid @RequestBody final NewCertificateRequest certRequest) throws EntityNotFoundException, AliasAlreadyExistsException {
         certificateService.createAndSaveLeafCertificate(certRequest);
+    }
+
+    @PostMapping("/cancel")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public void cancelCertificate(@Valid @RequestBody final CancelCertificateRequest request) throws AliasAlreadyExistsException, EntityNotFoundException {
+        certificateService.cancelCertificate(request.getAlias(), request.getCancelReason());
     }
 
 }

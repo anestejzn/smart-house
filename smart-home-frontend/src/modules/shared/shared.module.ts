@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
+import { CustomInterceptor } from './interceptors/custom.interceptor';
 
 
 
@@ -15,6 +16,8 @@ import { ToastrModule } from 'ngx-toastr';
       preventDuplicates: true,
       closeButton: true,
     })
-  ]
+  ],
+  providers:[
+    { provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi: true },]
 })
 export class SharedModule { }
