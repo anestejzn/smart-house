@@ -61,5 +61,15 @@ public class CsrService implements ICsrService {
         return new CsrResponse(csr);
     }
 
+    @Override
+    public CSR getById(Long id) throws EntityNotFoundException {
+        return csrRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, EntityType.CSR));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        csrRepository.deleteById(id);
+    }
+
 
 }

@@ -9,5 +9,6 @@ public class ErrorMessageConstants {
             "Password must contain at least 8 characters. " +
                     "At least one number and one special character.";
     public static final String WRONG_VERIFY_HASH = "Verify hash must be added.";
+    public static final String NULL_VALUE = "Attribute must not be empty.";
 
 }
