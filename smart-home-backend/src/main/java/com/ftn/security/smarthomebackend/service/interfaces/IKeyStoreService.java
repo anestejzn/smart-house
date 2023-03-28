@@ -11,7 +11,9 @@ public interface IKeyStoreService {
     KeyPair generateKeyPair();
     void loadKeyStore();
     void saveKeyStore();
-    void write(String alias, PrivateKey privateKey, char[] password, Certificate certificate);
+    void write(String alias, PrivateKey privateKey, char[] aliasPass, Certificate certificate);
     IssuerData readIssuerFromStore(String alias, char[] keyPass);
     Certificate readCertificate(String alias);
+    boolean containsAlias(String alias);
+    Long generateNextSerialNumber();
 }

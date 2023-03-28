@@ -7,14 +7,14 @@ import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
 @Service
 public class KeyStoreService implements IKeyStoreService {
@@ -63,9 +63,9 @@ public class KeyStoreService implements IKeyStoreService {
     }
 
     @Override
-    public void write(String alias, PrivateKey privateKey, char[] password, Certificate certificate) {
+    public void write(String alias, PrivateKey privateKey, char[] aliasPass, Certificate certificate) {
         try {
-            keyStore.setKeyEntry(alias, privateKey, password, new Certificate[]{certificate});
+            keyStore.setKeyEntry(alias, privateKey, aliasPass, new Certificate[]{certificate});
         } catch (KeyStoreException e) {
             e.printStackTrace();
         }
@@ -102,20 +102,48 @@ public class KeyStoreService implements IKeyStoreService {
     @Override
     public Certificate readCertificate(String alias) {
         try {
-            KeyStore ks = KeyStore.getInstance("JKS", "SUN");
-
             BufferedInputStream in = new BufferedInputStream(new FileInputStream(ksFilepath));
-            ks.load(in, ksPassword);
+            keyStore.load(in, ksPassword);
 
 
-            if (ks.isKeyEntry(alias)) {
-                return ks.getCertificate(alias);
+            if (keyStore.isKeyEntry(alias)) {
+                return keyStore.getCertificate(alias);
             }
-        } catch (KeyStoreException | NoSuchProviderException | NoSuchAlgorithmException |
+        } catch (KeyStoreException | NoSuchAlgorithmException |
                  CertificateException | IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
+    @Override
+    public boolean containsAlias(String alias) {
+        try {
+            keyStore.load(new BufferedInputStream(new FileInputStream(ksFilepath)), ksPassword);
+            return keyStore.containsAlias(alias);
+        } catch (IOException | NoSuchAlgorithmException | CertificateException | KeyStoreException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public Long generateNextSerialNumber() {
+        try {
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(ksFilepath));
+            keyStore.load(in, ksPassword);
+
+            List<String> temp = new ArrayList<>();
+            Enumeration<String> en = keyStore.aliases();
+
+            while(en.hasMoreElements())
+                temp.add(en.nextElement());
+
+            return (long) (temp.size() + 1);
+        } catch (CertificateException | KeyStoreException | IOException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
