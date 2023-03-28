@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>Certificate</h1>
+<div mat-dialog-content>
+    <mat-tab-group animationDuration="0ms" mat-align-tabs="center">
+        <mat-tab label="General">
+            <div style="margin-top:2rem;">
+                <label><b>Name: </b>{{request.user.name}}</label><br>
+                <label><b>Surname: </b>{{request.user.surname}}</label><br>
+                <label><b>Email: </b>{{request.user.email}}</label><br>
+                <label><b>Organization: </b>{{request.organization}}</label><br>
+                <label><b>Common name: </b>{{request.commonName}}</label><br>
+                <label><b>City: </b>{{request.city}}</label><br>
+                <label><b>Country: </b>{{request.country}}</label>
+            </div>
+        </mat-tab>
+        <mat-tab label="Extensions">
+            <div class="row">
+                <div class="column">
+                    <h2>Key Usage</h2>
+                    <mat-checkbox (change)="checkKeyUsage('Digital Signature')">Digital Signature</mat-checkbox>
+                    <mat-checkbox (change)="checkKeyUsage('Non Repudiation')">Non Repudiation</mat-checkbox>
+                    <mat-checkbox (change)="checkKeyUsage('Key Encipherment')">Key Encipherment</mat-checkbox>
+                    <mat-checkbox (change)="checkKeyUsage('Data Encipherment')">Data Encipherment</mat-checkbox>
+                    <mat-checkbox (change)="checkKeyUsage('Key Agreement')">Key Agreement</mat-checkbox>
+                    <mat-checkbox (change)="checkKeyUsage('Certificate Signing')">Certificate Signing</mat-checkbox>
+                    <mat-checkbox (change)="checkKeyUsage('CRL Signing')">CRL Signing</mat-checkbox>
+                    <mat-checkbox (change)="checkKeyUsage('Encipher only')">Encipher only</mat-checkbox>
+                    <mat-checkbox (change)="checkKeyUsage('Decipher only')">Decipher only</mat-checkbox>
+                </div>
+                <div class="column">
+                    <h2>Extended Key Usage</h2>
+                    <mat-checkbox (change)="checkExtendedKeyUsage('Server Authentication')">Server Authentication</mat-checkbox>
+                    <mat-checkbox (change)="checkExtendedKeyUsage('ClientAuthentication')">Client Authentication</mat-checkbox>
+                    <mat-checkbox (change)="checkExtendedKeyUsage('Code Signing')">Code Signing</mat-checkbox>
+                    <mat-checkbox (change)="checkExtendedKeyUsage('Email Protection')">Email Protection</mat-checkbox>
+                    <mat-checkbox (change)="checkExtendedKeyUsage('Time Stamping')">Time Stamping</mat-checkbox>
+                    <mat-checkbox (change)="checkExtendedKeyUsage('TSL Signing')">TSL Signing</mat-checkbox>
+                </div>
+            </div>
+        </mat-tab>
+      </mat-tab-group>
+</div>
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-button (click)="acceptCSR()">Accept</button>
+  </div>

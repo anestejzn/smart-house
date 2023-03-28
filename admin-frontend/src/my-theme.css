@@ -2518,11 +2518,11 @@ td.mat-footer-cell {
 }
 .mat-tab-label,
 .mat-tab-link {
-  color: rgba(0, 0, 0, 0.87);
+  color: var(--deep-blue);
 }
 .mat-tab-label.mat-tab-disabled,
 .mat-tab-link.mat-tab-disabled {
-  color: rgba(0, 0, 0, 0.38);
+  color: #0f5490fe;
 }
 .mat-tab-header-pagination-chevron {
   border-color: rgba(0, 0, 0, 0.87);
