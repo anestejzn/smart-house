@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.security.KeyStoreException;
+import java.security.cert.CertificateException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -57,6 +59,20 @@ public class GlobalExceptionHandler {
     public String mailCannotBeSentException(MailCannotBeSentException mailCannotBeSentException) {
 
         return mailCannotBeSentException.getMessage();
+    }
+
+    @ExceptionHandler(value = KeyStoreException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String keyStoreException(KeyStoreException keyStoreException) {
+
+        return "Error with key store happened.";
+    }
+
+    @ExceptionHandler(value = CertificateException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String certificateException(CertificateException certificateException) {
+
+        return "Error with certificate happened.";
     }
 
 }
