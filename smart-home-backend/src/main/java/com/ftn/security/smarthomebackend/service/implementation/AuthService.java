@@ -23,6 +23,7 @@ public class AuthService implements IAuthService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Override
     public LoginResponse login(String email, String password) {
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)

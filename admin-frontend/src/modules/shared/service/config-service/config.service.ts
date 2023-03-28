@@ -33,4 +33,15 @@ export class ConfigService {
   rejectCsrUrl(): string {
     return this.REJECT_CSR_URL;
   }
+
+
+  /////////////CERTIFICATE/////////
+  CERTIFICATE_URL = `${this.API_URL}/api/certificate`;
+  LEAF_CERTIFICATE_URL = `${this.CERTIFICATE_URL}/create/leaf`;
+
+  getLeafCertificateUrl(): string{
+    return this.LEAF_CERTIFICATE_URL;
+  }
+
+
 }

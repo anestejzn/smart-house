@@ -10,6 +10,7 @@ import com.ftn.security.smarthomebackend.model.User;
 import com.ftn.security.smarthomebackend.repository.CsrRepository;
 import com.ftn.security.smarthomebackend.service.WebSocketService;
 import com.ftn.security.smarthomebackend.service.interfaces.ICsrService;
+import com.ftn.security.smarthomebackend.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +25,12 @@ public class CsrService implements ICsrService {
     private CsrRepository csrRepository;
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     @Autowired
     private WebSocketService webSocketService;
 
+    @Override
     public void createCSR(String userEmail) throws EntityNotFoundException {
 
         User user = userService.getVerifiedUser(userEmail);
@@ -42,11 +44,13 @@ public class CsrService implements ICsrService {
         userService.save(user);
     }
 
+    @Override
     public List<CsrResponse> getPendingCsrs() {
 
         return transformToResponse(csrRepository.findByPendingStatus());
     }
 
+    @Override
     public CsrResponse rejectCSR(Long id) throws EntityNotFoundException {
         CSR csr = csrRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id, EntityType.CSR));
         csr.setStatus(CSRStatus.REJECTED);

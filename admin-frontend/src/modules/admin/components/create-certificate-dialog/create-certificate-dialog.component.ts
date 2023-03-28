@@ -2,6 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Csr } from '../../model/csr';
 import { ToastrService } from 'ngx-toastr';
+import { CertificateService } from '../../service/certificate-service/certificate.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-create-certificate-dialog',
@@ -11,8 +13,9 @@ import { ToastrService } from 'ngx-toastr';
 export class CreateCertificateDialogComponent implements OnInit {
   keyUsages = [];
   extendedKeyUsages = [];
+  certificateSubscription: Subscription;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public request: Csr, private toast: ToastrService,  private dialogRef: MatDialogRef<CreateCertificateDialogComponent>) {
+  constructor(@Inject(MAT_DIALOG_DATA) public request: Csr, private toast: ToastrService,  private dialogRef: MatDialogRef<CreateCertificateDialogComponent>, private certificateService: CertificateService) {
     console.log(request);
    }
 
@@ -39,8 +42,14 @@ export class CreateCertificateDialogComponent implements OnInit {
         keyUsages: this.keyUsages,
         extendedKeyUsages: this.extendedKeyUsages
       }
-
       console.log(csrRequest);
+      this.certificateSubscription = this.certificateService.createLeafCertificate(csrRequest).subscribe(response => {
+        console.log(response);
+      },
+      error => {
+        this.toast.error(error.error, "Not created");
+      })
+      
       this.dialogRef.close();
     }
   }
