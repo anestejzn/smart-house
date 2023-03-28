@@ -55,7 +55,9 @@ public class CertificateController {
     @PostMapping("/create/leaf")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public void createLeafCertificate(@Valid @RequestBody final NewCertificateRequest certRequest) throws EntityNotFoundException, AliasAlreadyExistsException {
+    public void createLeafCertificate(@Valid @RequestBody final NewCertificateRequest certRequest)
+            throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException
+    {
         certificateService.createAndSaveLeafCertificate(certRequest);
     }
 
