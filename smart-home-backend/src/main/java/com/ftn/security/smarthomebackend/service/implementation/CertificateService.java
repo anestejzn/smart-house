@@ -2,16 +2,18 @@ package com.ftn.security.smarthomebackend.service.implementation;
 
 import com.ftn.security.smarthomebackend.dto.request.NewCertificateRequest;
 import com.ftn.security.smarthomebackend.dto.response.CertificateResponse;
+import com.ftn.security.smarthomebackend.dto.response.SortedAliasesResponse;
+import com.ftn.security.smarthomebackend.enums.CertificateSortType;
+import com.ftn.security.smarthomebackend.enums.CertificateValidityType;
 import com.ftn.security.smarthomebackend.enums.EntityType;
 import com.ftn.security.smarthomebackend.exception.AliasAlreadyExistsException;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 import com.ftn.security.smarthomebackend.exception.InvalidKeyUsagesComboException;
+import com.ftn.security.smarthomebackend.exception.InvalidCertificateException;
 import com.ftn.security.smarthomebackend.exception.KeyStoreCertificateException;
 import com.ftn.security.smarthomebackend.model.CSR;
-import com.ftn.security.smarthomebackend.model.CancelCertificate;
 import com.ftn.security.smarthomebackend.model.IssuerData;
 import com.ftn.security.smarthomebackend.model.SubjectData;
-import com.ftn.security.smarthomebackend.repository.CancelCertificateRepository;
 import com.ftn.security.smarthomebackend.service.interfaces.ICertificateService;
 import com.ftn.security.smarthomebackend.service.interfaces.ICsrService;
 import com.ftn.security.smarthomebackend.service.interfaces.IKeyStoreService;
@@ -41,13 +43,10 @@ import java.security.cert.X509Certificate;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.ZoneId;
+import java.util.*;
 
 @Service
-
 public class CertificateService implements ICertificateService {
 
     @Autowired
@@ -56,8 +55,7 @@ public class CertificateService implements ICertificateService {
     private ICsrService csrService;
 
     @Autowired
-    private CancelCertificateRepository cancelCertificateRepository;
-
+    private CancelCertificateService cancelCertificateService;
 
     static {
         Security.addProvider(new BouncyCastleProvider());
@@ -94,28 +92,66 @@ public class CertificateService implements ICertificateService {
     }
 
     @Override
-    public List<String> getAliases() throws KeyStoreCertificateException {
+    public List<SortedAliasesResponse> getAliases(CertificateSortType type, CertificateValidityType validity)
+            throws KeyStoreCertificateException, EntityNotFoundException {
+        List<String> aliases = sortByType(type);
 
-        return keyStoreService.getAliases();
+        return sortByValidity(validity, aliases);
+    }
+
+    private List<SortedAliasesResponse> sortByValidity(CertificateValidityType validity, List<String> aliases)
+            throws EntityNotFoundException
+    {
+        List<SortedAliasesResponse> sortedAliases = new ArrayList<>();
+        boolean valid = validity == CertificateValidityType.VALID;
+
+        for (String alias : aliases) {
+           if (validateCertificate(alias) == valid) {
+               sortedAliases.add(new SortedAliasesResponse(alias, valid));
+           }
+        }
+
+        return sortedAliases;
+    }
+
+    private List<String> sortByType(CertificateSortType type) throws KeyStoreCertificateException {
+        List<String> allAliases = keyStoreService.getAliases();
+        switch (type) {
+            case ALL -> {
+                return allAliases;
+            }
+            case ROOT -> {
+                return allAliases.stream().filter(name -> name.equalsIgnoreCase("root")).toList();
+            }
+            case INTERMEDIATE -> {
+                return allAliases.stream().filter(name -> name.equalsIgnoreCase("intermediate")).toList();
+            }
+            default -> {
+                return allAliases.stream().filter(name -> !(name.equalsIgnoreCase("intermediate") || name.equalsIgnoreCase("root"))).toList();
+            }
+        }
     }
 
     @Override
-    public List<CertificateResponse> getCertificateByAlias(String alias) throws KeyStoreCertificateException {
+    public List<CertificateResponse> getCertificateByAlias(String alias)
+            throws KeyStoreCertificateException, EntityNotFoundException
+    {
+        List<CertificateResponse> certificates = keyStoreService.readCertificateChain(alias);
+        for (CertificateResponse cr : certificates) {
+            cr.setValid(validateCertificate(cr.getAlias()));
+        }
 
-        return keyStoreService.readCertificateChain(alias);
+        return certificates;
     }
 
-    public void cancelCertificate(String alias, String reason) throws EntityNotFoundException, AliasAlreadyExistsException {
+    public boolean cancelCertificate(String alias, String reason) throws EntityNotFoundException, AliasAlreadyExistsException {
         if(!keyStoreService.containsAlias(alias)){
             throw new EntityNotFoundException(alias, EntityType.CERTIFICATE);
         }
-        Optional<CancelCertificate> existedCancellation = cancelCertificateRepository.findByAlias(alias);
-        if(existedCancellation.isPresent()){
-            String message = String.format("Certificate with alias %s have already cancelled.", alias);
-            throw new AliasAlreadyExistsException(message);
-        }
-        CancelCertificate cancelCertificate = new CancelCertificate(alias, reason);
-        cancelCertificateRepository.save(cancelCertificate);
+
+        cancelCertificateService.cancelCertificate(alias, reason);
+
+        return true;
     }
 
     @Override
@@ -165,6 +201,64 @@ public class CertificateService implements ICertificateService {
         keyStoreService.loadKeyStore();
         keyStoreService.write("intermediate", keyPairSubject.getPrivate(), "intermediate".toCharArray(), subjectCert);
         keyStoreService.saveKeyStore();
+    }
+
+    @Override
+    public boolean validateCertificate(String alias) throws EntityNotFoundException
+    {
+        if (!keyStoreService.containsAlias(alias)) throw new EntityNotFoundException(alias, EntityType.CERTIFICATE);
+
+        try {
+            if(alias.equals("root")) validateRootCertificate(alias);
+            else if(alias.equals("intermediate")) validateIntermediateCertificate(alias);
+            else validateLeafCertificate(alias);
+        } catch (CertificateException | NoSuchAlgorithmException | SignatureException |
+                InvalidKeyException | NoSuchProviderException | InvalidCertificateException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private void validateLeafCertificate(String alias)
+            throws CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, EntityNotFoundException, InvalidCertificateException
+    {
+        validateRootCertificate("root");
+        PublicKey intermediatePKey = validateIntermediateCertificate("intermediate");
+        X509Certificate leafCert = (X509Certificate) keyStoreService.readCertificate(alias);
+        validateCertificate(leafCert, intermediatePKey, alias);
+    }
+
+    private PublicKey validateIntermediateCertificate(String alias)
+            throws CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, EntityNotFoundException, InvalidCertificateException
+    {
+        PublicKey rootPKey = validateRootCertificate("root");
+        X509Certificate intermediateCert = (X509Certificate) keyStoreService.readCertificate(alias);
+        validateCertificate(intermediateCert, rootPKey, alias);
+        return intermediateCert.getPublicKey();
+    }
+
+    private PublicKey validateRootCertificate(String alias)
+            throws CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, EntityNotFoundException, InvalidCertificateException
+    {
+        X509Certificate rootCert = (X509Certificate) keyStoreService.readCertificate(alias);
+        validateCertificate(rootCert, rootCert.getPublicKey(), alias);
+        return rootCert.getPublicKey();
+    }
+
+    private void validateCertificate(X509Certificate certificate, PublicKey publicKey, String alias)
+            throws CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, EntityNotFoundException, InvalidCertificateException
+    {
+        if(cancelCertificateService.mostRecentCancelledAliasExists(alias))
+            throw new InvalidCertificateException(alias);
+
+        LocalDate validFrom = certificate.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate validTo = certificate.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate now = LocalDate.now();
+        if(now.isBefore(validFrom) || now.isAfter(validTo))
+            throw new InvalidCertificateException(alias);
+
+        certificate.verify(publicKey);
     }
 
     private X509Certificate createNewLeafCertificate(SubjectData subjectData, IssuerData issuerData,

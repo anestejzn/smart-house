@@ -3241,3 +3241,16 @@ h1 {
 .random-color-6 {
   background-color: lemonchiffon;
 }
+
+.standard-dialog-container {
+  min-height: 40rem;
+  min-width: 40rem;
+}
+
+.valid-cert {
+  color: green;
+}
+
+.invalid-cert {
+  color: red;
+}

@@ -6,3 +6,6 @@ insert into admin (id, email, password, name, surname, salt, status, failed_atte
 
 INSERT INTO csr (user_id, common_name, organization_unit, organization, city, state, country, status) VALUES
     (1, 'www.example.com', 'IT', 'Example Company', 'San Francisco', 'CA', 'US', 0);
+
+-- INSERT INTO cancel_certificate(alias, reason, most_recent) values
+--     ('peki@gmail.com', 'neki razlog', true);

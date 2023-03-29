@@ -14,9 +14,7 @@ import static com.ftn.security.smarthomebackend.util.Constants.*;
 @Setter
 @NoArgsConstructor
 public class CancelCertificateRequest {
-    @NotBlank(message = EMPTY_EMAIL)
-    @Size(max = 1024, message = TOO_LONG_EMAIL)
-    @Email(message = WRONG_EMAIL)
+    @NotBlank(message = "Alias cannot be empty.")
     private String alias;
     @NotBlank(message = EMPTY_REASON)
     private String cancelReason;

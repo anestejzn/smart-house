@@ -1,0 +1,31 @@
+<div style="height: 100%; min-height: 30rem; overflow-y: auto;" *ngIf="certificate">
+    <p class="title">Issued To</p>
+    <p class="data-p">
+        <span>Comon Name (CN) {{certificate.issuedToCN}}</span>
+        <span>Organization (O) {{certificate.issuedToO}}</span>
+        <span>Organization Unit (OU) {{certificate.issuedToOU}}</span>
+    </p>
+
+    <p class="title">Issued By</p>
+    <p class="data-p">
+        <span>Comon Name (CN) {{certificate.issuedByCN}}</span>
+        <span>Organization (O) {{certificate.issuedByO}}</span>
+        <span>Organization Unit (OU) {{certificate.issuedByOU}}</span>
+    </p>
+
+    <p class="title">Validity period</p>
+    <p class="data-p">
+        <span>Issued on {{certificate.validFrom}}</span>
+        <span>Expires on {{certificate.validTo}}</span>
+    </p>
+
+    <p class="title">Details</p>
+    <p class="data-p">
+        <span>Serial number: {{certificate.serialNumber}}</span>
+        <span>Authority Key Indentifier: {{certificate.authorityKeyIdentifier}}</span>
+        <span>Subject Key Indetifier: {{certificate.subjectKeyIdentifier}}</span>
+        <span [class]="certificate.valid ? 'valid-cert' : 'invalid-cert'">
+            {{certificate.valid ? 'Certificate is valid' : 'Certificate is not valid'}}
+        </span>
+    </p>
+</div>

@@ -43,5 +43,17 @@ export class ConfigService {
     return this.LEAF_CERTIFICATE_URL;
   }
 
+  getAllCertificates(type: string, validity: string): string {
+    return `${this.CERTIFICATE_URL}/aliases/${type}/${validity}`;
+  }
+
+  getCertificate(alias: string): string {
+    return `${this.CERTIFICATE_URL}/${alias}`;
+  }
+
+  getDeleteCertificate(): string {
+    return `${this.CERTIFICATE_URL}/cancel`;
+  }
+
 
 }

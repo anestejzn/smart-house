@@ -1,0 +1,12 @@
+<div class="form-container">
+    <div class="row">
+        <div class="column sorting-column">
+            <app-certificates-sorting-buttons 
+            (changedTypeEvent)="changedType($event)" (changedValidityEvent)="changedValidity($event)">
+        </app-certificates-sorting-buttons>
+        </div>
+        <div class="column certificates-column">
+            <app-certificate-rows [aliases]="allAliases" (canceledCertificateEvent)="cancelationEventHappened()"></app-certificate-rows>
+        </div>
+    </div>
+</div>

@@ -36,7 +36,7 @@ public class RegularUserService {
             Role role
     ) {
         String salt = generateRandomString(SALT_LENGTH);
-        String hashedPassword = getHash(salt + password);
+        String hashedPassword = getHash(password);
         RegularUser regularUser = regularUserRepository.save(
                 new RegularUser(email, hashedPassword, name, surname, salt, AccountStatus.NON_CERTIFICATED,
                         ZERO_FAILED_ATTEMPTS, null, role

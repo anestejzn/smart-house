@@ -4,6 +4,9 @@ package com.ftn.security.smarthomebackend.controller;
 import com.ftn.security.smarthomebackend.dto.request.CancelCertificateRequest;
 import com.ftn.security.smarthomebackend.dto.request.NewCertificateRequest;
 import com.ftn.security.smarthomebackend.dto.response.CertificateResponse;
+import com.ftn.security.smarthomebackend.dto.response.SortedAliasesResponse;
+import com.ftn.security.smarthomebackend.enums.CertificateSortType;
+import com.ftn.security.smarthomebackend.enums.CertificateValidityType;
 import com.ftn.security.smarthomebackend.exception.AliasAlreadyExistsException;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 import com.ftn.security.smarthomebackend.exception.InvalidKeyUsagesComboException;
@@ -23,16 +26,18 @@ public class CertificateController {
     @Autowired
     private ICertificateService certificateService;
 
-    @GetMapping(value = "aliases")
+    @GetMapping(value = "aliases/{type}/{validity}")
     @ResponseStatus(HttpStatus.OK)
-    public List<String> getAllAliases() throws KeyStoreCertificateException {
+    public List<SortedAliasesResponse> getAllAliases(@PathVariable @Valid CertificateSortType type,
+                                                     @PathVariable @Valid CertificateValidityType validity
+    ) throws KeyStoreCertificateException, EntityNotFoundException {
 
-        return certificateService.getAliases();
+        return certificateService.getAliases(type, validity);
     }
 
     @GetMapping(value = "/{alias}")
     @ResponseStatus(HttpStatus.OK)
-    public List<CertificateResponse> getCertificateByAlias(@PathVariable String alias) throws KeyStoreCertificateException {
+    public List<CertificateResponse> getCertificateByAlias(@PathVariable String alias) throws KeyStoreCertificateException, EntityNotFoundException {
 
         return certificateService.getCertificateByAlias(alias);
     }
@@ -57,11 +62,11 @@ public class CertificateController {
         certificateService.createAndSaveLeafCertificate(certRequest);
     }
 
-    @PostMapping("/cancel")
+    @PutMapping("/cancel")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public void cancelCertificate(@Valid @RequestBody final CancelCertificateRequest request) throws AliasAlreadyExistsException, EntityNotFoundException {
-        certificateService.cancelCertificate(request.getAlias(), request.getCancelReason());
+    public boolean cancelCertificate(@Valid @RequestBody final CancelCertificateRequest request) throws AliasAlreadyExistsException, EntityNotFoundException {
+        return certificateService.cancelCertificate(request.getAlias(), request.getCancelReason());
     }
 
 }
