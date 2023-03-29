@@ -20,11 +20,11 @@
                     <mat-checkbox (change)="checkKeyUsage('Non Repudiation')">Non Repudiation</mat-checkbox>
                     <mat-checkbox (change)="checkKeyUsage('Key Encipherment')">Key Encipherment</mat-checkbox>
                     <mat-checkbox (change)="checkKeyUsage('Data Encipherment')">Data Encipherment</mat-checkbox>
-                    <mat-checkbox (change)="checkKeyUsage('Key Agreement')">Key Agreement</mat-checkbox>
+                    <mat-checkbox (change)="checkKeyUsage('Key Agreement')" #keyagreementcb>Key Agreement</mat-checkbox>
                     <mat-checkbox (change)="checkKeyUsage('Certificate Signing')">Certificate Signing</mat-checkbox>
                     <mat-checkbox (change)="checkKeyUsage('CRL Signing')">CRL Signing</mat-checkbox>
-                    <mat-checkbox (change)="checkKeyUsage('Encipher only')">Encipher only</mat-checkbox>
-                    <mat-checkbox (change)="checkKeyUsage('Decipher only')">Decipher only</mat-checkbox>
+                    <mat-checkbox (change)="checkKeyUsage('Encipher only')" #encipheronlycb>Encipher only</mat-checkbox>
+                    <mat-checkbox (change)="checkKeyUsage('Decipher only')" #decipheronlycb>Decipher only</mat-checkbox>
                 </div>
                 <div class="column">
                     <h2>Extended Key Usage</h2>
