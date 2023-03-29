@@ -4,6 +4,7 @@ import com.ftn.security.smarthomebackend.enums.EntityType;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 import com.ftn.security.smarthomebackend.model.CancelCertificate;
 import com.ftn.security.smarthomebackend.repository.CancelCertificateRepository;
+import com.ftn.security.smarthomebackend.service.WebSocketService;
 import com.ftn.security.smarthomebackend.service.interfaces.ICancelCertificateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ public class CancelCertificateService implements ICancelCertificateService {
 
     @Autowired
     private CancelCertificateRepository cancelCertificateRepository;
+    @Autowired
+    private WebSocketService webSocketService;
 
     public CancelCertificate getMostRecentByAlias(String alias) throws EntityNotFoundException {
 
@@ -36,6 +39,7 @@ public class CancelCertificateService implements ICancelCertificateService {
 
         CancelCertificate cancelCertificate = new CancelCertificate(alias, reason);
         cancelCertificateRepository.save(cancelCertificate);
+        webSocketService.sendMessageAboutCancelCertificate(alias, reason);
     }
 
 }

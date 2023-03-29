@@ -30,6 +30,8 @@ export class WebSocketService {
 
       this.stompClient.connect({}, function () {
         that.rejectCsrNotification();
+        that.cancelCertificateNotification();
+        that.createCertificateNotification();
       })
     }
   }
@@ -52,6 +54,34 @@ export class WebSocketService {
         user.accountStatus = 'REJECTED_CSR';
         localStorage.setItem('user', JSON.stringify(user));
         this.toast.info(message.body, "Rejected csr");
+      }
+    );
+  }
+
+  createCertificateNotification(){
+    this.stompClient.subscribe(
+      environment.publisherUrl +
+      localStorage.getItem('email') +
+      '/create-certificate',
+      message => {
+        var user: User = JSON.parse(localStorage.getItem('user'));
+        user.accountStatus = 'ACTIVE';
+        localStorage.setItem('user', JSON.stringify(user));
+        this.toast.info(message.body, "Created certificate");
+      }
+    );
+  }
+
+  cancelCertificateNotification(){
+    this.stompClient.subscribe(
+      environment.publisherUrl +
+      localStorage.getItem('email') +
+      '/cancel-certificate',
+      message => {
+        var user: User = JSON.parse(localStorage.getItem('user'));
+        user.accountStatus = 'BLOCKED';
+        localStorage.setItem('user', JSON.stringify(user));
+        this.toast.info(message.body, "Cancelled certificate");
       }
     );
   }

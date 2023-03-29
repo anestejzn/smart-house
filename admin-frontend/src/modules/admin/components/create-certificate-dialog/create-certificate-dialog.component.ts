@@ -1,9 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Csr } from '../../model/csr';
 import { ToastrService } from 'ngx-toastr';
 import { CertificateService } from '../../service/certificate-service/certificate.service';
 import { Subscription } from 'rxjs';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-create-certificate-dialog',
@@ -11,6 +12,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./create-certificate-dialog.component.scss']
 })
 export class CreateCertificateDialogComponent implements OnInit {
+  @ViewChild('keyagreementcb') private keyagreementcb: MatCheckbox;
+  @ViewChild('encipheronlycb') private encipheronlycb: MatCheckbox;
+  @ViewChild('decipheronlycb') private decipheronlycb: MatCheckbox;
   keyUsages = [];
   extendedKeyUsages = [];
   certificateSubscription: Subscription;
@@ -23,14 +27,77 @@ export class CreateCertificateDialogComponent implements OnInit {
   }
 
   checkKeyUsage(keyUsage: string){
+    if(['Encipher only', 'Decipher only'].includes(keyUsage)){
+      this.checkSpecialKeyUsage(keyUsage);
+    }
+    else if(keyUsage === 'Key Agreement'){
+      this.checkKeyAgreement(keyUsage);
+    }
+    else{
+      if(this.keyUsages.includes(keyUsage)){
+        this.keyUsages.splice(this.keyUsages.indexOf(keyUsage),1);
+      }
+      else{
+        this.keyUsages.push(keyUsage);
+      }
+    }
+    console.log(this.keyUsages);
+  }
+
+  checkKeyAgreement(keyUsage: string){
     if(this.keyUsages.includes(keyUsage)){
-      console.log("daaa");
-      this.keyUsages.splice(this.keyUsages.indexOf(keyUsage),1);
+      this.keyUsages.splice(this.keyUsages.indexOf('Key Agreement'),1);
+      if(this.keyUsages.includes('Encipher only')){
+        this.keyUsages.splice(this.keyUsages.indexOf('Encipher only'),1);
+        this.encipheronlycb.checked = false;
+      }
+      else if(this.keyUsages.includes('Decipher only')){
+        this.keyUsages.splice(this.keyUsages.indexOf('Decipher only'),1);
+        this.decipheronlycb.checked = false;
+      }
     }
     else{
       this.keyUsages.push(keyUsage);
     }
-    console.log(this.keyUsages);
+      
+  }
+
+  checkSpecialKeyUsage(keyUsage: string){
+    if(this.keyUsages.includes(keyUsage)){
+      this.keyUsages.splice(this.keyUsages.indexOf(keyUsage),1);
+    }
+    else if(keyUsage === 'Encipher only'){
+      if(this.keyUsages.includes('Decipher only')){
+        this.toast.error("You have already checked Decipher only, it is not allowed to check Encipher only.");
+        this.encipheronlycb.checked = false;
+      }
+      else{
+        if(this.keyUsages.includes('Key Agreement')){
+          this.keyUsages.push(keyUsage);
+        }
+        else{
+          this.keyagreementcb.checked = true;
+          this.keyUsages.push('Key Agreement');
+          this.keyUsages.push(keyUsage);
+        }
+      }
+    }
+    else if(keyUsage === 'Decipher only'){
+      if(this.keyUsages.includes('Encipher only')){
+        this.toast.error("You have already checked Encipher only, it is not allowed to check Decipher only.");
+        this.decipheronlycb.checked = false;
+      }
+      else{
+        if(this.keyUsages.includes('Key Agreement')){
+          this.keyUsages.push(keyUsage);
+        }
+        else{
+          this.keyagreementcb.checked = true;
+          this.keyUsages.push('Key Agreement');
+          this.keyUsages.push(keyUsage);
+        }
+      }
+    }
   }
 
   checkExtendedKeyUsage(extendedKeyUsage: string){
