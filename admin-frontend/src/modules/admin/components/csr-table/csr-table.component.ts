@@ -6,6 +6,7 @@ import { Csr } from '../../model/csr';
 import { MatDialog } from '@angular/material/dialog';
 import { CsrDetailsDialogComponent } from '../csr-details-dialog/csr-details-dialog.component';
 import { CreateCertificateDialogComponent } from '../create-certificate-dialog/create-certificate-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-csr-table',
   templateUrl: './csr-table.component.html',
@@ -17,7 +18,7 @@ export class CsrTableComponent implements OnInit {
   displayedColumns: string[] = ['name', 'surname', 'email', 'details', 'accept', 'reject'];
   noCsrs = false;
 
-  constructor(private csrService: CsrService, private dialog: MatDialog) { }
+  constructor(private csrService: CsrService, private dialog: MatDialog, private toast: ToastrService) { }
 
   ngOnInit(): void {
    this.getAllCsrs();
@@ -37,11 +38,20 @@ export class CsrTableComponent implements OnInit {
   }
 
   acceptCsr(element: Csr){
-    this.dialog.open(CreateCertificateDialogComponent, {
+    const dialogRef = this.dialog.open(CreateCertificateDialogComponent, {
       data: element,
       width: '37rem',
       height: '35rem'
     });
+
+    dialogRef.afterClosed().subscribe(
+      response => {
+        if(response){
+          this.toast.success("Certificate is created.");
+          this.ngOnInit();
+        }
+      }
+    )
   }
 
   rejectCsr(id:number){

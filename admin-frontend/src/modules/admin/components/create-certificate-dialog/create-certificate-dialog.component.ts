@@ -45,12 +45,13 @@ export class CreateCertificateDialogComponent implements OnInit {
       console.log(csrRequest);
       this.certificateSubscription = this.certificateService.createLeafCertificate(csrRequest).subscribe(response => {
         console.log(response);
+        this.dialogRef.close(true);
       },
       error => {
         this.toast.error(error.error, "Not created");
+        this.dialogRef.close(false);
       })
       
-      this.dialogRef.close();
     }
   }
 

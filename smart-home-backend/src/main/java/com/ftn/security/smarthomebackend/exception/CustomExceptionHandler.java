@@ -64,4 +64,11 @@ public class CustomExceptionHandler {
         return mailCannotBeSentException.getMessage();
     }
 
+    @ExceptionHandler(value = AliasAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String aliasAlreadyExistsException(AliasAlreadyExistsException aliasAlreadyExists) {
+
+        return aliasAlreadyExists.getMessage();
+    }
+
 }
