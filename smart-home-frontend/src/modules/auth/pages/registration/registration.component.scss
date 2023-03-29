@@ -21,3 +21,11 @@ h1 {
 button {
     margin-top: 5%;
 }
+
+.spiner-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 15rem;
+    min-height: 20rem;
+}

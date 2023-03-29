@@ -16,6 +16,7 @@ import { CertificateDetailsDialogComponent } from './components/certificate-deta
 import { CancelCertificateDialogComponent } from './components/cancel-certificate-dialog/cancel-certificate-dialog.component';
 import { CertificateDetailsTabComponent } from './components/certificate-details-tab/certificate-details-tab.component';
 import { CertificateGeneralTabComponent } from './components/certificate-general-tab/certificate-general-tab.component';
+import { CertificatesChainTabComponent } from './components/certificates-chain-tab/certificates-chain-tab.component';
 
 
 
@@ -32,7 +33,8 @@ import { CertificateGeneralTabComponent } from './components/certificate-general
     CertificateDetailsDialogComponent,
     CancelCertificateDialogComponent,
     CertificateDetailsTabComponent,
-    CertificateGeneralTabComponent
+    CertificateGeneralTabComponent,
+    CertificatesChainTabComponent
   ],
   imports: [
     CommonModule,

@@ -3,8 +3,11 @@
         <mat-tab label="General">
             <app-certificate-general-tab [certificate]="mainCertificate"></app-certificate-general-tab>
         </mat-tab>
+        <mat-tab label="Extensions">
+            <app-certificate-details-tab [certificate]="mainCertificate"></app-certificate-details-tab>
+        </mat-tab>
         <mat-tab label="Chain" *ngIf="alias.alias !== 'root'">
-            <app-certificate-details-tab [certificates]="detailsCertificates"></app-certificate-details-tab>
+            <app-certificates-chain-tab [certificates]="detailsCertificates"></app-certificates-chain-tab>
         </mat-tab>
     </mat-tab-group>
     <mat-dialog-actions style="padding: 0;" class="activity-buttons" align="center">

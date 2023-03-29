@@ -1,0 +1,41 @@
+<div style="height: 100%; min-height: 30rem; overflow-y: auto;" *ngIf="certificates && certificates.length > 0">
+    <h2>Key certificate</h2>
+    <p class="title">Issued To</p>
+    <p class="data-p">
+        <span>Comon Name (CN) {{certificates[0].issuedToCN}}</span>
+        <span>Organization (O) {{certificates[0].issuedToO}}</span>
+        <span>Organization Unit (OU) {{certificates[0].issuedToOU}}</span>
+    </p>
+
+    <p class="title">Issued By</p>
+    <p class="data-p">
+        <span>Comon Name (CN) {{certificates[0].issuedByCN}}</span>
+        <span>Organization (O) {{certificates[0].issuedByO}}</span>
+        <span>Organization Unit (OU) {{certificates[0].issuedByOU}}</span>
+        <span [class]="certificates[0].valid ? 'valid-cert' : 'invalid-cert'">
+            {{certificates[0].valid ? 'Certificate is valid' : 'Certificate is not valid'}}
+        </span>
+    </p>
+
+    <div *ngIf="certificates.length === 2">
+        <h2>Intermediate certificate</h2>
+        <p class="title">Issued To</p>
+        <p class="data-p">
+            <span>Comon Name (CN) {{certificates[1].issuedToCN}}</span>
+            <span>Organization (O) {{certificates[1].issuedToO}}</span>
+            <span>Organization Unit (OU) {{certificates[1].issuedToOU}}</span>
+        </p>
+
+        <p class="title">Issued By</p>
+        <p class="data-p">
+            <span>Comon Name (CN) {{certificates[1].issuedByCN}}</span>
+            <span>Organization (O) {{certificates[1].issuedByO}}</span>
+            <span>Organization Unit (OU) {{certificates[1].issuedByOU}}</span>
+            <span [class]="certificates[0].valid ? 'valid-cert' : 'invalid-cert'">
+                {{certificates[0].valid ? 'Certificate is valid' : 'Certificate is not valid'}}
+            </span>
+        </p>
+
+    </div>
+
+</div>

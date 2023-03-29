@@ -7,10 +7,9 @@ import { CertificateData } from '../../model/certificate-data';
   styleUrls: ['./certificate-details-tab.component.scss']
 })
 export class CertificateDetailsTabComponent implements OnInit {
-  @Input() certificates: CertificateData[];
+  @Input() certificate: CertificateData;
 
   constructor() {
-    this.certificates = [];
   }
 
   ngOnInit(): void {

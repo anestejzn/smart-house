@@ -18,6 +18,7 @@ import { UserService } from 'src/modules/shared/service/user-service/user.servic
 })
 export class RegistrationComponent implements OnInit, OnDestroy {
 
+  showSpiner: boolean = false;
   hidePassword = true;
   hideConfirmPassword = true;
   regularUserRoles = ['TENANT', 'OWNER'];
@@ -43,6 +44,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     //     startWith(''),
     //     map((country: string) => (country ? this._filterCountries(country) : this.countries.slice()))
     //   );  
+    this.showSpiner = false;
   }
 
   ngOnInit(): void {}
@@ -111,17 +113,22 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         role: this.registrationForm.get('roleFormControl').value
       }
 
+      this.showSpiner = true;
       this.registrationSubscription = this.userService
             .registerRegularUser(newUser)
             .subscribe(
               response => {
+                this.showSpiner = false;
                 this.toast.success(
                   'Please go to ' + response.email + ' to verify account!',
                   'Registration successfully'
                 );
                 this.router.navigate([`/login`]);
               },
-              error => this.toast.error(error.error, 'Registration failed')
+              error => {
+                this.showSpiner = false;
+                this.toast.error(error.error, 'Registration failed')
+              }
             );
     }
   }

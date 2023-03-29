@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("select u from User u where u.email=?1 and u.verified")
+    @Query("select u from User u where u.email=?1 and u.verified=true")
     Optional<User> getVerifiedUser(String email);
 
     Optional<User> findByEmail(String email);
