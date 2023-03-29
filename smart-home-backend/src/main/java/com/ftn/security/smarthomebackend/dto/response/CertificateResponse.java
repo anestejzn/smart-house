@@ -40,10 +40,13 @@ public class CertificateResponse {
     private int version;
     private String authorityKeyIdentifier;  //identifikuje javni kljuc izdavaoca
     private String subjectKeyIdentifier;    //identifikuje javni kljuc subjekta sertifikata
+    private String alias;
+    private boolean valid;
 
     public CertificateResponse(X509Certificate certificate) throws CertificateParsingException {
         this();
         X500Name x500name = new X500Name(certificate.getSubjectX500Principal().getName());
+        this.alias = String.valueOf(x500name.getRDNs(BCStyle.UID)[0].getTypesAndValues()[0].getValue());
         extractIssuedToData(x500name);
 
         x500name = new X500Name(certificate.getIssuerX500Principal().getName());
@@ -83,28 +86,14 @@ public class CertificateResponse {
             this.extendedKeyUsages.add("TLS Web Client Authentication: 1.3.6.1.5.5.7.3.2");
         if (extendedKeyUsagesCodes.contains("1.3.6.1.5.5.7.3.3"))
             this.extendedKeyUsages.add("Code signing: 1.3.6.1.5.5.7.3.3");
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.4.1.311.10.3.12"))
-            this.extendedKeyUsages.add("Document signing: 1.3.6.1.4.1.311.10.3.12");
-        if (extendedKeyUsagesCodes.contains("1.2.840.113583.1.1.5"))
-            this.extendedKeyUsages.add("Adobe PDF Signing: 1.2.840.113583.1.1.5");
         if (extendedKeyUsagesCodes.contains("0.4.0.2231.3.0"))
             this.extendedKeyUsages.add("TSL Signing: 0.4.0.2231.3.0");
         if (extendedKeyUsagesCodes.contains("1.3.6.1.5.5.7.3.4"))
             this.extendedKeyUsages.add("E-mail Protection: 1.3.6.1.5.5.7.3.4");
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.4.1.311.10.3.4"))
-            this.extendedKeyUsages.add("Encrypted File System: 1.3.6.1.4.1.311.10.3.4");
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.5.5.7.3.5"))
-            this.extendedKeyUsages.add("Ip Security End System: 1.3.6.1.5.5.7.3.5");
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.5.5.7.3.6"))
-            this.extendedKeyUsages.add("Ip Security Tunnel Termination: 1.3.6.1.5.5.7.3.6");
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.5.5.7.3.7"))
-            this.extendedKeyUsages.add("Ip Security User: 1.3.6.1.5.5.7.3.7");
         if (extendedKeyUsagesCodes.contains("1.3.6.1.5.5.7.3.8"))
             this.extendedKeyUsages.add("Time Stamping: 1.3.6.1.5.5.7.3.8");
         if (extendedKeyUsagesCodes.contains("1.3.6.1.5.5.7.3.9"))
             this.extendedKeyUsages.add("OCSP Signing: 1.3.6.1.5.5.7.3.9");
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.4.1.311.20.2.2"))
-            this.extendedKeyUsages.add("Smartcard Logon: 1.3.6.1.4.1.311.20.2.2");
         if (extendedKeyUsagesCodes.contains("2.5.29.37.0"))
             this.extendedKeyUsages.add("Any Extended Key Usage: 2.5.29.37.0");
     }

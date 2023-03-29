@@ -1,0 +1,26 @@
+<div style="padding: 3%;" class="cancel-container" *ngIf="alias">
+    <h1><b>Cancel a {{alias.alias}} certificate</b></h1>
+
+    <mat-radio-group aria-label="Select an option" [(ngModel)]="reason">
+        <mat-radio-button value="User lost his private key">User lost his private key</mat-radio-button>
+        <mat-radio-button value="User has violated agreement contract">User has violated agreement contract</mat-radio-button>
+    </mat-radio-group>
+
+    <div class="devider-container">
+        <div class="devider-line"><mat-divider></mat-divider></div>
+        <div class="devider-text mat-typography"><b>Or</b></div>
+        <div class="devider-line"><mat-divider></mat-divider></div>
+    </div>
+
+    <mat-dialog-content style="min-height: 7rem; min-width: 7rem;">
+        <br>
+        <textarea matInput style="width: 95%;" rows="4" placeholder="Enter a reason(at least 5 characters)..."
+            [(ngModel)]="reason"></textarea>
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="activity-buttons" align="center">
+        <button mat-button class="cancel-button" [mat-dialog-close]="null">Close</button>
+        <button mat-raised-button class="green-button block-button" [disabled]="!checkEnteredReason()"
+            (click)="cancelCertificate(alias)" [mat-dialog-close]="true">Cancel</button>
+    </mat-dialog-actions>
+</div>

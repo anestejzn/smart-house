@@ -1,0 +1,22 @@
+<div *ngIf="alias" class="alias-row" style="width: 92%;">
+    <table style="width: 100%;">
+        <colgroup>
+            <col span="1" style="width: 5%;">
+            <col span="1" style="width: 70%;">
+            <col span="1" style="width: 15%;">
+            <col span="1" style="width: 10%;">
+        </colgroup>
+        <th>
+            {{index}}.
+        </th>
+        <th class="alias-th">
+            {{alias.alias}}
+        </th>
+        <th [class]="alias.valid ? 'valid-th' : 'invalid-th'">
+            {{alias.valid ? 'Valid' : 'Invalid'}}
+        </th>
+        <th [class]="alias.valid ? 'valid-hover' : 'invalid-hover'">
+            <mat-icon (click)="cancelCertificate()">{{alias.valid ? 'delete' : 'remove_circle_outline'}}</mat-icon>
+        </th>
+    </table>    
+</div>
