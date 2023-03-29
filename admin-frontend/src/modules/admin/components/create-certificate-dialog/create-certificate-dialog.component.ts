@@ -23,12 +23,23 @@ export class CreateCertificateDialogComponent implements OnInit {
   }
 
   checkKeyUsage(keyUsage: string){
-    this.keyUsages.push(keyUsage);
+    if(this.keyUsages.includes(keyUsage)){
+      console.log("daaa");
+      this.keyUsages.splice(this.keyUsages.indexOf(keyUsage),1);
+    }
+    else{
+      this.keyUsages.push(keyUsage);
+    }
     console.log(this.keyUsages);
   }
 
   checkExtendedKeyUsage(extendedKeyUsage: string){
-    this.extendedKeyUsages.push(extendedKeyUsage);
+    if(this.extendedKeyUsages.includes(extendedKeyUsage)){
+      this.extendedKeyUsages.splice(this.extendedKeyUsages.indexOf(extendedKeyUsage),1);
+    }
+    else{
+      this.extendedKeyUsages.push(extendedKeyUsage);
+    }
     console.log(this.extendedKeyUsages);
   }
 
