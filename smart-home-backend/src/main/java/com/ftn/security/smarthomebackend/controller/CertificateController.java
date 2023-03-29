@@ -4,6 +4,9 @@ package com.ftn.security.smarthomebackend.controller;
 import com.ftn.security.smarthomebackend.dto.request.CancelCertificateRequest;
 import com.ftn.security.smarthomebackend.dto.request.NewCertificateRequest;
 import com.ftn.security.smarthomebackend.dto.response.CertificateResponse;
+import com.ftn.security.smarthomebackend.dto.response.SortedAliasesResponse;
+import com.ftn.security.smarthomebackend.enums.CertificateSortType;
+import com.ftn.security.smarthomebackend.enums.CertificateValidityType;
 import com.ftn.security.smarthomebackend.exception.AliasAlreadyExistsException;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 import com.ftn.security.smarthomebackend.exception.KeyStoreCertificateException;
@@ -28,9 +31,11 @@ public class CertificateController {
 
     @GetMapping(value = "aliases/{type}/{validity}")
     @ResponseStatus(HttpStatus.OK)
-    public List<String> getAllAliases() throws KeyStoreCertificateException {
+    public List<SortedAliasesResponse> getAllAliases(@PathVariable @Valid CertificateSortType type,
+                                                     @PathVariable @Valid CertificateValidityType validity
+    ) throws KeyStoreCertificateException, EntityNotFoundException {
 
-        return certificateService.getAliases();
+        return certificateService.getAliases(type, validity);
     }
 
     @GetMapping(value = "/{alias}")

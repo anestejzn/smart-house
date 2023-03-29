@@ -21,6 +21,9 @@ public class CancelCertificate {
     @Column(nullable = false)
     private String reason;
 
+    @Column(name = "most_recent", nullable = false)
+    private boolean mostRecent = true;
+
     public CancelCertificate(String alias, String reason) {
         this.alias = alias;
         this.reason = reason;
