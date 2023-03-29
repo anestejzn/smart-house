@@ -40,7 +40,7 @@ export class CancelCertificateDialogComponent implements OnInit, OnDestroy {
     this.certificateSubscription = this.certificateService.cancelCertificate(request).subscribe(
       res => {
         if (res) {
-          this.toast.error("Certificate is cancelled!", 'Certificate is successfully canceled!');
+          this.toast.success("Certificate is cancelled!", 'Certificate is successfully canceled!');
         }
       }, err => {
         this.toast.error(err.error, 'Error happened');
