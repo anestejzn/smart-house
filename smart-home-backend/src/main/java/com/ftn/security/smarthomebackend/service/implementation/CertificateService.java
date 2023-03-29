@@ -5,6 +5,7 @@ import com.ftn.security.smarthomebackend.dto.response.CertificateResponse;
 import com.ftn.security.smarthomebackend.enums.EntityType;
 import com.ftn.security.smarthomebackend.exception.AliasAlreadyExistsException;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
+import com.ftn.security.smarthomebackend.exception.InvalidKeyUsagesComboException;
 import com.ftn.security.smarthomebackend.exception.KeyStoreCertificateException;
 import com.ftn.security.smarthomebackend.model.CSR;
 import com.ftn.security.smarthomebackend.model.CancelCertificate;
@@ -64,8 +65,7 @@ public class CertificateService implements ICertificateService {
 
     @Override
     public void createAndSaveLeafCertificate(NewCertificateRequest certificateRequest)
-            throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException
-    {
+            throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException, InvalidKeyUsagesComboException {
         CSR csr = csrService.getById(certificateRequest.getCsrId());
 
         if (keyStoreService.containsAlias(csr.getUser().getEmail()))
@@ -168,7 +168,7 @@ public class CertificateService implements ICertificateService {
     }
 
     private X509Certificate createNewLeafCertificate(SubjectData subjectData, IssuerData issuerData,
-                                                     PublicKey issuerPublicKey, NewCertificateRequest certificateReq) {
+                                                     PublicKey issuerPublicKey, NewCertificateRequest certificateReq) throws InvalidKeyUsagesComboException {
         X509Certificate cert = null;
         try {
             JcaContentSignerBuilder builder = new JcaContentSignerBuilder("SHA256WithRSAEncryption");
@@ -184,6 +184,7 @@ public class CertificateService implements ICertificateService {
                     subjectData.getPublicKey()
             );
 
+            CertificateUtils.validateKeyUsagesSelection(certificateReq.getKeyUsages());
             addExtensions(certGen, certificateReq, subjectData.getPublicKey(), issuerPublicKey);
             X509CertificateHolder certHolder = certGen.build(contentSigner);
 

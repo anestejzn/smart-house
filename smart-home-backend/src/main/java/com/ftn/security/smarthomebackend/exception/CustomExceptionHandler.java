@@ -71,4 +71,11 @@ public class CustomExceptionHandler {
         return aliasAlreadyExists.getMessage();
     }
 
+    @ExceptionHandler(value = InvalidKeyUsagesComboException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String wrongVerifyTryException(InvalidKeyUsagesComboException invalidKeyUsagesComboExcpetion) {
+
+        return invalidKeyUsagesComboExcpetion.getMessage();
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.ftn.security.smarthomebackend.dto.response;
 
+import com.ftn.security.smarthomebackend.util.CertificateUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -66,47 +69,20 @@ public class CertificateResponse {
         if (list[4])
             this.keyUsages.add("Key Agreement");
         if (list[5])
-            this.keyUsages.add("Key Cert Sign");
+            this.keyUsages.add("Certificate Signing");
         if (list[6])
-            this.keyUsages.add("cRL Sign");
+            this.keyUsages.add("CRL Signing");
         if (list[7])
-            this.keyUsages.add("Encipher Only");
+            this.keyUsages.add("Encipher only");
         if (list[8])
-            this.keyUsages.add("Decipher Only");
+            this.keyUsages.add("Decipher only");
     }
 
     private void setExtendedKeyUsages(List<String> extendedKeyUsagesCodes) {
-        this.extendedKeyUsages = new ArrayList<>();
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.5.5.7.3.1"))
-            this.extendedKeyUsages.add("TLS Web Server Authentication: 1.3.6.1.5.5.7.3.1");
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.5.5.7.3.2"))
-            this.extendedKeyUsages.add("TLS Web Client Authentication: 1.3.6.1.5.5.7.3.2");
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.5.5.7.3.3"))
-            this.extendedKeyUsages.add("Code signing: 1.3.6.1.5.5.7.3.3");
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.4.1.311.10.3.12"))
-            this.extendedKeyUsages.add("Document signing: 1.3.6.1.4.1.311.10.3.12");
-        if (extendedKeyUsagesCodes.contains("1.2.840.113583.1.1.5"))
-            this.extendedKeyUsages.add("Adobe PDF Signing: 1.2.840.113583.1.1.5");
-        if (extendedKeyUsagesCodes.contains("0.4.0.2231.3.0"))
-            this.extendedKeyUsages.add("TSL Signing: 0.4.0.2231.3.0");
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.5.5.7.3.4"))
-            this.extendedKeyUsages.add("E-mail Protection: 1.3.6.1.5.5.7.3.4");
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.4.1.311.10.3.4"))
-            this.extendedKeyUsages.add("Encrypted File System: 1.3.6.1.4.1.311.10.3.4");
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.5.5.7.3.5"))
-            this.extendedKeyUsages.add("Ip Security End System: 1.3.6.1.5.5.7.3.5");
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.5.5.7.3.6"))
-            this.extendedKeyUsages.add("Ip Security Tunnel Termination: 1.3.6.1.5.5.7.3.6");
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.5.5.7.3.7"))
-            this.extendedKeyUsages.add("Ip Security User: 1.3.6.1.5.5.7.3.7");
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.5.5.7.3.8"))
-            this.extendedKeyUsages.add("Time Stamping: 1.3.6.1.5.5.7.3.8");
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.5.5.7.3.9"))
-            this.extendedKeyUsages.add("OCSP Signing: 1.3.6.1.5.5.7.3.9");
-        if (extendedKeyUsagesCodes.contains("1.3.6.1.4.1.311.20.2.2"))
-            this.extendedKeyUsages.add("Smartcard Logon: 1.3.6.1.4.1.311.20.2.2");
-        if (extendedKeyUsagesCodes.contains("2.5.29.37.0"))
-            this.extendedKeyUsages.add("Any Extended Key Usage: 2.5.29.37.0");
+        this.extendedKeyUsages = extendedKeyUsagesCodes.stream()
+                                    .map(CertificateUtils::mapExtendedKeyUsageCodeToStr)
+                                    .filter(Objects::nonNull)
+                                    .collect(Collectors.toList());
     }
 
     private void extractDetailsData(X509Certificate certificate)
@@ -165,7 +141,7 @@ public class CertificateResponse {
         String keyIdentifierHex = new String(Hex.encode(keyIdentifier));
         String uppercase = keyIdentifierHex.toUpperCase(Locale.ROOT);
         StringBuilder sb = new StringBuilder();
-        sb.append("0x"+uppercase.charAt(0));
+        sb.append("0x").append(uppercase.charAt(0));
         for (int i = 1; i < uppercase.length(); i++){
             if (i % 4 == 0) sb.append(" ");
             sb.append(uppercase.charAt(i));
