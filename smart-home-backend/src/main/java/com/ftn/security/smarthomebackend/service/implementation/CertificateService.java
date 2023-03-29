@@ -1,9 +1,11 @@
 package com.ftn.security.smarthomebackend.service.implementation;
 
 import com.ftn.security.smarthomebackend.dto.request.NewCertificateRequest;
+import com.ftn.security.smarthomebackend.dto.response.CertificateResponse;
 import com.ftn.security.smarthomebackend.enums.EntityType;
 import com.ftn.security.smarthomebackend.exception.AliasAlreadyExistsException;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
+import com.ftn.security.smarthomebackend.exception.KeyStoreCertificateException;
 import com.ftn.security.smarthomebackend.model.CSR;
 import com.ftn.security.smarthomebackend.model.CancelCertificate;
 import com.ftn.security.smarthomebackend.model.IssuerData;
@@ -39,12 +41,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
 
 public class CertificateService implements ICertificateService {
+
     @Autowired
     private IKeyStoreService keyStoreService;
     @Autowired
@@ -59,7 +63,9 @@ public class CertificateService implements ICertificateService {
     }
 
     @Override
-    public void createAndSaveLeafCertificate(NewCertificateRequest certificateRequest) throws EntityNotFoundException, AliasAlreadyExistsException {
+    public void createAndSaveLeafCertificate(NewCertificateRequest certificateRequest)
+            throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException
+    {
         CSR csr = csrService.getById(certificateRequest.getCsrId());
 
         if (keyStoreService.containsAlias(csr.getUser().getEmail()))
@@ -88,6 +94,17 @@ public class CertificateService implements ICertificateService {
     }
 
     @Override
+    public List<String> getAliases() throws KeyStoreCertificateException {
+
+        return keyStoreService.getAliases();
+    }
+
+    @Override
+    public List<CertificateResponse> getCertificateByAlias(String alias) throws KeyStoreCertificateException {
+
+        return keyStoreService.readCertificateChain(alias);
+    }
+
     public void cancelCertificate(String alias, String reason) throws EntityNotFoundException, AliasAlreadyExistsException {
         if(!keyStoreService.containsAlias(alias)){
             throw new EntityNotFoundException(alias, EntityType.CERTIFICATE);
@@ -266,9 +283,9 @@ public class CertificateService implements ICertificateService {
 
     private X500Name generateRootX500Name() {
         X500NameBuilder builder = new X500NameBuilder(BCStyle.INSTANCE);
-        builder.addRDN(BCStyle.CN, "Developers");
-        builder.addRDN(BCStyle.O, "UNS-FTN");
-        builder.addRDN(BCStyle.OU, "Katedra za informatiku");
+        builder.addRDN(BCStyle.CN, "SmartHome");
+        builder.addRDN(BCStyle.O, "SmartHomeCert");
+        builder.addRDN(BCStyle.OU, "IT Department");
         builder.addRDN(BCStyle.C, "RS");
         builder.addRDN(BCStyle.E, "root@maildrop.cc");
         builder.addRDN(BCStyle.UID, "root");
@@ -290,8 +307,8 @@ public class CertificateService implements ICertificateService {
     private X500Name generateIntermediateX500Name() {
         X500NameBuilder builder = new X500NameBuilder(BCStyle.INSTANCE);
         builder.addRDN(BCStyle.CN, "Admin");
-        builder.addRDN(BCStyle.O, "UNS-FTN");
-        builder.addRDN(BCStyle.OU, "Katedra za informatiku");
+        builder.addRDN(BCStyle.O, "SmartHomeCert");
+        builder.addRDN(BCStyle.OU, "IT Department");
         builder.addRDN(BCStyle.C, "RS");
         builder.addRDN(BCStyle.E, "intermediate@maildrop.cc");
         builder.addRDN(BCStyle.UID, "intermediate");

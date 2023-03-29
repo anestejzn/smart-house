@@ -19,6 +19,7 @@ public class Constants {
     public static final String WRONG_ROLE = "Role must be selected.";
     public static final String PASSWORDS_DO_NOT_MATCH_MESSAGE = "Passwords don't match. Try again.";
     public static final String WRONG_SECURITY_CODE = "Security code is number greater than 0.";
+    public static final String ERROR_WITH_CERTIFICATE_READING = "Uups, error happened with reading the certificate. Try again later.";
 
     //CONSTANTS
     public static final int MIN_SECURITY_NUM = 1000;
