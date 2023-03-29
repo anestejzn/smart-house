@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { SortedAliases } from '../../model/sorted-aliases';
 
 @Component({
   selector: 'app-certificate-one-row',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./certificate-one-row.component.scss']
 })
 export class CertificateOneRowComponent implements OnInit {
+  @Input() alias: SortedAliases;
+  @Input() index: number;
 
   constructor() { }
 

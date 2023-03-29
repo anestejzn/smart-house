@@ -10,8 +10,6 @@ export class CertificatesSortingButtonsComponent implements OnInit {
   @Output() changedTypeEvent = new EventEmitter();
   @Output() changedValidityEvent = new EventEmitter();
 
-  valid: boolean = true;
-
   sortByType = [
     { name: 'All', checked: true },
     { name: 'Root', checked: false },
@@ -30,12 +28,11 @@ export class CertificatesSortingButtonsComponent implements OnInit {
   }
 
   selectSortType(value: string) {
-    this.changedTypeEvent.emit(value);
+    this.changedTypeEvent.emit(value.toUpperCase());
   }
 
   selectSortValidity(value: string) {
-    this.valid = (value === "Invalid") ? false : true;
-    this.changedValidityEvent.emit(this.valid);
+    this.changedValidityEvent.emit(value.toUpperCase());
   }
 
 }

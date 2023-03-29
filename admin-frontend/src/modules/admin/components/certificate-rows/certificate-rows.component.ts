@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { SortedAliases } from '../../model/sorted-aliases';
 
 @Component({
   selector: 'app-certificate-rows',
@@ -6,8 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./certificate-rows.component.scss']
 })
 export class CertificateRowsComponent implements OnInit {
+  @Input() aliases: SortedAliases[];
 
-  constructor() { }
+  constructor() {
+    this.aliases = [];
+  }
 
   ngOnInit(): void {
   }

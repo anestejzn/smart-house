@@ -1,0 +1,47 @@
+
+table {
+    
+    th {
+        font-size: 1rem;
+    }
+
+    th.alias-th {
+        text-align: left;
+        padding-left: 1rem;
+    }
+
+    mat-icon {
+        vertical-align: middle;
+    }
+
+    mat-icon:hover {
+        background-color: var(--gray-transparent);
+        border-radius: 50%;
+    }
+
+    .valid-th {
+        color: green;
+        border: 0.5px solid green;
+        border-radius: 1rem;
+        padding: 0.2rem;
+    }
+
+    .invalid-th {
+        color: red;
+        border: 0.5px solid red;
+        border-radius: 1rem;
+        padding: 0.2rem;
+    }
+}
+
+.alias-row {
+    margin-top: 1rem;
+    background-color: var(--gray);
+    border-radius: 1rem;
+    padding: 0.4rem;
+}
+
+.alias-row:hover {
+    padding: 0.5rem;
+    border: 1px solid var(--deep-blue);
+}

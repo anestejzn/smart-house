@@ -8,4 +8,4 @@ INSERT INTO csr (user_id, common_name, organization_unit, organization, city, st
     (1, 'www.example.com', 'IT', 'Example Company', 'San Francisco', 'CA', 'US', 0);
 
 INSERT INTO cancel_certificate(id, alias, reason, most_recent) values
-    (1, 'intermediate', 'neki razlog', true);
+    (1, 'peki@gmail.com', 'neki razlog', true);
