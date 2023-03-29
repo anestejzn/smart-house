@@ -40,10 +40,13 @@ public class CertificateResponse {
     private int version;
     private String authorityKeyIdentifier;  //identifikuje javni kljuc izdavaoca
     private String subjectKeyIdentifier;    //identifikuje javni kljuc subjekta sertifikata
+    private String alias;
+    private boolean valid;
 
     public CertificateResponse(X509Certificate certificate) throws CertificateParsingException {
         this();
         X500Name x500name = new X500Name(certificate.getSubjectX500Principal().getName());
+        this.alias = String.valueOf(x500name.getRDNs(BCStyle.UID)[0].getTypesAndValues()[0].getValue());
         extractIssuedToData(x500name);
 
         x500name = new X500Name(certificate.getIssuerX500Principal().getName());

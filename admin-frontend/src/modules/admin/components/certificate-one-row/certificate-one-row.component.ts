@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SortedAliases } from '../../model/sorted-aliases';
 
 @Component({
@@ -9,10 +9,17 @@ import { SortedAliases } from '../../model/sorted-aliases';
 export class CertificateOneRowComponent implements OnInit {
   @Input() alias: SortedAliases;
   @Input() index: number;
+  @Output() cancelCertificateEvent = new EventEmitter();
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  cancelCertificate(): void {
+    if (this.alias.valid) {
+      this.cancelCertificateEvent.emit(this.alias);
+    }
   }
 
 }

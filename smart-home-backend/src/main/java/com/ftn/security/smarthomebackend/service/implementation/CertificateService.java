@@ -133,17 +133,25 @@ public class CertificateService implements ICertificateService {
     }
 
     @Override
-    public List<CertificateResponse> getCertificateByAlias(String alias) throws KeyStoreCertificateException {
+    public List<CertificateResponse> getCertificateByAlias(String alias)
+            throws KeyStoreCertificateException, EntityNotFoundException
+    {
+        List<CertificateResponse> certificates = keyStoreService.readCertificateChain(alias);
+        for (CertificateResponse cr : certificates) {
+            cr.setValid(validateCertificate(cr.getAlias()));
+        }
 
-        return keyStoreService.readCertificateChain(alias);
+        return certificates;
     }
 
-    public void cancelCertificate(String alias, String reason) throws EntityNotFoundException, AliasAlreadyExistsException {
+    public boolean cancelCertificate(String alias, String reason) throws EntityNotFoundException, AliasAlreadyExistsException {
         if(!keyStoreService.containsAlias(alias)){
             throw new EntityNotFoundException(alias, EntityType.CERTIFICATE);
         }
 
         cancelCertificateService.cancelCertificate(alias, reason);
+
+        return true;
     }
 
     @Override

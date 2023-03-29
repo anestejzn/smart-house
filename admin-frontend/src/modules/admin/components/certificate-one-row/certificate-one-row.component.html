@@ -15,8 +15,8 @@
         <th [class]="alias.valid ? 'valid-th' : 'invalid-th'">
             {{alias.valid ? 'Valid' : 'Invalid'}}
         </th>
-        <th>
-            <mat-icon>delete</mat-icon>
+        <th [class]="alias.valid ? 'valid-hover' : 'invalid-hover'">
+            <mat-icon (click)="cancelCertificate()">{{alias.valid ? 'delete' : 'remove_circle_outline'}}</mat-icon>
         </th>
     </table>    
 </div>

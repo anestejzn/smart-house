@@ -40,7 +40,7 @@ public class CertificateController {
 
     @GetMapping(value = "/{alias}")
     @ResponseStatus(HttpStatus.OK)
-    public List<CertificateResponse> getCertificateByAlias(@PathVariable String alias) throws KeyStoreCertificateException {
+    public List<CertificateResponse> getCertificateByAlias(@PathVariable String alias) throws KeyStoreCertificateException, EntityNotFoundException {
 
         return certificateService.getCertificateByAlias(alias);
     }
@@ -66,11 +66,11 @@ public class CertificateController {
         certificateService.createAndSaveLeafCertificate(certRequest);
     }
 
-    @PostMapping("/cancel")
+    @PutMapping("/cancel")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public void cancelCertificate(@Valid @RequestBody final CancelCertificateRequest request) throws AliasAlreadyExistsException, EntityNotFoundException {
-        certificateService.cancelCertificate(request.getAlias(), request.getCancelReason());
+    public boolean cancelCertificate(@Valid @RequestBody final CancelCertificateRequest request) throws AliasAlreadyExistsException, EntityNotFoundException {
+        return certificateService.cancelCertificate(request.getAlias(), request.getCancelReason());
     }
 
 }

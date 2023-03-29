@@ -1,7 +1,7 @@
 <div class="all-aliases-container">
     <div *ngIf="aliases && aliases.length > 0; else noContent">
-        <div *ngFor="let alias of aliases; let i=index">
-            <app-certificate-one-row [alias]="alias" [index]="i+1"></app-certificate-one-row>
+        <div *ngFor="let alias of aliases; let i=index" (click)="goToDetails(alias)">
+            <app-certificate-one-row [alias]="alias" [index]="i+1" (cancelCertificateEvent)="cancelCertificate($event)"></app-certificate-one-row>
         </div>
     </div>
     <ng-template #noContent>

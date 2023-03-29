@@ -22,17 +22,10 @@ export class AllCertificatesViewComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.certificatesSubscription = this.certificateService.getAllCertificates(this.type, this.valid).subscribe(
-      res => {
-        this.allAliases = res;
-      }, err => {
-        this.toast.error("Upps, data cannot be loaded.", "Error happened!")
-      }
-    )
+    this.loadData();
   } 
 
-  changedType(value: string) {
-    this.type = value;
+  loadData(): void {
     this.certificatesSubscription = this.certificateService.getAllCertificates(this.type, this.valid).subscribe(
       res => {
         this.allAliases = res;
@@ -42,15 +35,18 @@ export class AllCertificatesViewComponent implements OnInit, OnDestroy {
     )
   }
 
+  changedType(value: string) {
+    this.type = value;
+    this.loadData();
+  }
+
   changedValidity(value: string) {
     this.valid = value;
-    this.certificatesSubscription = this.certificateService.getAllCertificates(this.type, this.valid).subscribe(
-      res => {
-        this.allAliases = res;
-      }, err => {
-        this.toast.error("Upps, data cannot be loaded.", "Error happened!")
-      }
-    )
+    this.loadData();
+  }
+
+  cancelationEventHappened(): void {
+    this.loadData();
   }
 
   ngOnDestroy(): void {
