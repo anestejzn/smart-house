@@ -9,6 +9,7 @@ import com.ftn.security.smarthomebackend.enums.CertificateSortType;
 import com.ftn.security.smarthomebackend.enums.CertificateValidityType;
 import com.ftn.security.smarthomebackend.exception.AliasAlreadyExistsException;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
+import com.ftn.security.smarthomebackend.exception.InvalidKeyUsagesComboException;
 import com.ftn.security.smarthomebackend.exception.KeyStoreCertificateException;
 import com.ftn.security.smarthomebackend.service.interfaces.ICertificateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
 import java.util.List;
 
 @RestController
@@ -61,8 +58,7 @@ public class CertificateController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public void createLeafCertificate(@Valid @RequestBody final NewCertificateRequest certRequest)
-            throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException
-    {
+            throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException, InvalidKeyUsagesComboException {
         certificateService.createAndSaveLeafCertificate(certRequest);
     }
 
