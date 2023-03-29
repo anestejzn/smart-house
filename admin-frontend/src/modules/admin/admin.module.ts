@@ -8,6 +8,10 @@ import { AdminRoutes } from './admin.routes';
 import { HomeComponent } from './pages/home/home.component';
 import { CsrDetailsDialogComponent } from './components/csr-details-dialog/csr-details-dialog.component';
 import { CreateCertificateDialogComponent } from './components/create-certificate-dialog/create-certificate-dialog.component';
+import { AllCertificatesViewComponent } from './pages/all-certificates-view/all-certificates-view.component';
+import { CertificatesSortingButtonsComponent } from './components/certificates-sorting-buttons/certificates-sorting-buttons.component';
+import { CertificateRowsComponent } from './components/certificate-rows/certificate-rows.component';
+import { CertificateOneRowComponent } from './components/certificate-one-row/certificate-one-row.component';
 
 
 
@@ -16,7 +20,11 @@ import { CreateCertificateDialogComponent } from './components/create-certificat
     CsrTableComponent,
     HomeComponent,
     CsrDetailsDialogComponent,
-    CreateCertificateDialogComponent
+    CreateCertificateDialogComponent,
+    AllCertificatesViewComponent,
+    CertificatesSortingButtonsComponent,
+    CertificateRowsComponent,
+    CertificateOneRowComponent
   ],
   imports: [
     CommonModule,

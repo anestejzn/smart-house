@@ -26,7 +26,7 @@ public class CertificateController {
     @Autowired
     private ICertificateService certificateService;
 
-    @GetMapping(value = "aliases")
+    @GetMapping(value = "aliases/{type}/{validity}")
     @ResponseStatus(HttpStatus.OK)
     public List<String> getAllAliases() throws KeyStoreCertificateException {
 
