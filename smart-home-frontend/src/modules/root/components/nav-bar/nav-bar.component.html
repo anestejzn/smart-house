@@ -6,7 +6,7 @@
         class="app-icon" />
     </a>
     <div class="spacer">
-      <div *ngIf="loggedUser">
+      <div *ngIf="loggedUser && loggedUser.accountStatus === 'ACTIVE'">
         &nbsp;&nbsp;
         <a
           [routerLink]="['']"

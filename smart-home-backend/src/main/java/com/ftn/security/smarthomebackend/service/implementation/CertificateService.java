@@ -3,6 +3,7 @@ package com.ftn.security.smarthomebackend.service.implementation;
 import com.ftn.security.smarthomebackend.dto.request.NewCertificateRequest;
 import com.ftn.security.smarthomebackend.dto.response.CertificateResponse;
 import com.ftn.security.smarthomebackend.dto.response.SortedAliasesResponse;
+import com.ftn.security.smarthomebackend.enums.AccountStatus;
 import com.ftn.security.smarthomebackend.enums.CertificateSortType;
 import com.ftn.security.smarthomebackend.enums.CertificateValidityType;
 import com.ftn.security.smarthomebackend.enums.EntityType;
@@ -13,9 +14,12 @@ import com.ftn.security.smarthomebackend.exception.KeyStoreCertificateException;
 import com.ftn.security.smarthomebackend.model.CSR;
 import com.ftn.security.smarthomebackend.model.IssuerData;
 import com.ftn.security.smarthomebackend.model.SubjectData;
+import com.ftn.security.smarthomebackend.model.User;
+import com.ftn.security.smarthomebackend.service.WebSocketService;
 import com.ftn.security.smarthomebackend.service.interfaces.ICertificateService;
 import com.ftn.security.smarthomebackend.service.interfaces.ICsrService;
 import com.ftn.security.smarthomebackend.service.interfaces.IKeyStoreService;
+import com.ftn.security.smarthomebackend.service.interfaces.IUserService;
 import com.ftn.security.smarthomebackend.util.CertificateUtils;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.X500NameBuilder;
@@ -54,6 +58,12 @@ public class CertificateService implements ICertificateService {
     private ICsrService csrService;
 
     @Autowired
+    private IUserService userService;
+
+    @Autowired
+    private WebSocketService webSocketService;
+
+    @Autowired
     private CancelCertificateService cancelCertificateService;
 
     static {
@@ -87,6 +97,11 @@ public class CertificateService implements ICertificateService {
         String alias = csr.getUser().getEmail();
         keyStoreService.write(alias, keyPairSubject.getPrivate(), alias.toCharArray(), subjectCert);
         keyStoreService.saveKeyStore();
+
+        User user = csr.getUser();
+        user.setStatus(AccountStatus.ACTIVE);
+        userService.save(user);
+        webSocketService.sendMessageAboutCreateCertificate(user.getEmail());
 
         csrService.deleteById(csr.getId());
     }

@@ -1,10 +1,10 @@
-<div *ngIf="loggedUser.accountStatus !== 'ACTIVE'" class="form-container mat-elevation-z1 text-center" style="vertical-align:center;">
+<div class="form-container mat-elevation-z1 text-center" style="vertical-align:center;">
   
   <div *ngIf="loggedUser.accountStatus === 'NON_CSR'">
     <p style="font-size:1.5rem;">You can not access the application. You must have certificate.</p>
     <button mat-raised-button (click)="sendCsr()">
         Send Certificate Signing Request
-      </button>
+    </button>
   </div>
 
   <div *ngIf="loggedUser.accountStatus === 'NON_CERTIFICATED'">
@@ -19,6 +19,15 @@
   </div>
 
   <div *ngIf="loggedUser.accountStatus === 'BLOCKED'">
-    <p style="font-size:1.5rem;">You can not access the application, because your account is blocked.</p>
+    <p style="font-size:1.5rem;">You can not access the application, because your certificate is cancelled by admin.
+    Try to get certificate again.</p>
+    <button mat-raised-button (click)="sendCsr()">
+      Send Certificate Signing Request
+    </button>
   </div>
+  <div *ngIf="loggedUser.accountStatus === 'ACTIVE'">
+    You are active.
+  </div>
+
 </div>
+
