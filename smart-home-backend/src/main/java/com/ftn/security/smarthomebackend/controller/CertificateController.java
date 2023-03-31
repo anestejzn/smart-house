@@ -7,17 +7,19 @@ import com.ftn.security.smarthomebackend.dto.response.CertificateResponse;
 import com.ftn.security.smarthomebackend.dto.response.SortedAliasesResponse;
 import com.ftn.security.smarthomebackend.enums.CertificateSortType;
 import com.ftn.security.smarthomebackend.enums.CertificateValidityType;
-import com.ftn.security.smarthomebackend.exception.AliasAlreadyExistsException;
-import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
-import com.ftn.security.smarthomebackend.exception.InvalidKeyUsagesComboException;
-import com.ftn.security.smarthomebackend.exception.KeyStoreCertificateException;
+import com.ftn.security.smarthomebackend.exception.*;
 import com.ftn.security.smarthomebackend.service.interfaces.ICertificateService;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.security.KeyStoreException;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateParsingException;
 import java.util.List;
 
 @RestController
@@ -58,7 +60,7 @@ public class CertificateController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public void createLeafCertificate(@Valid @RequestBody final NewCertificateRequest certRequest)
-            throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException, InvalidKeyUsagesComboException {
+            throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException, InvalidKeyUsagesComboException, CertificateParsingException, CertificateEncodingException, KeyStoreException, MailCannotBeSentException, MessagingException, IOException {
         certificateService.createAndSaveLeafCertificate(certRequest);
     }
 

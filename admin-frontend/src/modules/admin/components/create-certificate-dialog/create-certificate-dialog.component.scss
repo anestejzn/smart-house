@@ -4,7 +4,12 @@
 }
 
 .mat-dialog-content{
-    height: 25rem;
+    height: 26.7rem;
+    overflow: hidden;
+}
+
+.mat-tab-body .mat-tab-body-active{
+  overflow-y: hidden;
 }
 
 .mat-checkbox{
@@ -32,4 +37,12 @@
 
   .mat-tab-label, .mat-tab-link{
     color: var(--deep-blue);
+  }
+
+  .my-dialog .mat-dialog-container {
+    overflow: hidden;
+  }
+
+  .example-radio-button{
+    margin-right: 0.5rem;
   }

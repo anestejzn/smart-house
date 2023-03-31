@@ -41,7 +41,7 @@ export class CsrTableComponent implements OnInit {
     const dialogRef = this.dialog.open(CreateCertificateDialogComponent, {
       data: element,
       width: '37rem',
-      height: '35rem'
+      height: '36rem'
     });
 
     dialogRef.afterClosed().subscribe(

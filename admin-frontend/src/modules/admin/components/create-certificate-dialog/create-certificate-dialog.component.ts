@@ -1,10 +1,11 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Csr } from '../../model/csr';
 import { ToastrService } from 'ngx-toastr';
 import { CertificateService } from '../../service/certificate-service/certificate.service';
 import { Subscription } from 'rxjs';
 import { MatCheckbox } from '@angular/material/checkbox';
+import { MatRadioChange } from '@angular/material/radio';
 
 @Component({
   selector: 'app-create-certificate-dialog',
@@ -15,8 +16,11 @@ export class CreateCertificateDialogComponent implements OnInit {
   @ViewChild('keyagreementcb') private keyagreementcb: MatCheckbox;
   @ViewChild('encipheronlycb') private encipheronlycb: MatCheckbox;
   @ViewChild('decipheronlycb') private decipheronlycb: MatCheckbox;
+  @ViewChildren(MatCheckbox) checkboxes: QueryList<MatCheckbox>;
   keyUsages = [];
   extendedKeyUsages = [];
+  templates = ['Code Signing Certificate', 'SSL/TSL Certificate', 'Custom'];
+  chosenTemplate = 'Custom';
   certificateSubscription: Subscription;
 
   constructor(@Inject(MAT_DIALOG_DATA) public request: Csr, private toast: ToastrService,  private dialogRef: MatDialogRef<CreateCertificateDialogComponent>, private certificateService: CertificateService) {
@@ -132,5 +136,36 @@ export class CreateCertificateDialogComponent implements OnInit {
       
     }
   }
+
+  changeTemplate(event:  MatRadioChange){
+    if(event.value === 'Custom'){
+      this.keyUsages.splice(0, this.keyUsages.length);
+      this.extendedKeyUsages.splice(0, this.extendedKeyUsages.length);
+      this.uncheckAll();
+    }
+    else if(event.value === 'Code Signing Certificate'){
+      this.keyUsages = [];
+      this.extendedKeyUsages = [];
+      this.uncheckAll();
+      this.keyUsages.push('Digital Signature');
+      this.extendedKeyUsages.push('Code Signing');
+    }
+    else{
+      this.keyUsages = [];
+      this.extendedKeyUsages = [];
+      this.uncheckAll();
+      this.keyUsages.push('Digital Signature');
+      this.keyUsages.push('Key Encipherment');
+      this.extendedKeyUsages.push('Server Authentication');
+      this.extendedKeyUsages.push('Client Authentication');
+    }
+  }
+
+  uncheckAll() {
+    this.checkboxes.forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+  }
+
 
 }

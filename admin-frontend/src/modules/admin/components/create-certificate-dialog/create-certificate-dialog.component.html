@@ -16,9 +16,9 @@
             <div class="row">
                 <div class="column">
                     <h2>Key Usage</h2>
-                    <mat-checkbox (change)="checkKeyUsage('Digital Signature')">Digital Signature</mat-checkbox>
+                    <mat-checkbox (change)="checkKeyUsage('Digital Signature')" [checked]="chosenTemplate === 'Code Signing Certificate' || chosenTemplate === 'SSL/TSL Certificate'">Digital Signature</mat-checkbox>
                     <mat-checkbox (change)="checkKeyUsage('Non Repudiation')">Non Repudiation</mat-checkbox>
-                    <mat-checkbox (change)="checkKeyUsage('Key Encipherment')">Key Encipherment</mat-checkbox>
+                    <mat-checkbox (change)="checkKeyUsage('Key Encipherment')" [checked]="chosenTemplate === 'SSL/TSL Certificate'">Key Encipherment</mat-checkbox>
                     <mat-checkbox (change)="checkKeyUsage('Data Encipherment')">Data Encipherment</mat-checkbox>
                     <mat-checkbox (change)="checkKeyUsage('Key Agreement')" #keyagreementcb>Key Agreement</mat-checkbox>
                     <mat-checkbox (change)="checkKeyUsage('Certificate Signing')">Certificate Signing</mat-checkbox>
@@ -28,13 +28,24 @@
                 </div>
                 <div class="column">
                     <h2>Extended Key Usage</h2>
-                    <mat-checkbox (change)="checkExtendedKeyUsage('Server Authentication')">Server Authentication</mat-checkbox>
-                    <mat-checkbox (change)="checkExtendedKeyUsage('ClientAuthentication')">Client Authentication</mat-checkbox>
-                    <mat-checkbox (change)="checkExtendedKeyUsage('Code Signing')">Code Signing</mat-checkbox>
+                    <mat-checkbox (change)="checkExtendedKeyUsage('Server Authentication')" [checked]="chosenTemplate === 'SSL/TSL Certificate'">Server Authentication</mat-checkbox>
+                    <mat-checkbox (change)="checkExtendedKeyUsage('ClientAuthentication')" [checked]="chosenTemplate === 'SSL/TSL Certificate'">Client Authentication</mat-checkbox>
+                    <mat-checkbox (change)="checkExtendedKeyUsage('Code Signing')" [checked]="chosenTemplate === 'Code Signing Certificate'">Code Signing</mat-checkbox>
                     <mat-checkbox (change)="checkExtendedKeyUsage('Email Protection')">Email Protection</mat-checkbox>
                     <mat-checkbox (change)="checkExtendedKeyUsage('Time Stamping')">Time Stamping</mat-checkbox>
                     <mat-checkbox (change)="checkExtendedKeyUsage('TSL Signing')">TSL Signing</mat-checkbox>
                 </div>
+            </div>
+
+            <div class="row">
+                <div class="row"><h2>Templates</h2><br/></div>
+                <mat-radio-group aria-labelledby="example-radio-group-label"
+                class="example-radio-group"
+                [(ngModel)]="chosenTemplate">
+                    <mat-radio-button class="example-radio-button" *ngFor="let template of templates" [value]="template" (change)="changeTemplate($event)">
+                        {{template}}
+                    </mat-radio-button>
+                </mat-radio-group>
             </div>
         </mat-tab>
       </mat-tab-group>

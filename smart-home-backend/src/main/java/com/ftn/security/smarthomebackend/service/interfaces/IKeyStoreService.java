@@ -10,7 +10,9 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
+import java.security.cert.CertificateParsingException;
 import java.util.List;
 
 public interface IKeyStoreService {
@@ -25,4 +27,5 @@ public interface IKeyStoreService {
     Long generateNextSerialNumber() throws KeyStoreCertificateException;
     List<String> getAliases() throws KeyStoreCertificateException;
     List<CertificateResponse> readCertificateChain(String alias) throws KeyStoreCertificateException;
+    String generateKeyStoreRepresentationOfCertificate(String alias) throws CertificateParsingException, KeyStoreException, CertificateEncodingException, KeyStoreCertificateException;
 }

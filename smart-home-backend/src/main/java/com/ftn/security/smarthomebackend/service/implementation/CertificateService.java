@@ -7,11 +7,7 @@ import com.ftn.security.smarthomebackend.enums.AccountStatus;
 import com.ftn.security.smarthomebackend.enums.CertificateSortType;
 import com.ftn.security.smarthomebackend.enums.CertificateValidityType;
 import com.ftn.security.smarthomebackend.enums.EntityType;
-import com.ftn.security.smarthomebackend.exception.AliasAlreadyExistsException;
-import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
-import com.ftn.security.smarthomebackend.exception.InvalidKeyUsagesComboException;
-import com.ftn.security.smarthomebackend.exception.InvalidCertificateException;
-import com.ftn.security.smarthomebackend.exception.KeyStoreCertificateException;
+import com.ftn.security.smarthomebackend.exception.*;
 import com.ftn.security.smarthomebackend.model.CSR;
 import com.ftn.security.smarthomebackend.model.IssuerData;
 import com.ftn.security.smarthomebackend.model.SubjectData;
@@ -22,10 +18,12 @@ import com.ftn.security.smarthomebackend.service.interfaces.ICsrService;
 import com.ftn.security.smarthomebackend.service.interfaces.IKeyStoreService;
 import com.ftn.security.smarthomebackend.service.interfaces.IUserService;
 import com.ftn.security.smarthomebackend.util.CertificateUtils;
+import jakarta.mail.MessagingException;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.X500NameBuilder;
 import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.asn1.x509.*;
+import org.bouncycastle.asn1.x509.Extension;
 import org.bouncycastle.cert.CertIOException;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.X509v3CertificateBuilder;
@@ -37,13 +35,15 @@ import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
 import java.math.BigInteger;
 import java.security.*;
+import java.security.cert.*;
 import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -67,13 +67,16 @@ public class CertificateService implements ICertificateService {
     @Autowired
     private CancelCertificateService cancelCertificateService;
 
+    @Autowired
+    private EmailService emailService;
+
     static {
         Security.addProvider(new BouncyCastleProvider());
     }
 
     @Override
     public void createAndSaveLeafCertificate(NewCertificateRequest certificateRequest)
-            throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException, InvalidKeyUsagesComboException {
+            throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException, InvalidKeyUsagesComboException, CertificateParsingException, CertificateEncodingException, KeyStoreException, MailCannotBeSentException, MessagingException, IOException {
         CSR csr = csrService.getById(certificateRequest.getCsrId());
 
         if (keyStoreService.containsAlias(csr.getUser().getEmail()))
@@ -102,9 +105,23 @@ public class CertificateService implements ICertificateService {
         user.setStatus(AccountStatus.ACTIVE);
         userService.save(user);
         webSocketService.sendMessageAboutCreateCertificate(user.getEmail());
-
+        sendEmailWithCertificate(user.getEmail());
         csrService.deleteById(csr.getId());
     }
+
+    private void sendEmailWithCertificate(String email) throws CertificateParsingException, CertificateEncodingException, KeyStoreException, MailCannotBeSentException, KeyStoreCertificateException, IOException, MessagingException {
+        String keyStoreRepresentation = keyStoreService.generateKeyStoreRepresentationOfCertificate(email);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        OutputStreamWriter writer = new OutputStreamWriter(outputStream);
+        writer.write(keyStoreRepresentation);
+        writer.flush();
+
+        File file = File.createTempFile("temp", ".txt");
+        FileOutputStream fileOutputStream = new FileOutputStream(file);
+        outputStream.writeTo(fileOutputStream);
+        emailService.sendEmailWithCertificate(file);
+    }
+
 
     @Override
     public List<SortedAliasesResponse> getAliases(CertificateSortType type, CertificateValidityType validity)

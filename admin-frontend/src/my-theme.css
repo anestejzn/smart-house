@@ -1397,7 +1397,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
   color: var(--deep-blue);
 }
 .mat-checkbox-frame {
-  border-color: rgba(0, 0, 0, 0.54);
+  border-color: var(--deep-blue);
 }
 .mat-checkbox-checkmark {
   fill: #fafafa;
@@ -1824,6 +1824,7 @@ td.mat-footer-cell {
     0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
   background: var(--gray);
   color: var(--deep-blue);
+  overflow: hidden;
 }
 .mat-divider {
   border-top-color: rgba(0, 0, 0, 0.12);
@@ -2170,7 +2171,7 @@ td.mat-footer-cell {
   stroke: #b73e3e;
 }
 .mat-radio-outer-circle {
-  border-color: rgba(0, 0, 0, 0.54);
+  border-color: var(--deep-blue);
 }
 .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
   border-color: var(--deep-blue);

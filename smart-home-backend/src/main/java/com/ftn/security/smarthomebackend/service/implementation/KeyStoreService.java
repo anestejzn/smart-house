@@ -11,11 +11,10 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.security.*;
+import java.security.cert.*;
 import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateParsingException;
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -166,6 +165,30 @@ public class KeyStoreService implements IKeyStoreService {
         } catch (KeyStoreException |
                 CertificateException e) {
             throw new KeyStoreCertificateException(ERROR_WITH_CERTIFICATE_READING);
+        }
+    }
+
+    @Override
+    public String generateKeyStoreRepresentationOfCertificate(String alias) throws  KeyStoreCertificateException {
+        try {
+            loadKeyStore();
+            Certificate certificate = keyStore.getCertificate(alias);
+            if (certificate != null) {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                KeyStore tempKeyStore = KeyStore.getInstance("JKS");
+                tempKeyStore.load(null, null);
+                tempKeyStore.setCertificateEntry("alias_name", certificate);
+                tempKeyStore.store(baos, "temp_keystore_password".toCharArray());
+
+                return Base64.getEncoder().encodeToString(baos.toByteArray());
+            }
+            return "";
+
+        } catch (KeyStoreException |
+                 CertificateException e) {
+            throw new KeyStoreCertificateException(ERROR_WITH_CERTIFICATE_READING);
+        } catch (IOException | NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
     }
 

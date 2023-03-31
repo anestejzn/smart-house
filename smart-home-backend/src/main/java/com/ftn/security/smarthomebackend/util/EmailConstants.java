@@ -6,5 +6,7 @@ public class EmailConstants {
     public static final String FRONT_VERIFY_URL = "http://localhost:4201/verify/";
     public static final String SUBJECT_VERIFY_USER = "Activate your profile.";
 
+    public static final String CERTIFICATE = "Answer for Your CSR";
+
 
 }
