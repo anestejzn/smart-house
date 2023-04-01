@@ -1,56 +1,76 @@
-<h1 mat-dialog-title>Certificate</h1>
-<div mat-dialog-content>
-    <mat-tab-group animationDuration="0ms" mat-align-tabs="center">
-        <mat-tab label="General">
-            <div style="margin-top:2rem;">
-                <label><b>Name: </b>{{request.user.name}}</label><br>
-                <label><b>Surname: </b>{{request.user.surname}}</label><br>
-                <label><b>Email: </b>{{request.user.email}}</label><br>
-                <label><b>Organization: </b>{{request.organization}}</label><br>
-                <label><b>Common name: </b>{{request.commonName}}</label><br>
-                <label><b>City: </b>{{request.city}}</label><br>
-                <label><b>Country: </b>{{request.country}}</label>
-            </div>
-        </mat-tab>
-        <mat-tab label="Extensions">
-            <div class="row">
-                <div class="column">
-                    <h2>Key Usage</h2>
-                    <mat-checkbox (change)="checkKeyUsage('Digital Signature')" [checked]="chosenTemplate === 'Code Signing Certificate' || chosenTemplate === 'SSL/TSL Certificate'">Digital Signature</mat-checkbox>
-                    <mat-checkbox (change)="checkKeyUsage('Non Repudiation')">Non Repudiation</mat-checkbox>
-                    <mat-checkbox (change)="checkKeyUsage('Key Encipherment')" [checked]="chosenTemplate === 'SSL/TSL Certificate'">Key Encipherment</mat-checkbox>
-                    <mat-checkbox (change)="checkKeyUsage('Data Encipherment')">Data Encipherment</mat-checkbox>
-                    <mat-checkbox (change)="checkKeyUsage('Key Agreement')" #keyagreementcb>Key Agreement</mat-checkbox>
-                    <mat-checkbox (change)="checkKeyUsage('Certificate Signing')">Certificate Signing</mat-checkbox>
-                    <mat-checkbox (change)="checkKeyUsage('CRL Signing')">CRL Signing</mat-checkbox>
-                    <mat-checkbox (change)="checkKeyUsage('Encipher only')" #encipheronlycb>Encipher only</mat-checkbox>
-                    <mat-checkbox (change)="checkKeyUsage('Decipher only')" #decipheronlycb>Decipher only</mat-checkbox>
+<div class="create-certificate-content">
+    <h1 mat-dialog-title>Certificate</h1>
+    <div mat-dialog-content>
+        <mat-tab-group animationDuration="0ms" mat-align-tabs="center">
+            <mat-tab label="General">
+                <div style="margin-top:2rem;">
+                    <label><b>Name: </b>{{request.user.name}}</label><br>
+                    <label><b>Surname: </b>{{request.user.surname}}</label><br>
+                    <label><b>Email: </b>{{request.user.email}}</label><br>
+                    <label><b>Organization: </b>{{request.organization}}</label><br>
+                    <label><b>Common name: </b>{{request.commonName}}</label><br>
+                    <label><b>City: </b>{{request.city}}</label><br>
+                    <label><b>Country: </b>{{request.country}}</label>
                 </div>
-                <div class="column">
-                    <h2>Extended Key Usage</h2>
-                    <mat-checkbox (change)="checkExtendedKeyUsage('Server Authentication')" [checked]="chosenTemplate === 'SSL/TSL Certificate'">Server Authentication</mat-checkbox>
-                    <mat-checkbox (change)="checkExtendedKeyUsage('ClientAuthentication')" [checked]="chosenTemplate === 'SSL/TSL Certificate'">Client Authentication</mat-checkbox>
-                    <mat-checkbox (change)="checkExtendedKeyUsage('Code Signing')" [checked]="chosenTemplate === 'Code Signing Certificate'">Code Signing</mat-checkbox>
-                    <mat-checkbox (change)="checkExtendedKeyUsage('Email Protection')">Email Protection</mat-checkbox>
-                    <mat-checkbox (change)="checkExtendedKeyUsage('Time Stamping')">Time Stamping</mat-checkbox>
-                    <mat-checkbox (change)="checkExtendedKeyUsage('TSL Signing')">TSL Signing</mat-checkbox>
+            </mat-tab>
+            <mat-tab label="Extensions">
+                <div class="row">
+                    <div class="column">
+                        <h2>Key Usage</h2>
+                        <mat-checkbox (change)="checkKeyUsage('Digital Signature')" [checked]="chosenTemplate === 'Code Signing Certificate' || chosenTemplate === 'SSL/TSL Certificate'">Digital Signature</mat-checkbox>
+                        <mat-checkbox (change)="checkKeyUsage('Non Repudiation')">Non Repudiation</mat-checkbox>
+                        <mat-checkbox (change)="checkKeyUsage('Key Encipherment')" [checked]="chosenTemplate === 'SSL/TSL Certificate'">Key Encipherment</mat-checkbox>
+                        <mat-checkbox (change)="checkKeyUsage('Data Encipherment')">Data Encipherment</mat-checkbox>
+                        <mat-checkbox (change)="checkKeyUsage('Key Agreement')" #keyagreementcb>Key Agreement</mat-checkbox>
+                        <mat-checkbox (change)="checkKeyUsage('Certificate Signing')">Certificate Signing</mat-checkbox>
+                        <mat-checkbox (change)="checkKeyUsage('CRL Signing')">CRL Signing</mat-checkbox>
+                        <mat-checkbox (change)="checkKeyUsage('Encipher only')" #encipheronlycb>Encipher only</mat-checkbox>
+                        <mat-checkbox (change)="checkKeyUsage('Decipher only')" #decipheronlycb>Decipher only</mat-checkbox>
+                    </div>
+                    <div class="column">
+                        <h2>Extended Key Usage</h2>
+                        <mat-checkbox (change)="checkExtendedKeyUsage('Server Authentication')" [checked]="chosenTemplate === 'SSL/TSL Certificate'">Server Authentication</mat-checkbox>
+                        <mat-checkbox (change)="checkExtendedKeyUsage('ClientAuthentication')" [checked]="chosenTemplate === 'SSL/TSL Certificate'">Client Authentication</mat-checkbox>
+                        <mat-checkbox (change)="checkExtendedKeyUsage('Code Signing')" [checked]="chosenTemplate === 'Code Signing Certificate'">Code Signing</mat-checkbox>
+                        <mat-checkbox (change)="checkExtendedKeyUsage('Email Protection')">Email Protection</mat-checkbox>
+                        <mat-checkbox (change)="checkExtendedKeyUsage('Time Stamping')">Time Stamping</mat-checkbox>
+                        <mat-checkbox (change)="checkExtendedKeyUsage('TSL Signing')">TSL Signing</mat-checkbox>
+                    </div>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="row"><h2>Templates</h2><br/></div>
-                <mat-radio-group aria-labelledby="example-radio-group-label"
-                class="example-radio-group"
-                [(ngModel)]="chosenTemplate">
-                    <mat-radio-button class="example-radio-button" *ngFor="let template of templates" [value]="template" (change)="changeTemplate($event)">
-                        {{template}}
-                    </mat-radio-button>
-                </mat-radio-group>
-            </div>
-        </mat-tab>
-      </mat-tab-group>
+    
+                <div class="row">
+                    <div class="row"><h2>Templates</h2><br/></div>
+                    <mat-radio-group aria-labelledby="example-radio-group-label"
+                    class="example-radio-group"
+                    [(ngModel)]="chosenTemplate">
+                        <mat-radio-button class="example-radio-button" *ngFor="let template of templates" [value]="template" (change)="changeTemplate($event)">
+                            {{template}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </mat-tab>
+            <mat-tab label="Expiring period">
+                <div class="row">
+                    <div class="column">
+                        <div class="row">
+                            <div class="row">
+                                <h2>Validity period</h2><br />
+                            </div>
+                            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                                [(ngModel)]="chosenExpiringPeriod">
+                                <mat-radio-button class="example-radio-button" *ngFor="let expiringPeriod of expiringPeriods" [value]="expiringPeriod"
+                                    (change)="changeExpiringPeriod($event)">
+                                    {{expiringPeriod}}
+                                </mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+          </mat-tab-group>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button mat-dialog-close>Close</button>
+        <button mat-button (click)="acceptCSR()">Accept</button>
+      </div>
 </div>
-<div mat-dialog-actions>
-    <button mat-button mat-dialog-close>Close</button>
-    <button mat-button (click)="acceptCSR()">Accept</button>
-  </div>

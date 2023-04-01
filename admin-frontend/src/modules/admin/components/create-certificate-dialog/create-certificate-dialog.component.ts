@@ -20,6 +20,8 @@ export class CreateCertificateDialogComponent implements OnInit {
   keyUsages = [];
   extendedKeyUsages = [];
   templates = ['Code Signing Certificate', 'SSL/TSL Certificate', 'Custom'];
+  expiringPeriods = ['6 months', '12 months', '24 months'];
+  chosenExpiringPeriod = '';
   chosenTemplate = 'Custom';
   certificateSubscription: Subscription;
 
@@ -117,12 +119,14 @@ export class CreateCertificateDialogComponent implements OnInit {
   acceptCSR(){
     if(this.keyUsages.length === 0 || this.extendedKeyUsages.length === 0){
       this.toast.error("You must select any extension.", "Empty extensions")
-    }
-    else{
+    } else if (this.chosenExpiringPeriod === '') {
+      this.toast.error("You must select validity period.", "Validity period")
+    } else{
       const csrRequest = {
         csrId: this.request.id,
         keyUsages: this.keyUsages,
-        extendedKeyUsages: this.extendedKeyUsages
+        extendedKeyUsages: this.extendedKeyUsages,
+        validityPeriod: this.chosenExpiringPeriod.split(' ')[0]
       }
       console.log(csrRequest);
       this.certificateSubscription = this.certificateService.createLeafCertificate(csrRequest).subscribe(response => {
@@ -159,6 +163,10 @@ export class CreateCertificateDialogComponent implements OnInit {
       this.extendedKeyUsages.push('Server Authentication');
       this.extendedKeyUsages.push('Client Authentication');
     }
+  }
+
+  changeExpiringPeriod(event: MatRadioChange) {
+    this.chosenExpiringPeriod = event.value;
   }
 
   uncheckAll() {
