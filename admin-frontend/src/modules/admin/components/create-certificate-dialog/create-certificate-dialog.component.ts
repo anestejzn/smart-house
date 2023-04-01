@@ -16,6 +16,7 @@ export class CreateCertificateDialogComponent implements OnInit {
   @ViewChild('keyagreementcb') private keyagreementcb: MatCheckbox;
   @ViewChild('encipheronlycb') private encipheronlycb: MatCheckbox;
   @ViewChild('decipheronlycb') private decipheronlycb: MatCheckbox;
+  @ViewChild('digitalSignatureCb') private digitalSignatureCb: MatCheckbox;
   @ViewChildren(MatCheckbox) checkboxes: QueryList<MatCheckbox>;
   keyUsages = [];
   extendedKeyUsages = [];
@@ -24,7 +25,6 @@ export class CreateCertificateDialogComponent implements OnInit {
   certificateSubscription: Subscription;
 
   constructor(@Inject(MAT_DIALOG_DATA) public request: Csr, private toast: ToastrService,  private dialogRef: MatDialogRef<CreateCertificateDialogComponent>, private certificateService: CertificateService) {
-    console.log(request);
    }
 
   ngOnInit(): void {
@@ -45,7 +45,6 @@ export class CreateCertificateDialogComponent implements OnInit {
         this.keyUsages.push(keyUsage);
       }
     }
-    console.log(this.keyUsages);
   }
 
   checkKeyAgreement(keyUsage: string){
@@ -111,7 +110,6 @@ export class CreateCertificateDialogComponent implements OnInit {
     else{
       this.extendedKeyUsages.push(extendedKeyUsage);
     }
-    console.log(this.extendedKeyUsages);
   }
 
   acceptCSR(){
@@ -124,9 +122,7 @@ export class CreateCertificateDialogComponent implements OnInit {
         keyUsages: this.keyUsages,
         extendedKeyUsages: this.extendedKeyUsages
       }
-      console.log(csrRequest);
       this.certificateSubscription = this.certificateService.createLeafCertificate(csrRequest).subscribe(response => {
-        console.log(response);
         this.dialogRef.close(true);
       },
       error => {
@@ -138,6 +134,7 @@ export class CreateCertificateDialogComponent implements OnInit {
   }
 
   changeTemplate(event:  MatRadioChange){
+    this.chosenTemplate = event.value;
     if(event.value === 'Custom'){
       this.keyUsages.splice(0, this.keyUsages.length);
       this.extendedKeyUsages.splice(0, this.extendedKeyUsages.length);
@@ -147,6 +144,7 @@ export class CreateCertificateDialogComponent implements OnInit {
       this.keyUsages = [];
       this.extendedKeyUsages = [];
       this.uncheckAll();
+      this.digitalSignatureCb.checked = true;
       this.keyUsages.push('Digital Signature');
       this.extendedKeyUsages.push('Code Signing');
     }
@@ -154,6 +152,7 @@ export class CreateCertificateDialogComponent implements OnInit {
       this.keyUsages = [];
       this.extendedKeyUsages = [];
       this.uncheckAll();
+      this.digitalSignatureCb.checked = true;
       this.keyUsages.push('Digital Signature');
       this.keyUsages.push('Key Encipherment');
       this.extendedKeyUsages.push('Server Authentication');
@@ -165,6 +164,13 @@ export class CreateCertificateDialogComponent implements OnInit {
     this.checkboxes.forEach((checkbox) => {
       checkbox.checked = false;
     });
+  }
+
+  isCheckedDS(){
+    if(this.chosenTemplate === 'Custom'){
+      return false;
+    }
+    return true;
   }
 
 
