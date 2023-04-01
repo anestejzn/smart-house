@@ -120,7 +120,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
               response => {
                 this.showSpiner = false;
                 this.toast.success(
-                  'Please go to ' + response.email + ' to verify account!',
+                  'Please go to your email to verify account!',
                   'Registration successfully'
                 );
                 this.router.navigate([`/login`]);

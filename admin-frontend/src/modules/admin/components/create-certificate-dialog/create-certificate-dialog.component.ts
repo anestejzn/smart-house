@@ -6,6 +6,7 @@ import { CertificateService } from '../../service/certificate-service/certificat
 import { Subscription } from 'rxjs';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatRadioChange } from '@angular/material/radio';
+import { CertificateRequest } from '../../model/certificate-request';
 
 @Component({
   selector: 'app-create-certificate-dialog',
@@ -21,7 +22,11 @@ export class CreateCertificateDialogComponent implements OnInit {
   keyUsages = [];
   extendedKeyUsages = [];
   templates = ['Code Signing Certificate', 'SSL/TSL Certificate', 'Custom'];
+  expiringPeriods = ['6 months', '12 months', '24 months'];
+  intermediates = ['intermediate1', 'intermediate2'];
+  chosenExpiringPeriod = '6 months';
   chosenTemplate = 'Custom';
+  chosenIntermediate = 'intermediate1';
   certificateSubscription: Subscription;
 
   constructor(@Inject(MAT_DIALOG_DATA) public request: Csr, private toast: ToastrService,  private dialogRef: MatDialogRef<CreateCertificateDialogComponent>, private certificateService: CertificateService) {
@@ -115,14 +120,17 @@ export class CreateCertificateDialogComponent implements OnInit {
   acceptCSR(){
     if(this.keyUsages.length === 0 || this.extendedKeyUsages.length === 0){
       this.toast.error("You must select any extension.", "Empty extensions")
-    }
-    else{
-      const csrRequest = {
+    } else if (this.chosenExpiringPeriod === '') {
+      this.toast.error("You must select validity period.", "Validity period")
+    } else{
+      const certificateRequest: CertificateRequest = {
         csrId: this.request.id,
         keyUsages: this.keyUsages,
-        extendedKeyUsages: this.extendedKeyUsages
+        extendedKeyUsages: this.extendedKeyUsages,
+        validityPeriod: this.chosenExpiringPeriod.split(' ')[0],
+        intermediateAlias: this.chosenIntermediate
       }
-      this.certificateSubscription = this.certificateService.createLeafCertificate(csrRequest).subscribe(response => {
+      this.certificateSubscription = this.certificateService.createLeafCertificate(certificateRequest).subscribe(response => {
         this.dialogRef.close(true);
       },
       error => {
@@ -158,6 +166,10 @@ export class CreateCertificateDialogComponent implements OnInit {
       this.extendedKeyUsages.push('Server Authentication');
       this.extendedKeyUsages.push('Client Authentication');
     }
+  }
+
+  changeExpiringPeriod(event: MatRadioChange) {
+    this.chosenExpiringPeriod = event.value;
   }
 
   uncheckAll() {
