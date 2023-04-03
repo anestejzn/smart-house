@@ -18,7 +18,7 @@
     </p>
 
     <div *ngIf="certificates.length === 2">
-        <h2>Intermediate certificate</h2>
+        <h2>{{certificates[1].alias}} certificate</h2>
         <p class="title">Issued To</p>
         <p class="data-p">
             <span>Comon Name (CN) {{certificates[1].issuedToCN}}</span>
