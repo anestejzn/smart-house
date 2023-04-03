@@ -41,16 +41,13 @@ export class CertificateDetailsDialogComponent implements OnInit, OnDestroy {
   }
 
   selectCertificates(): void {
-    if (this.certificates.length > 2) {
-      this.mainCertificate = this.certificates[2];
-      this.detailsCertificates.push(this.certificates[0]);
-      this.detailsCertificates.push(this.certificates[1]);
-    } else if (this.certificates.length === 2) {
-      this.mainCertificate = this.certificates[1];
-      this.detailsCertificates.push(this.certificates[0]);
-    } else {
-      this.mainCertificate = this.certificates[0];
-    }
+    this.certificates.forEach(cert => {
+      if (cert.alias === this.alias.alias)
+        this.mainCertificate = cert;
+      else 
+        this.detailsCertificates.push(cert);
+    });
+    this.detailsCertificates.reverse();
   }
 
   ngOnDestroy(): void {

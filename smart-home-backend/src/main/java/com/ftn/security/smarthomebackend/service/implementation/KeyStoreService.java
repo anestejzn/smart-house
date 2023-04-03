@@ -1,175 +1,170 @@
 package com.ftn.security.smarthomebackend.service.implementation;
 
-import com.ftn.security.smarthomebackend.dto.response.CertificateResponse;
+import com.ftn.security.smarthomebackend.exception.AliasDoesNotExistException;
 import com.ftn.security.smarthomebackend.exception.KeyStoreCertificateException;
+import com.ftn.security.smarthomebackend.exception.KeyStoreMalfunctionedException;
 import com.ftn.security.smarthomebackend.model.IssuerData;
 import com.ftn.security.smarthomebackend.service.interfaces.IKeyStoreService;
+import com.ftn.security.smarthomebackend.util.Constants;
 import jakarta.annotation.PostConstruct;
 import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 import org.springframework.stereotype.Service;
-
 import java.io.*;
 import java.security.*;
 import java.security.cert.*;
 import java.security.cert.Certificate;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Enumeration;
-import java.util.List;
-
+import java.util.*;
 import static com.ftn.security.smarthomebackend.util.Constants.ERROR_WITH_CERTIFICATE_READING;
+import static com.ftn.security.smarthomebackend.util.exception_messages.KeyStoreExceptionMessages.*;
 
 @Service
 public class KeyStoreService implements IKeyStoreService {
 
     private KeyStore keyStore;
-    public final static String ksFilepath = "src/main/resources/keystore/keystore.jks";
-    public final static char[] ksPassword = "kspassword".toCharArray();
+    private final static String KS_FILEPATH = Constants.KEYSTORE_FILEPATH;
+    private final static char[] KS_PASSWORD = Constants.KEYSTORE_PASSWORD.toCharArray();
 
     @PostConstruct
-    private void postConstruct() {
+    private void postConstruct() throws KeyStoreMalfunctionedException {
         try {
             keyStore = KeyStore.getInstance("JKS", "SUN");
-        } catch (KeyStoreException | NoSuchProviderException e) {
-            e.printStackTrace();
+        } catch (KeyStoreException | NoSuchProviderException ignored) {
+            throw new KeyStoreMalfunctionedException(KS_CREATE_INSTANCE_FAILED);
         }
     }
 
     @Override
-    public void createNewKeyStore() {
+    public void createNewKeyStore() throws KeyStoreMalfunctionedException {
         try {
-            keyStore.load(null, ksPassword);
-        } catch (NoSuchAlgorithmException | CertificateException | IOException e) {
-            e.printStackTrace();
+            keyStore.load(null, KS_PASSWORD);
+        } catch (NoSuchAlgorithmException | CertificateException | IOException ignored) {
+            throw new KeyStoreMalfunctionedException(KS_LOAD_FAILED);
         }
     }
 
     @Override
-    public KeyPair generateKeyPair() {
+    public void loadKeyStore() throws KeyStoreMalfunctionedException {
         try {
-            KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-            SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
-            keyGen.initialize(2048, random);
-            return keyGen.generateKeyPair();
-        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
-            e.printStackTrace();
+            keyStore.load(new BufferedInputStream(new FileInputStream(KS_FILEPATH)), KS_PASSWORD);
+        } catch (NoSuchAlgorithmException | CertificateException | IOException ignored) {
+            throw new KeyStoreMalfunctionedException(KS_LOAD_FAILED);
         }
-        return null;
     }
 
     @Override
-    public void loadKeyStore() {
+    public void saveKeyStore() throws KeyStoreMalfunctionedException {
         try {
-            keyStore.load(new FileInputStream(ksFilepath), ksPassword);
-        } catch (NoSuchAlgorithmException | CertificateException | IOException e) {
-            e.printStackTrace();
+            keyStore.store(new FileOutputStream(KS_FILEPATH), KS_PASSWORD);
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException ignored) {
+            throw new KeyStoreMalfunctionedException(KS_SAVE_FAILED);
         }
     }
 
     @Override
-    public void write(String alias, PrivateKey privateKey, char[] aliasPass, Certificate certificate) {
+    public void saveCertificate(final String alias, final PrivateKey privateKey, final char[] aliasPass, final Certificate certificate) throws KeyStoreMalfunctionedException {
         try {
             keyStore.setKeyEntry(alias, privateKey, aliasPass, new Certificate[]{certificate});
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
+        } catch (KeyStoreException ignored) {
+            throw new KeyStoreMalfunctionedException(KS_CERT_SAVE_FAILED);
         }
     }
 
     @Override
-    public void saveKeyStore() {
+    public KeyPair generateKeyPair() throws KeyStoreMalfunctionedException {
         try {
-            keyStore.store(new FileOutputStream(ksFilepath), ksPassword);
-        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException e) {
-            e.printStackTrace();
+            KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+            keyGen.initialize(2048, SecureRandom.getInstance("SHA1PRNG", "SUN"));
+            return keyGen.generateKeyPair();
+        } catch (NoSuchAlgorithmException | NoSuchProviderException ignored) {
+            throw new KeyStoreMalfunctionedException(KEY_PAIR_CREATION_FAILED);
         }
     }
 
     @Override
-    public IssuerData readIssuerFromStore(String alias, char[] keyPass) {
+    public PrivateKey getPrivateKeyByAlias(final String alias) throws KeyStoreMalfunctionedException {
         try {
-            BufferedInputStream in = new BufferedInputStream(new FileInputStream(ksFilepath));
-            keyStore.load(in, ksPassword);
-
-            Certificate cert = keyStore.getCertificate(alias);
-
-            PrivateKey privKey = (PrivateKey) keyStore.getKey(alias, keyPass);
-
-            X500Name issuerName = new JcaX509CertificateHolder((X509Certificate) cert).getSubject();
-            return new IssuerData(issuerName, privKey);
-        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException |
-                 UnrecoverableKeyException | IOException e) {
-            e.printStackTrace();
+            return (PrivateKey) keyStore.getKey(alias, alias.toCharArray());
+        } catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException ignored) {
+            throw new KeyStoreMalfunctionedException(KS_KEY_FETCH_FAILED);
         }
-        return null;
     }
 
     @Override
-    public Certificate readCertificate(String alias) {
-        try {
-            BufferedInputStream in = new BufferedInputStream(new FileInputStream(ksFilepath));
-            keyStore.load(in, ksPassword);
-
-
-            if (keyStore.isKeyEntry(alias)) {
-                return keyStore.getCertificate(alias);
-            }
-        } catch (KeyStoreException | NoSuchAlgorithmException |
-                 CertificateException | IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public boolean containsAlias(String alias) {
-        try {
-            keyStore.load(new BufferedInputStream(new FileInputStream(ksFilepath)), ksPassword);
-            return keyStore.containsAlias(alias);
-        } catch (IOException | NoSuchAlgorithmException | CertificateException | KeyStoreException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    @Override
-    public Long generateNextSerialNumber() throws KeyStoreCertificateException {
-        Enumeration<String> en = loadAliases();
-        List<String> temp = new ArrayList<>();
-
-        while(en.hasMoreElements())
-            temp.add(en.nextElement());
-
-        return (long) (temp.size() + 1);
-    }
-
-    @Override
-    public List<String> getAliases() throws KeyStoreCertificateException {
-        Enumeration<String> currentAliases = loadAliases();
-        List<String> aliases = new ArrayList<>();
-
-        while(currentAliases.hasMoreElements())
-            aliases.add(currentAliases.nextElement());
-
-        return aliases;
-    }
-
-    @Override
-    public List<CertificateResponse> readCertificateChain(String alias)
-            throws KeyStoreCertificateException
-    {
+    public IssuerData getIssuerBySubjAlias(final String alias) throws KeyStoreMalfunctionedException {
         try {
             loadKeyStore();
-
-            return extractCertificateChainByType(alias);
-        } catch (KeyStoreException |
-                CertificateException e) {
-            throw new KeyStoreCertificateException(ERROR_WITH_CERTIFICATE_READING);
+            return new IssuerData(
+                    new JcaX509CertificateHolder((X509Certificate) keyStore.getCertificate(alias)).getSubject(),
+                    getPrivateKeyByAlias(alias)
+            );
+        } catch (KeyStoreException | CertificateException ignored) {
+            throw new KeyStoreMalfunctionedException(KS_FETCH_ISSUER_FAILED);
         }
     }
 
     @Override
-    public String generateKeyStoreRepresentationOfCertificate(String alias) throws  KeyStoreCertificateException {
+    public Certificate getCertificateByAlias(final String alias) throws KeyStoreMalfunctionedException, AliasDoesNotExistException {
+        try {
+            loadKeyStore();
+            if (keyStore.isKeyEntry(alias))
+                return keyStore.getCertificate(alias);
+            else
+                throw new AliasDoesNotExistException(ALIAS_DOES_NOT_EXIST);
+        } catch (KeyStoreException ignored) {
+            throw new KeyStoreMalfunctionedException(KS_FETCH_CERT_FAILED);
+        }
+    }
+
+    @Override
+    public boolean containsAlias(final String alias) throws KeyStoreMalfunctionedException {
+        try {
+            loadKeyStore();
+            return keyStore.containsAlias(alias);
+        } catch (KeyStoreException e) {
+            throw new KeyStoreMalfunctionedException(KS_HAS_NOT_BEEN_LOADED);
+        }
+    }
+
+    @Override
+    public Long generateNextSerialNumber() throws KeyStoreMalfunctionedException {
+        return getAllAliases().size() + 1L;
+    }
+
+    @Override
+    public List<String> getAllAliases() throws KeyStoreMalfunctionedException {
+        try {
+            loadKeyStore();
+            return Collections.list(keyStore.aliases());
+        } catch (KeyStoreException e)  {
+            throw new KeyStoreMalfunctionedException(KS_HAS_NOT_BEEN_LOADED);
+        }
+    }
+
+    @Override
+    public List<X509Certificate> getCertificateChainByAlias(final String alias) throws KeyStoreCertificateException, KeyStoreMalfunctionedException {
+        List<X509Certificate> chain = new ArrayList<>();
+        try {
+            loadKeyStore();
+            if (keyStore.isKeyEntry(alias)) {
+                X509Certificate cert = (X509Certificate) keyStore.getCertificate(alias);
+                String certAlias = getAliasFromX500Name(cert.getSubjectX500Principal().getName());
+                while (!certAlias.equalsIgnoreCase("root")) {
+                    chain.add(cert);
+                    certAlias = getAliasFromX500Name(cert.getIssuerX500Principal().getName());
+                    cert = (X509Certificate) keyStore.getCertificate(certAlias);
+                }
+                chain.add(cert);
+            }
+        } catch (KeyStoreException e) {
+            throw new KeyStoreCertificateException(ERROR_WITH_CERTIFICATE_READING);
+        }
+        return chain;
+    }
+
+    @Override
+    public String generateKeyStoreRepresentationOfCertificate(String alias) throws KeyStoreCertificateException, KeyStoreMalfunctionedException {
         try {
             loadKeyStore();
             Certificate certificate = keyStore.getCertificate(alias);
@@ -192,41 +187,10 @@ public class KeyStoreService implements IKeyStoreService {
         }
     }
 
-    private List<CertificateResponse> extractCertificateChainByType(String alias)
-            throws KeyStoreException, CertificateParsingException {
-        List<Certificate> listOfCertificates = new ArrayList<>();
-
-        if (keyStore.isKeyEntry(alias)) {
-            if (alias.equals("root")) {
-                listOfCertificates.add(keyStore.getCertificate(alias));
-            } else if (alias.equals("intermediate")) {
-                listOfCertificates.add(keyStore.getCertificate("root"));
-                listOfCertificates.add(keyStore.getCertificate(alias));
-            } else {
-                listOfCertificates.add(keyStore.getCertificate("root"));
-                listOfCertificates.add(keyStore.getCertificate("intermediate"));
-                listOfCertificates.add(keyStore.getCertificate(alias));
-            }
-
-            List<CertificateResponse> certs = new ArrayList<>();
-            for (Certificate c : listOfCertificates)
-                certs.add(new CertificateResponse((X509Certificate) c));
-
-            return certs;
-        }
-
-        return null;
+    private String getAliasFromX500Name(String x500Name) {
+        return String.valueOf(
+                new X500Name(x500Name).getRDNs(BCStyle.UID)[0].getTypesAndValues()[0].getValue()
+        );
     }
 
-    private Enumeration<String> loadAliases() throws KeyStoreCertificateException {
-        try {
-            BufferedInputStream in = new BufferedInputStream(new FileInputStream(ksFilepath));
-            keyStore.load(in, ksPassword);
-
-            return keyStore.aliases();
-        } catch (KeyStoreException | NoSuchAlgorithmException |
-                CertificateException | IOException e) {
-            throw new KeyStoreCertificateException(ERROR_WITH_CERTIFICATE_READING);
-        }
-    }
 }

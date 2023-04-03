@@ -10,5 +10,6 @@ public class ErrorMessageConstants {
                     "At least one number and one special character.";
     public static final String WRONG_VERIFY_HASH = "Verify hash must be added.";
     public static final String NULL_VALUE = "Attribute must not be empty.";
+    public static final String EMPTY_STRING = "String attribute must not be empty";
 
 }

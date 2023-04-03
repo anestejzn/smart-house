@@ -35,10 +35,9 @@ import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
+import javax.security.auth.x500.X500Principal;
 import java.io.*;
 import java.math.BigInteger;
 import java.security.*;
@@ -47,8 +46,9 @@ import java.security.cert.Certificate;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
+
+import static com.ftn.security.smarthomebackend.util.CertificateConstants.ROOT_CERT_ALIAS;
 
 @Service
 public class CertificateService implements ICertificateService {
@@ -75,30 +75,32 @@ public class CertificateService implements ICertificateService {
     }
 
     @Override
-    public void createAndSaveLeafCertificate(NewCertificateRequest certificateRequest)
-            throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException, InvalidKeyUsagesComboException, CertificateParsingException, CertificateEncodingException, KeyStoreException, MailCannotBeSentException, MessagingException, IOException {
-        CSR csr = csrService.getById(certificateRequest.getCsrId());
+    public void createAndSaveLeafCertificate(NewCertificateRequest certReq)
+            throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException, InvalidKeyUsagesComboException, CertificateParsingException, CertificateEncodingException, KeyStoreException, MailCannotBeSentException, MessagingException, IOException, KeyStoreMalfunctionedException, AliasDoesNotExistException {
+        CSR csr = csrService.getById(certReq.getCsrId());
 
         if (keyStoreService.containsAlias(csr.getUser().getEmail()))
             throw new AliasAlreadyExistsException("Alias already exists!");
 
-        IssuerData issuerData = keyStoreService.readIssuerFromStore("intermediate", "intermediate".toCharArray());
-        X509Certificate cert = (X509Certificate) keyStoreService.readCertificate("intermediate");
+        IssuerData issuerData = keyStoreService.getIssuerBySubjAlias(certReq.getIntermediateAlias());
+        X509Certificate cert = (X509Certificate) keyStoreService.getCertificateByAlias(certReq.getIntermediateAlias());
         KeyPair keyPairIssuer = new KeyPair(cert.getPublicKey(), issuerData.getPrivateKey());
 
         KeyPair keyPairSubject = keyStoreService.generateKeyPair();
-        X500Name x500NameSubject = generateX500Name(csr);
-        String startDate = LocalDate.now().toString();
-        String endDate = LocalDate.now().plusYears(1).toString();
-        String sn = keyStoreService.generateNextSerialNumber().toString();
-        SubjectData subjectData = generateSubjectDataFromX500Name(x500NameSubject, keyPairSubject, startDate, endDate, sn);
+        SubjectData subjectData = generateSubjectDataFromX500Name(
+                generateX500Name(csr),
+                keyPairSubject,
+                LocalDate.now().toString(),
+                LocalDate.now().plusMonths(Long.parseLong(certReq.getValidityPeriod())).toString(),
+                keyStoreService.generateNextSerialNumber().toString()
+        );
 
         assert subjectData != null;
-        X509Certificate subjectCert = createNewLeafCertificate(subjectData, issuerData, keyPairIssuer.getPublic(), certificateRequest);
+        X509Certificate subjectCert = createNewLeafCertificate(subjectData, issuerData, keyPairIssuer.getPublic(), certReq);
 
         keyStoreService.loadKeyStore();
         String alias = csr.getUser().getEmail();
-        keyStoreService.write(alias, keyPairSubject.getPrivate(), alias.toCharArray(), subjectCert);
+        keyStoreService.saveCertificate(alias, keyPairSubject.getPrivate(), alias.toCharArray(), subjectCert);
         keyStoreService.saveKeyStore();
 
         User user = csr.getUser();
@@ -109,7 +111,7 @@ public class CertificateService implements ICertificateService {
         csrService.deleteById(csr.getId());
     }
 
-    private void sendEmailWithCertificate(String email) throws CertificateParsingException, CertificateEncodingException, KeyStoreException, MailCannotBeSentException, KeyStoreCertificateException, IOException, MessagingException {
+    private void sendEmailWithCertificate(String email) throws CertificateParsingException, CertificateEncodingException, KeyStoreException, MailCannotBeSentException, KeyStoreCertificateException, IOException, MessagingException, KeyStoreMalfunctionedException {
         String keyStoreRepresentation = keyStoreService.generateKeyStoreRepresentationOfCertificate(email);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         OutputStreamWriter writer = new OutputStreamWriter(outputStream);
@@ -122,32 +124,25 @@ public class CertificateService implements ICertificateService {
         emailService.sendEmailWithCertificate(file);
     }
 
-
     @Override
     public List<SortedAliasesResponse> getAliases(CertificateSortType type, CertificateValidityType validity)
-            throws KeyStoreCertificateException, EntityNotFoundException {
+            throws KeyStoreCertificateException, CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, InvalidCertificateException, KeyStoreMalfunctionedException {
         List<String> aliases = sortByType(type);
-
         return sortByValidity(validity, aliases);
     }
 
-    private List<SortedAliasesResponse> sortByValidity(CertificateValidityType validity, List<String> aliases)
-            throws EntityNotFoundException
-    {
+    private List<SortedAliasesResponse> sortByValidity(CertificateValidityType validity, List<String> aliases) throws KeyStoreCertificateException, CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, InvalidCertificateException, KeyStoreMalfunctionedException {
+        boolean requiredValidity = validity == CertificateValidityType.VALID;
+
         List<SortedAliasesResponse> sortedAliases = new ArrayList<>();
-        boolean valid = validity == CertificateValidityType.VALID;
-
-        for (String alias : aliases) {
-           if (validateCertificate(alias) == valid) {
-               sortedAliases.add(new SortedAliasesResponse(alias, valid));
-           }
-        }
-
+        for (String alias : aliases)
+            if (isCertificateChainValid(keyStoreService.getCertificateChainByAlias(alias)) == requiredValidity)
+                sortedAliases.add(new SortedAliasesResponse(alias, requiredValidity));
         return sortedAliases;
     }
 
-    private List<String> sortByType(CertificateSortType type) throws KeyStoreCertificateException {
-        List<String> allAliases = keyStoreService.getAliases();
+    private List<String> sortByType(CertificateSortType type) throws KeyStoreCertificateException, KeyStoreMalfunctionedException {
+        List<String> allAliases = keyStoreService.getAllAliases();
         switch (type) {
             case ALL -> {
                 return allAliases;
@@ -156,41 +151,41 @@ public class CertificateService implements ICertificateService {
                 return allAliases.stream().filter(name -> name.equalsIgnoreCase("root")).toList();
             }
             case INTERMEDIATE -> {
-                return allAliases.stream().filter(name -> name.equalsIgnoreCase("intermediate")).toList();
+                return allAliases.stream().filter(
+                                    name -> name.equalsIgnoreCase("intermediate1") ||
+                                            name.equalsIgnoreCase("intermediate2")
+                            ).toList();
             }
             default -> {
-                return allAliases.stream().filter(name -> !(name.equalsIgnoreCase("intermediate") || name.equalsIgnoreCase("root"))).toList();
+                return allAliases.stream().filter(
+                        name -> !name.equalsIgnoreCase("intermediate1") &&
+                                !name.equalsIgnoreCase("intermediate2") &&
+                                !name.equalsIgnoreCase("root")
+                ).toList();
             }
         }
     }
 
     @Override
-    public List<CertificateResponse> getCertificateByAlias(String alias)
-            throws KeyStoreCertificateException, EntityNotFoundException
-    {
-        List<CertificateResponse> certificates = keyStoreService.readCertificateChain(alias);
-        for (CertificateResponse cr : certificates) {
-            cr.setValid(validateCertificate(cr.getAlias()));
-        }
-
-        return certificates;
+    public List<CertificateResponse> getCertificateByAlias(String alias) throws KeyStoreCertificateException, CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, InvalidCertificateException, KeyStoreMalfunctionedException {
+        List<X509Certificate> certificates = keyStoreService.getCertificateChainByAlias(alias);
+        isCertificateChainValid(certificates);
+        return certificates.stream().map((c) -> new CertificateResponse(c, true)).toList();
     }
 
-    public boolean cancelCertificate(String alias, String reason) throws EntityNotFoundException, AliasAlreadyExistsException {
-        if(!keyStoreService.containsAlias(alias)){
+    public boolean cancelCertificate(String alias, String reason) throws EntityNotFoundException, AliasDoesNotExistException, KeyStoreMalfunctionedException {
+        if (!keyStoreService.containsAlias(alias))
             throw new EntityNotFoundException(alias, EntityType.CERTIFICATE);
-        }
 
         cancelCertificateService.cancelCertificate(alias, reason);
-
         return true;
     }
 
     @Override
-    public void createAndSaveRootCertificate() {
+    public void createAndSaveRootCertificate() throws KeyStoreMalfunctionedException {
         KeyPair keyPairRoot = keyStoreService.generateKeyPair();
         X500Name x500Name = generateRootX500Name();
-        IssuerData issuerData =  new IssuerData(x500Name, keyPairRoot.getPrivate());
+        IssuerData issuerData = new IssuerData(x500Name, keyPairRoot.getPrivate());
         SubjectData subjectData = generateSubjectDataFromX500Name(
                 x500Name, keyPairRoot, "2023-03-25", "2027-12-31", "1"
         );
@@ -198,99 +193,59 @@ public class CertificateService implements ICertificateService {
         Certificate cert = createNewCertificate(subjectData, issuerData, keyPairRoot.getPublic());
 
         keyStoreService.createNewKeyStore();
-        keyStoreService.write("root", issuerData.getPrivateKey(), "root".toCharArray(), cert);
+        keyStoreService.saveCertificate(ROOT_CERT_ALIAS, issuerData.getPrivateKey(), ROOT_CERT_ALIAS.toCharArray(), cert);
         keyStoreService.saveKeyStore();
     }
 
     @Override
-    public void createAndSaveIntermediateCertificate() {
-        IssuerData issuerData = keyStoreService.readIssuerFromStore("root", "root".toCharArray());
-        X509Certificate cert = (X509Certificate) keyStoreService.readCertificate("root");
+    public void createAndSaveIntermediateCertificate(final String alias) throws KeyStoreMalfunctionedException, AliasDoesNotExistException {
+        IssuerData issuerData = keyStoreService.getIssuerBySubjAlias(ROOT_CERT_ALIAS);
+        X509Certificate cert = (X509Certificate) keyStoreService.getCertificateByAlias(ROOT_CERT_ALIAS);
         KeyPair keyPairIssuer = new KeyPair(cert.getPublicKey(), issuerData.getPrivateKey());
 
         KeyPair keyPairSubject = keyStoreService.generateKeyPair();
-        X500Name x500NameSubject = generateIntermediateX500Name();
+        X500Name x500NameSubject = generateIntermediateX500Name(alias);
         SubjectData subjectData = generateSubjectDataFromX500Name(x500NameSubject, keyPairSubject, "2023-03-25", "2025-12-31", "2");
         X509Certificate subjectCert = createNewCertificate(subjectData, issuerData, keyPairIssuer.getPublic());
 
-        System.out.println("\n===== Podaci o izdavacu sertifikata =====");
-        System.out.println(subjectCert.getIssuerX500Principal().getName());
-        System.out.println("\n===== Podaci o vlasniku sertifikata =====");
-        System.out.println(subjectCert.getSubjectX500Principal().getName());
-        System.out.println("\n===== Sertifikat =====");
-        System.out.println("-------------------------------------------------------");
-        System.out.println(subjectCert);
-        System.out.println("-------------------------------------------------------");
-
         try {
             subjectCert.verify(keyPairIssuer.getPublic());
-            System.out.println("\nValidacija uspesna :)");
-        } catch (CertificateException | NoSuchAlgorithmException | InvalidKeyException | NoSuchProviderException | SignatureException e) {
-            System.out.println("\nValidacija neuspesna :(");
+        } catch (CertificateException | NoSuchAlgorithmException | InvalidKeyException | NoSuchProviderException |
+                 SignatureException e) {
             e.printStackTrace();
         }
 
         keyStoreService.loadKeyStore();
-        keyStoreService.write("intermediate", keyPairSubject.getPrivate(), "intermediate".toCharArray(), subjectCert);
+        keyStoreService.saveCertificate(alias, keyPairSubject.getPrivate(), alias.toCharArray(), subjectCert);
         keyStoreService.saveKeyStore();
     }
 
-    @Override
-    public boolean validateCertificate(String alias) throws EntityNotFoundException
-    {
-        if (!keyStoreService.containsAlias(alias)) throw new EntityNotFoundException(alias, EntityType.CERTIFICATE);
+    private String getAliasFromCertificate(X509Certificate cert) {
+        return String.valueOf(
+                new X500Name(cert.getSubjectX500Principal().getName())
+                        .getRDNs(BCStyle.UID)[0].getTypesAndValues()[0].getValue()
+        );
+    }
 
-        try {
-            if(alias.equals("root")) validateRootCertificate(alias);
-            else if(alias.equals("intermediate")) validateIntermediateCertificate(alias);
-            else validateLeafCertificate(alias);
-        } catch (CertificateException | NoSuchAlgorithmException | SignatureException |
-                InvalidKeyException | NoSuchProviderException | InvalidCertificateException e) {
-            return false;
+    private boolean isCertificateChainValid(List<X509Certificate> certChain) throws InvalidCertificateException, CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException {
+        X509Certificate leftToVerify = null;
+        for (X509Certificate cert : certChain) {
+            String certAlias = getAliasFromCertificate(cert);
+
+            if (certAlias.equals(ROOT_CERT_ALIAS))
+                cert.verify(cert.getPublicKey());
+            else if (leftToVerify != null)
+                leftToVerify.verify(cert.getPublicKey());
+
+            if (cancelCertificateService.mostRecentCancelledAliasExists(certAlias))
+                return false;
+
+            if (cert.getNotAfter().before(new Date()))
+                return false;
+
+            leftToVerify = cert;
         }
-
         return true;
-    }
-
-    private void validateLeafCertificate(String alias)
-            throws CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, EntityNotFoundException, InvalidCertificateException
-    {
-        validateRootCertificate("root");
-        PublicKey intermediatePKey = validateIntermediateCertificate("intermediate");
-        X509Certificate leafCert = (X509Certificate) keyStoreService.readCertificate(alias);
-        validateCertificate(leafCert, intermediatePKey, alias);
-    }
-
-    private PublicKey validateIntermediateCertificate(String alias)
-            throws CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, EntityNotFoundException, InvalidCertificateException
-    {
-        PublicKey rootPKey = validateRootCertificate("root");
-        X509Certificate intermediateCert = (X509Certificate) keyStoreService.readCertificate(alias);
-        validateCertificate(intermediateCert, rootPKey, alias);
-        return intermediateCert.getPublicKey();
-    }
-
-    private PublicKey validateRootCertificate(String alias)
-            throws CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, EntityNotFoundException, InvalidCertificateException
-    {
-        X509Certificate rootCert = (X509Certificate) keyStoreService.readCertificate(alias);
-        validateCertificate(rootCert, rootCert.getPublicKey(), alias);
-        return rootCert.getPublicKey();
-    }
-
-    private void validateCertificate(X509Certificate certificate, PublicKey publicKey, String alias)
-            throws CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, EntityNotFoundException, InvalidCertificateException
-    {
-        if(cancelCertificateService.mostRecentCancelledAliasExists(alias))
-            throw new InvalidCertificateException(alias);
-
-        LocalDate validFrom = certificate.getNotBefore().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate validTo = certificate.getNotAfter().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate now = LocalDate.now();
-        if(now.isBefore(validFrom) || now.isAfter(validTo))
-            throw new InvalidCertificateException(alias);
-
-        certificate.verify(publicKey);
     }
 
     private X509Certificate createNewLeafCertificate(SubjectData subjectData, IssuerData issuerData,
@@ -318,7 +273,8 @@ public class CertificateService implements ICertificateService {
             certConverter = certConverter.setProvider("BC");
 
             cert = certConverter.getCertificate(certHolder);
-        } catch (IllegalArgumentException | IllegalStateException | OperatorCreationException | CertificateException e) {
+        } catch (IllegalArgumentException | IllegalStateException | OperatorCreationException |
+                 CertificateException e) {
             e.printStackTrace();
         }
         return cert;
@@ -331,20 +287,20 @@ public class CertificateService implements ICertificateService {
             certGen.addExtension(Extension.authorityKeyIdentifier, false, certExtUtils.createAuthorityKeyIdentifier(issuerPublicKey));
             certGen.addExtension(Extension.subjectKeyIdentifier, false, certExtUtils.createSubjectKeyIdentifier(subjectPublicKey));
             certGen.addExtension(
-                Extension.keyUsage, false,
-                new KeyUsage(
-                    Arrays.stream(certificateRequest.getKeyUsages())
-                        .map(CertificateUtils::mapKeyUsageStrToInt)
-                        .reduce(0, (a, b) -> a | b)
-                )
+                    Extension.keyUsage, false,
+                    new KeyUsage(
+                            Arrays.stream(certificateRequest.getKeyUsages())
+                                    .map(CertificateUtils::mapKeyUsageStrToInt)
+                                    .reduce(0, (a, b) -> a | b)
+                    )
             );
             certGen.addExtension(
-                Extension.extendedKeyUsage, false,
-                new ExtendedKeyUsage(
-                    Arrays.stream(certificateRequest.getExtendedKeyUsages())
-                        .map(CertificateUtils::mapExtendedKeyUsageStrToKeyPurposeId)
-                        .filter(Objects::nonNull).toArray(KeyPurposeId[]::new)
-                )
+                    Extension.extendedKeyUsage, false,
+                    new ExtendedKeyUsage(
+                            Arrays.stream(certificateRequest.getExtendedKeyUsages())
+                                    .map(CertificateUtils::mapExtendedKeyUsageStrToKeyPurposeId)
+                                    .filter(Objects::nonNull).toArray(KeyPurposeId[]::new)
+                    )
             );
         } catch (NoSuchAlgorithmException | CertIOException e) {
             e.printStackTrace();
@@ -352,27 +308,14 @@ public class CertificateService implements ICertificateService {
     }
 
     private X509Certificate createNewCertificate(SubjectData subjectData, IssuerData issuerData, PublicKey issuerPublicKey) {
-
         X509Certificate cert = generateCertificate(subjectData, issuerData, issuerPublicKey);
-
-        System.out.println("\n===== Podaci o izdavacu sertifikata =====");
         assert cert != null;
-        System.out.println(cert.getIssuerX500Principal().getName());
-        System.out.println("\n===== Podaci o vlasniku sertifikata =====");
-        System.out.println(cert.getSubjectX500Principal().getName());
-        System.out.println("\n===== Sertifikat =====");
-        System.out.println("-------------------------------------------------------");
-        System.out.println(cert);
-        System.out.println("-------------------------------------------------------");
-
         try {
             cert.verify(issuerPublicKey);
-            System.out.println("\nValidacija uspesna :)");
-        } catch (CertificateException | NoSuchAlgorithmException | InvalidKeyException | NoSuchProviderException | SignatureException e) {
-            System.out.println("\nValidacija neuspesna :(");
+        } catch (CertificateException | NoSuchAlgorithmException | InvalidKeyException | NoSuchProviderException |
+                 SignatureException e) {
             e.printStackTrace();
         }
-
         return cert;
     }
 
@@ -431,14 +374,14 @@ public class CertificateService implements ICertificateService {
         return builder.build();
     }
 
-    private X500Name generateIntermediateX500Name() {
+    private X500Name generateIntermediateX500Name(String interAlias) {
         X500NameBuilder builder = new X500NameBuilder(BCStyle.INSTANCE);
         builder.addRDN(BCStyle.CN, "Admin");
         builder.addRDN(BCStyle.O, "SmartHomeCert");
         builder.addRDN(BCStyle.OU, "IT Department");
         builder.addRDN(BCStyle.C, "RS");
-        builder.addRDN(BCStyle.E, "intermediate@maildrop.cc");
-        builder.addRDN(BCStyle.UID, "intermediate");
+        builder.addRDN(BCStyle.E, interAlias + "@maildrop.cc");
+        builder.addRDN(BCStyle.UID, interAlias);
         return builder.build();
     }
 

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.ftn.security.smarthomebackend.dto.response.CsrResponse.transformToResponse;
-import static com.ftn.security.smarthomebackend.utils.CsrConstants.*;
+import static com.ftn.security.smarthomebackend.util.CsrConstants.*;
 
 @Service
 public class CsrService implements ICsrService {

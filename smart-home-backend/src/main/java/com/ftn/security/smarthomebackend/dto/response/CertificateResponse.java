@@ -7,13 +7,11 @@ import lombok.Setter;
 import org.bouncycastle.asn1.DEROctetString;
 import org.bouncycastle.asn1.x500.RDN;
 import org.bouncycastle.asn1.x500.X500Name;
-import org.bouncycastle.asn1.x500.X500NameStyle;
 import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.asn1.x500.style.IETFUtils;
 import org.bouncycastle.asn1.x509.AuthorityKeyIdentifier;
 import org.bouncycastle.asn1.x509.SubjectKeyIdentifier;
 import org.bouncycastle.util.encoders.Hex;
-
 import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
 import java.text.DateFormat;
@@ -46,8 +44,9 @@ public class CertificateResponse {
     private String alias;
     private boolean valid;
 
-    public CertificateResponse(X509Certificate certificate) throws CertificateParsingException {
+    public CertificateResponse(X509Certificate certificate, boolean valid) {
         this();
+        this.valid = valid;
         X500Name x500name = new X500Name(certificate.getSubjectX500Principal().getName());
         this.alias = String.valueOf(x500name.getRDNs(BCStyle.UID)[0].getTypesAndValues()[0].getValue());
         extractIssuedToData(x500name);
@@ -56,7 +55,11 @@ public class CertificateResponse {
         extractIssuerData(x500name);
 
         extractDateData(certificate);
-        extractDetailsData(certificate);
+        try {
+            extractDetailsData(certificate);
+        } catch (CertificateParsingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void setKeyUsages(boolean[] list){

@@ -9,18 +9,18 @@ import com.ftn.security.smarthomebackend.exception.*;
 import jakarta.mail.MessagingException;
 
 import java.io.IOException;
-import java.security.KeyStoreException;
+import java.security.*;
 import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
 import java.security.cert.CertificateParsingException;
 import java.util.List;
 
 
 public interface ICertificateService {
-    void createAndSaveRootCertificate();
-    void createAndSaveIntermediateCertificate();
-    void createAndSaveLeafCertificate(NewCertificateRequest certRequest) throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException, InvalidKeyUsagesComboException, CertificateParsingException, CertificateEncodingException, KeyStoreException, MailCannotBeSentException, MessagingException, IOException;
-    List<SortedAliasesResponse> getAliases(CertificateSortType type, CertificateValidityType validity) throws KeyStoreCertificateException, EntityNotFoundException;
-    List<CertificateResponse> getCertificateByAlias(String alias) throws KeyStoreCertificateException, EntityNotFoundException;
-    boolean cancelCertificate(String alias, String reason) throws EntityNotFoundException, AliasAlreadyExistsException;
-    boolean validateCertificate(String alias) throws EntityNotFoundException;
+    void createAndSaveRootCertificate() throws KeyStoreMalfunctionedException;
+    void createAndSaveIntermediateCertificate(final String alias) throws KeyStoreMalfunctionedException, AliasDoesNotExistException;
+    void createAndSaveLeafCertificate(NewCertificateRequest certRequest) throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException, InvalidKeyUsagesComboException, CertificateParsingException, CertificateEncodingException, KeyStoreException, MailCannotBeSentException, MessagingException, IOException, KeyStoreMalfunctionedException, AliasDoesNotExistException;
+    List<SortedAliasesResponse> getAliases(CertificateSortType type, CertificateValidityType validity) throws KeyStoreCertificateException, EntityNotFoundException, CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, InvalidCertificateException, KeyStoreMalfunctionedException;
+    List<CertificateResponse> getCertificateByAlias(String alias) throws KeyStoreCertificateException, EntityNotFoundException, CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, InvalidCertificateException, KeyStoreMalfunctionedException;
+    boolean cancelCertificate(String alias, String reason) throws EntityNotFoundException, AliasAlreadyExistsException, AliasDoesNotExistException, KeyStoreMalfunctionedException;
 }

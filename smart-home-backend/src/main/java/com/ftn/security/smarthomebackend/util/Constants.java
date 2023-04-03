@@ -35,4 +35,8 @@ public class Constants {
     public static final String LEGIT_COUNTRY_REG = "[a-zA-Z ]{2,40}";
 
     public static final String EMPTY_REASON = "Reason for cancellation certificate must exist.";
+
+    // KEY STORE
+    public static final String KEYSTORE_FILEPATH = "src/main/resources/keystore/keystore.jks";
+    public static final String KEYSTORE_PASSWORD = "kspassword";
 }
