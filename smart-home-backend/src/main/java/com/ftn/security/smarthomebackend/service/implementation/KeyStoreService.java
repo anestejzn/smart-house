@@ -16,7 +16,6 @@ import java.security.*;
 import java.security.cert.*;
 import java.security.cert.Certificate;
 import java.util.*;
-import static com.ftn.security.smarthomebackend.util.Constants.ERROR_WITH_CERTIFICATE_READING;
 import static com.ftn.security.smarthomebackend.util.exception_messages.KeyStoreExceptionMessages.*;
 
 @Service
@@ -168,19 +167,17 @@ public class KeyStoreService implements IKeyStoreService {
         try {
             loadKeyStore();
             Certificate certificate = keyStore.getCertificate(alias);
-            if (certificate != null) {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                KeyStore tempKeyStore = KeyStore.getInstance("JKS");
-                tempKeyStore.load(null, null);
-                tempKeyStore.setCertificateEntry("alias_name", certificate);
-                tempKeyStore.store(baos, "temp_keystore_password".toCharArray());
 
-                return Base64.getEncoder().encodeToString(baos.toByteArray());
-            }
-            return "";
+            if (certificate == null)
+                throw new KeyStoreCertificateException(ALIAS_DOES_NOT_EXIST);
 
-        } catch (KeyStoreException |
-                 CertificateException e) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            KeyStore tempKeyStore = KeyStore.getInstance("JKS");
+            tempKeyStore.load(null, null);
+            tempKeyStore.setCertificateEntry("alias_name", certificate);
+            tempKeyStore.store(baos, "temp_keystore_password".toCharArray());
+            return Base64.getEncoder().encodeToString(baos.toByteArray());
+        } catch (KeyStoreException | CertificateException e) {
             throw new KeyStoreCertificateException(ERROR_WITH_CERTIFICATE_READING);
         } catch (IOException | NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
@@ -188,9 +185,7 @@ public class KeyStoreService implements IKeyStoreService {
     }
 
     private String getAliasFromX500Name(String x500Name) {
-        return String.valueOf(
-                new X500Name(x500Name).getRDNs(BCStyle.UID)[0].getTypesAndValues()[0].getValue()
-        );
+        return String.valueOf(new X500Name(x500Name).getRDNs(BCStyle.UID)[0].getTypesAndValues()[0].getValue());
     }
 
 }

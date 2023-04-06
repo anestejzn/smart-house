@@ -12,4 +12,5 @@ public class KeyStoreExceptionMessages {
     public static final String KS_FETCH_ISSUER_FAILED = "Issuer fetching failed.";
     public static final String KS_FETCH_CERT_FAILED = "Certificate fetching failed.";
     public static final String ALIAS_DOES_NOT_EXIST = "Given alias does not exist in key store.";
+    public static final String ERROR_WITH_CERTIFICATE_READING = "Oops, error happened with reading the certificate. Try again later.";
 }
