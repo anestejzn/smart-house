@@ -1,7 +1,6 @@
 package com.ftn.security.smarthomebackend.util.exception_messages;
 
 public class KeyStoreExceptionMessages {
-    public static final String KS_UNKNOWN_FAIL = "Something wierd happened with key store and it exploded.";
     public static final String KS_HAS_NOT_BEEN_LOADED = "Key Store has not been loaded yet.";
     public static final String KS_CREATE_INSTANCE_FAILED = "Key Store instance creation failed, check given parameters.";
     public static final String KS_LOAD_FAILED = "Key Store failed to load, check given parameters.";
