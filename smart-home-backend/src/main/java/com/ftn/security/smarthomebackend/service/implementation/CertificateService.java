@@ -20,7 +20,6 @@ import com.ftn.security.smarthomebackend.service.interfaces.IUserService;
 import com.ftn.security.smarthomebackend.util.CertificateUtils;
 import jakarta.mail.MessagingException;
 import org.bouncycastle.asn1.x500.X500Name;
-import org.bouncycastle.asn1.x500.X500NameBuilder;
 import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +27,16 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.security.*;
-import java.security.cert.*;
-import java.security.cert.Certificate;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateParsingException;
+import java.security.cert.X509Certificate;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 import static com.ftn.security.smarthomebackend.util.CertificateConstants.INTERMEDIATE_CERT_ALIASES;
 import static com.ftn.security.smarthomebackend.util.CertificateConstants.ROOT_CERT_ALIAS;
@@ -60,8 +63,8 @@ public class CertificateService implements ICertificateService {
     @Override
     public void createAndSaveLeafCertificate(final NewCertificateRequest certReq)
             throws EntityNotFoundException, AliasDoesNotExistException, KeyStoreMalfunctionedException, AliasAlreadyExistsException,
-                InvalidCertificateException, KeyStoreCertificateException, CertificateParsingException, MessagingException, CertificateEncodingException,
-                KeyStoreException, MailCannotBeSentException, IOException {
+            InvalidCertificateException, KeyStoreCertificateException, CertificateParsingException, MessagingException, CertificateEncodingException,
+            KeyStoreException, MailCannotBeSentException, IOException {
         CSR csr = csrService.getById(certReq.getCsrId());
 
         if (keyStoreService.containsAlias(csr.getUser().getEmail()))
@@ -75,7 +78,10 @@ public class CertificateService implements ICertificateService {
 
         KeyPair subjKeyPair = keyStoreService.generateKeyPair();
         SubjectData subj = generateSubjectDataFromX500Name(
-                generateX500Name(csr),
+                CertificateUtils.generateX500Name(
+                        csr.getUser().getEmail(), csr.getCommonName(), csr.getOrganization(), csr.getOrganizationUnit(),
+                        csr.getCountry(), csr.getState(), csr.getCity(), csr.getUser().getEmail()
+                ),
                 subjKeyPair,
                 LocalDate.now().toString(),
                 LocalDate.now().plusMonths(Long.parseLong(certReq.getValidityPeriod())).toString(),
@@ -99,11 +105,11 @@ public class CertificateService implements ICertificateService {
     public void createAndSaveRootCertificate() throws KeyStoreMalfunctionedException, InvalidCertificateException, CertificateParsingException {
         KeyPair keyPairRoot = keyStoreService.generateKeyPair();
         X500Name x500Name = CertificateUtils.generateX500Name(
-            "root@maildrop.cc", "SmartHome", "SmartHomeCert", "IT Department", "RS", "RS", "Belgrade", ROOT_CERT_ALIAS
+                "root@maildrop.cc", "SmartHome", "SmartHomeCert", "IT Department", "RS", "RS", "Belgrade", ROOT_CERT_ALIAS
         );
         IssuerData issuerData = new IssuerData(x500Name, keyPairRoot.getPrivate());
         SubjectData subjectData = generateSubjectDataFromX500Name(
-            x500Name, keyPairRoot, "2023-03-25", "2027-12-31", "1"
+                x500Name, keyPairRoot, "2023-03-25", "2027-12-31", "1"
         );
 
         X509Certificate cert = CertificateUtils.generateX509Certificate(subjectData, issuerData, keyPairRoot.getPublic(), null);
@@ -118,14 +124,15 @@ public class CertificateService implements ICertificateService {
 
         KeyPair keyPairSubject = keyStoreService.generateKeyPair();
         X500Name x500NameSubject = CertificateUtils.generateX500Name(
-            alias + "@maildrop.cc", "Admin", "SmartHomeCert", "IT Department", "RS", "RS", "Belgrade", alias
+                alias + "@maildrop.cc", "Admin", "SmartHomeCert", "IT Department", "RS", "RS", "Belgrade", alias
         );
         SubjectData subjectData = generateSubjectDataFromX500Name(x500NameSubject, keyPairSubject, "2023-03-25", "2025-12-31", "2");
         X509Certificate subjectCert = CertificateUtils.generateX509Certificate(subjectData, issuerData, keyPairIssuer.getPublic(), null);
 
         try {
             subjectCert.verify(keyPairIssuer.getPublic());
-        } catch (CertificateException | NoSuchAlgorithmException | InvalidKeyException | NoSuchProviderException | SignatureException e) {
+        } catch (CertificateException | NoSuchAlgorithmException | InvalidKeyException | NoSuchProviderException |
+                 SignatureException e) {
             e.printStackTrace();
         }
 
@@ -140,12 +147,19 @@ public class CertificateService implements ICertificateService {
     }
 
     @Override
-    public boolean cancelCertificate(final String alias, final String reason) throws EntityNotFoundException, AliasDoesNotExistException, KeyStoreMalfunctionedException {
+    public boolean cancelCertificate(final String alias, final String reason) throws EntityNotFoundException, KeyStoreMalfunctionedException {
         if (!keyStoreService.containsAlias(alias))
             throw new EntityNotFoundException(alias, EntityType.CERTIFICATE);
 
         cancelCertificateService.cancelCertificate(alias, reason);
         return true;
+    }
+
+    @Override
+    public List<SortedAliasesResponse> getAliasesByFilters(final CertificateSortType type, final CertificateValidityType validity) throws KeyStoreMalfunctionedException {
+        boolean shouldBeValid = validity == CertificateValidityType.VALID;
+        return filterByValidity(filterByType(type), shouldBeValid).stream()
+                .map(alias -> new SortedAliasesResponse(alias, shouldBeValid)).toList();
     }
 
     private void saveCertToKS(String alias, PrivateKey privateKey, X509Certificate cert) throws KeyStoreMalfunctionedException {
@@ -168,14 +182,7 @@ public class CertificateService implements ICertificateService {
         emailService.sendEmailWithCertificate(file);
     }
 
-    @Override
-    public List<SortedAliasesResponse> getAliasesByFilters(final CertificateSortType type, final CertificateValidityType validity) throws KeyStoreMalfunctionedException {
-        boolean shouldBeValid = validity == CertificateValidityType.VALID;
-        return filterByValidity(filterByType(type), shouldBeValid).stream()
-                .map(alias -> new SortedAliasesResponse(alias, shouldBeValid)).toList();
-    }
-
-    private List<String> filterByValidity(final List<String> aliases, final boolean validity)  {
+    private List<String> filterByValidity(final List<String> aliases, final boolean validity) {
         return aliases.stream().filter(alias -> {
             try {
                 return isCertificateChainValid(keyStoreService.getCertificateChainByAlias(alias)) == validity;
@@ -223,7 +230,8 @@ public class CertificateService implements ICertificateService {
                     cert.verify(cert.getPublicKey());
                 else if (leftToVerify != null)
                     leftToVerify.verify(cert.getPublicKey());
-            } catch (CertificateException | NoSuchAlgorithmException | InvalidKeyException | NoSuchProviderException | SignatureException e) {
+            } catch (CertificateException | NoSuchAlgorithmException | InvalidKeyException | NoSuchProviderException |
+                     SignatureException e) {
                 return false;
             }
 
@@ -234,21 +242,6 @@ public class CertificateService implements ICertificateService {
         }
         return true;
     }
-
-
-    private X500Name generateX500Name(final CSR csrData) {
-        X500NameBuilder builder = new X500NameBuilder(BCStyle.INSTANCE);
-        builder.addRDN(BCStyle.E, csrData.getUser().getEmail());
-        builder.addRDN(BCStyle.CN, csrData.getCommonName());
-        builder.addRDN(BCStyle.O, csrData.getOrganization());
-        builder.addRDN(BCStyle.OU, csrData.getOrganizationUnit());
-        builder.addRDN(BCStyle.ST, csrData.getState());
-        builder.addRDN(BCStyle.C, csrData.getCountry());
-        builder.addRDN(BCStyle.UID, csrData.getUser().getEmail());
-        return builder.build();
-    }
-
-
 
     private SubjectData generateSubjectDataFromX500Name(
             final X500Name x500Name, final KeyPair keyPairSubject, final String startDate, final String endDate, final String sn
