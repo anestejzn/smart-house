@@ -22,9 +22,8 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import java.util.Locale;
 
 @Configuration
-
 public class AppConfig implements WebMvcConfigurer {
-    private final long MAX_AGE_SECS = 3600;
+    private static final long MAX_AGE_SECS = 3600;
     private final UserRepository repository;
     private final CustomUserDetailsService customUserDetailsService;
 

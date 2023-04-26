@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-
         private final UserService userService;
 
         public CustomUserDetailsService(UserService userService) {
@@ -19,17 +18,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         @Override
         public UserDetails loadUserByUsername(final String email) {
-
             UserResponse userDTO;
             try {
                 userDTO = new UserResponse(userService.getVerifiedUser(email));
             } catch (EntityNotFoundException e) {
-
                 return null;
             }
 
             return new UserPrinciple(userDTO);
-
         }
 
 

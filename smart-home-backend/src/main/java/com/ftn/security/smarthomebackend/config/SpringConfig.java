@@ -25,7 +25,7 @@ public class SpringConfig {
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**", "/users/register", "/users/activate-account", "/verify/**", "/csr/**", "/ws/**", "/api/certificate/**")
+                .requestMatchers("/auth/**", "/users/register", "/users/activate-account", "/verify/**", "/csr/**", "/ws/**")
                 .permitAll().anyRequest().authenticated()
                 .and().authenticationProvider(authenticationProvider)
                 .httpBasic()
