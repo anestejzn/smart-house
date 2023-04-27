@@ -20,23 +20,19 @@ public class SpringConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-       http.csrf().disable()
+       http.cors().and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**", "/users/register", "/users/activate-account", "/verify/**", "/csr/**", "/ws/**")
+                .requestMatchers("/auth/**", "/users/register", "/users/activate-account", "/verify/**", "/ws/**")
                 .permitAll().anyRequest().authenticated()
                 .and().authenticationProvider(authenticationProvider)
                 .httpBasic()
                 .and()
                 .exceptionHandling();
 
-
        return http.build();
-        }
-
-
-
+    }
 
 }

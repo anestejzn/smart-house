@@ -32,12 +32,14 @@ public class CertificateController {
 
     @GetMapping(value = "aliases/{type}/{validity}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public List<SortedAliasesResponse> getAllAliases(@PathVariable @Valid CertificateSortType type, @PathVariable @Valid CertificateValidityType validity) throws KeyStoreMalfunctionedException {
         return certificateService.getAliasesByFilters(type, validity);
     }
 
     @GetMapping(value = "/{alias}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public List<CertificateResponse> getCertificateByAlias(@PathVariable String alias) throws KeyStoreCertificateException, KeyStoreMalfunctionedException {
         return certificateService.getCertificateByAlias(alias);
     }

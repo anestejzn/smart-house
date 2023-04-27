@@ -48,7 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private boolean headerIsInvalid(String header) {
-        return header == null || !header.startsWith(TOKEN_PREFIX);
+        return header == null || !header.startsWith(TOKEN_PREFIX) || header.equals(TOKEN_PREFIX);
     }
 
     private Authentication getAuthentication(HttpServletRequest request) {

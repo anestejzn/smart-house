@@ -51,9 +51,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         password: this.loginForm.get('password').value,
       };
       this.authSubscription = this.authService.login(loginRequest).subscribe(
-        user => {
-          console.log("blalala");
-          this.authService.setLocalStorage(user);
+        loginResponse => {
+          this.authService.setSessionStorage(loginResponse);
           
           this.router.navigate(['/smart-home/admin/home']);
         },

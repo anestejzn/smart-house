@@ -23,10 +23,10 @@ export class AuthService {
     );
   }
 
-  setLocalStorage(loginResponse: LoginResponse): void {
-    localStorage.setItem('token', loginResponse.token);
-    localStorage.setItem('user', JSON.stringify(loginResponse.user));
-    localStorage.setItem('email', loginResponse.user.email);
+  setSessionStorage(loginResponse: LoginResponse): void {
+    sessionStorage.setItem('token', loginResponse.token);
+    sessionStorage.setItem('user', JSON.stringify(loginResponse.user));
+    sessionStorage.setItem('email', loginResponse.user.email);
     this.currentUser$.next(loginResponse.user);
   }
 

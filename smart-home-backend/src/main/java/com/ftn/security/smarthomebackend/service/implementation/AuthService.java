@@ -33,6 +33,8 @@ public class AuthService implements IAuthService {
         String rawFingerprint = FingerprintUtils.generateRandomRawFingerprint();
 
         Cookie cookie = new Cookie(FingerprintProperties.FINGERPRINT_COOKIE, rawFingerprint);
+        cookie.setDomain("localhost"); // set to your domain
+        cookie.setPath("/"); // set to your path
         cookie.setMaxAge(3600*4);
         response.addCookie(cookie);
 
