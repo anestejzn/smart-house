@@ -20,9 +20,9 @@ public interface IKeyStoreService {
     PrivateKey getPrivateKeyByAlias(final String alias) throws KeyStoreMalfunctionedException;
     IssuerData getIssuerBySubjAlias(final String alias) throws KeyStoreMalfunctionedException;
     Certificate getCertificateByAlias(final String alias) throws KeyStoreMalfunctionedException, AliasDoesNotExistException;
-    boolean containsAlias(final String alias) throws KeyStoreMalfunctionedException;
-    Long generateNextSerialNumber() throws KeyStoreMalfunctionedException;
-    List<String> getAllAliases() throws KeyStoreMalfunctionedException;
+    boolean containsAlias(final String alias) throws KeyStoreMalfunctionedException, AliasDoesNotExistException;
+    Long generateNextSerialNumber() throws KeyStoreCertificateException, KeyStoreMalfunctionedException;
+    List<String> getAllAliases() throws KeyStoreCertificateException, KeyStoreMalfunctionedException;
     List<X509Certificate> getCertificateChainByAlias(final String alias) throws KeyStoreCertificateException, KeyStoreMalfunctionedException;
-    String generateKeyStoreRepresentationOfCertificate(final String alias) throws KeyStoreCertificateException, KeyStoreMalfunctionedException;
+    String generateKeyStoreRepresentationOfCertificate(final String alias) throws CertificateParsingException, KeyStoreException, CertificateEncodingException, KeyStoreCertificateException, KeyStoreMalfunctionedException;
 }

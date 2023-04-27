@@ -78,4 +78,11 @@ public class CustomExceptionHandler {
         return invalidKeyUsagesComboExcpetion.getMessage();
     }
 
+    @ExceptionHandler(value = UserLockedException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public String userLockedException(UserLockedException userLockedException){
+
+        return userLockedException.getMessage();
+    }
+
 }

@@ -13,13 +13,16 @@ import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.*;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateParsingException;
+import java.util.Collections;
 import java.util.List;
 
 import static com.ftn.security.smarthomebackend.util.CertificateConstants.INTERMEDIATE_CERT_ALIASES;
@@ -32,10 +35,11 @@ public class CertificateController {
 
     @GetMapping(value = "aliases/{type}/{validity}")
     @ResponseStatus(HttpStatus.OK)
-    public List<SortedAliasesResponse> getAllAliases(@PathVariable @Valid CertificateSortType type, @PathVariable @Valid CertificateValidityType validity)
-            throws KeyStoreCertificateException, EntityNotFoundException, CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, InvalidCertificateException, KeyStoreMalfunctionedException
-    {
-        return certificateService.getAliasesByFilters(type, validity);
+    public List<SortedAliasesResponse> getAllAliases(@PathVariable @Valid CertificateSortType type,
+                                                     @PathVariable @Valid CertificateValidityType validity
+    ) throws KeyStoreCertificateException, EntityNotFoundException, CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, InvalidCertificateException, KeyStoreMalfunctionedException {
+
+        return certificateService.getAliases(type, validity);
     }
 
     @GetMapping(value = "/{alias}")
@@ -46,13 +50,13 @@ public class CertificateController {
 
     @PostMapping("/create/root")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createRootCertificate() throws KeyStoreMalfunctionedException, InvalidKeyUsagesComboException, CertificateParsingException, InvalidCertificateException {
+    public void createRootCertificate() throws KeyStoreMalfunctionedException {
         certificateService.createAndSaveRootCertificate();
     }
 
     @PostMapping("/create/intermediates")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createIntermediateCertificate() throws KeyStoreMalfunctionedException, AliasDoesNotExistException, InvalidKeyUsagesComboException, CertificateParsingException, InvalidCertificateException {
+    public void createIntermediateCertificate() throws KeyStoreMalfunctionedException, AliasDoesNotExistException {
         for (String intermediate_alias : INTERMEDIATE_CERT_ALIASES)
             certificateService.createAndSaveIntermediateCertificate(intermediate_alias);
     }
@@ -60,7 +64,8 @@ public class CertificateController {
     @PostMapping("/create/leaf")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public void createLeafCertificate(@Valid @RequestBody final NewCertificateRequest certRequest) throws AliasDoesNotExistException, KeyStoreCertificateException, CertificateParsingException, MessagingException, AliasAlreadyExistsException, CertificateEncodingException, EntityNotFoundException, KeyStoreException, MailCannotBeSentException, IOException, InvalidCertificateException, KeyStoreMalfunctionedException {
+    public void createLeafCertificate(@Valid @RequestBody final NewCertificateRequest certRequest)
+            throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException, InvalidKeyUsagesComboException, CertificateParsingException, CertificateEncodingException, KeyStoreException, MailCannotBeSentException, MessagingException, IOException, KeyStoreMalfunctionedException, AliasDoesNotExistException {
         certificateService.createAndSaveLeafCertificate(certRequest);
     }
 

@@ -8,5 +8,7 @@ public class EmailConstants {
 
     public static final String CERTIFICATE = "Answer for Your CSR";
 
+    public static final String SUBJECT_PIN = "Pin for login";
+
 
 }

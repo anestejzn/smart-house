@@ -43,6 +43,17 @@ public class EmailService {
     }
 
     @Async
+    public void sendPinCodeEmail(String pinCode)
+            throws MailException, IOException, MailCannotBeSentException {
+        String pathToHTMLFile = TEMPLATE_FILE_PATH + "sendPinEmailTemplate.html";
+        String emailTemplate = setEmailTemplate(pathToHTMLFile, "_pinCode_", pinCode);
+        ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+        HTMLEmailService mm = (HTMLEmailService) context.getBean("htmlMail");
+        mm.sendMail(EMAIL, EMAIL, SUBJECT_PIN, emailTemplate);
+    }
+
+
+    @Async
     public void sendEmailWithCertificate(File file) throws CertificateParsingException, CertificateEncodingException, KeyStoreException, MailCannotBeSentException, MessagingException, IOException {
         String html = "<!doctype html>\n" +
                 "<html ⚡4email data-css-strict>\n" +

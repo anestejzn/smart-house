@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,8 +20,9 @@ public class UserResponse {
     private String surname;
     private Role role;
     private AccountStatus accountStatus;
+    private LocalDateTime lockedUntil;
 
-    public UserResponse(Long id, String email, String password, String name, String surname, AccountStatus accountStatus, Role role) {
+    public UserResponse(Long id, String email, String password, String name, String surname, AccountStatus accountStatus, Role role, LocalDateTime lockedUntil) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -27,6 +30,7 @@ public class UserResponse {
         this.surname = surname;
         this.accountStatus = accountStatus;
         this.role = role;
+        this.lockedUntil = lockedUntil;
     }
 
     public UserResponse(User user){
@@ -37,5 +41,6 @@ public class UserResponse {
         this.surname = user.getSurname();
         this.role = user.getRole();
         this.accountStatus = user.getStatus();
+        this.lockedUntil = user.getLockedUntil();
     }
 }

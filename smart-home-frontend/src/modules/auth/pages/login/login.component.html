@@ -1,6 +1,7 @@
 <div class="form-container mat-elevation-z1" style="margin-top:7rem;">
+  <div *ngIf="!showSpiner; else spinerBlock">
     <h1 class="text-center">My home</h1>
-    <form color="primary" [formGroup]="loginForm">
+    <form color="primary" [formGroup]="loginForm" *ngIf="!enterPin">
       <mat-form-field
         class="full-width"
         appearance="fill"
@@ -56,5 +57,40 @@
         <a [routerLink]="['/register']" style="margin-left: 5px" class="link">Sign up</a>
       </span>
     </form>
+
+    <div id="wrapper" *ngIf="enterPin">
+      <div>
+          <h3>Please enter the 4-digit pin code we sent via email:</h3>
+          <div id="form">
+              <span id="input-places">
+                  <input [(ngModel)]="firstDigit" autofocus type="text" maxLength="1" size="1" min="0" max="9"
+                      pattern="[0-9]" class="digit"/>
+                  <input [(ngModel)]="secondDigit" type="text" maxLength="1" size="1" min="0" max="9"
+                      pattern="[0-9]" class="digit"/>
+                  <input [(ngModel)]="thirdDigit" type="text" maxLength="1" size="1" min="0" max="9"
+                      pattern="[0-9]" class="digit"/>
+                  <input [(ngModel)]="fourthDigit" type="text" maxLength="1" size="1" min="0" max="9"
+                      pattern="[0-9]" class="digit"/>
+              </span>
+              <button class="btn-verify green-button" (click)="confirmPin()">Confirm pin</button>
+              <!-- <div>
+                  Didn't receive the code?<br />
+                  <button class="btn-link" (click)="sendCodeAgain()">Send pin again</button><br /><br />
+              </div> -->
+
+          </div>
+      </div>
+      </div>
+    </div>
+      <ng-template #check_mail_page>
+          <mat-icon aria-hidden="false" class="mail-icon" aria-label="Example home icon" fontIcon="email"></mat-icon>
+          <h3>Check your email, we sent you new link.</h3>
+      </ng-template>
+
+      <ng-template #spinerBlock>
+        <div class="spiner-container">
+            <mat-spinner></mat-spinner>
+        </div>
+    </ng-template>
   </div>
   

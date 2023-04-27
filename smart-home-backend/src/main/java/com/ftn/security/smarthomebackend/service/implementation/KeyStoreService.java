@@ -16,6 +16,7 @@ import java.security.*;
 import java.security.cert.*;
 import java.security.cert.Certificate;
 import java.util.*;
+import static com.ftn.security.smarthomebackend.util.Constants.ERROR_WITH_CERTIFICATE_READING;
 import static com.ftn.security.smarthomebackend.util.exception_messages.KeyStoreExceptionMessages.*;
 
 @Service
@@ -38,8 +39,7 @@ public class KeyStoreService implements IKeyStoreService {
     public void createNewKeyStore() throws KeyStoreMalfunctionedException {
         try {
             keyStore.load(null, KS_PASSWORD);
-            keyStore.store(new FileOutputStream(KS_FILEPATH), KS_PASSWORD);
-        } catch (NoSuchAlgorithmException | CertificateException | IOException | KeyStoreException ignored) {
+        } catch (NoSuchAlgorithmException | CertificateException | IOException ignored) {
             throw new KeyStoreMalfunctionedException(KS_LOAD_FAILED);
         }
     }
@@ -65,7 +65,6 @@ public class KeyStoreService implements IKeyStoreService {
     @Override
     public void saveCertificate(final String alias, final PrivateKey privateKey, final char[] aliasPass, final Certificate certificate) throws KeyStoreMalfunctionedException {
         try {
-            loadKeyStore();
             keyStore.setKeyEntry(alias, privateKey, aliasPass, new Certificate[]{certificate});
         } catch (KeyStoreException ignored) {
             throw new KeyStoreMalfunctionedException(KS_CERT_SAVE_FAILED);
@@ -86,7 +85,6 @@ public class KeyStoreService implements IKeyStoreService {
     @Override
     public PrivateKey getPrivateKeyByAlias(final String alias) throws KeyStoreMalfunctionedException {
         try {
-            loadKeyStore();
             return (PrivateKey) keyStore.getKey(alias, alias.toCharArray());
         } catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException ignored) {
             throw new KeyStoreMalfunctionedException(KS_KEY_FETCH_FAILED);
@@ -166,29 +164,33 @@ public class KeyStoreService implements IKeyStoreService {
     }
 
     @Override
-    public String generateKeyStoreRepresentationOfCertificate(final String alias) throws KeyStoreCertificateException, KeyStoreMalfunctionedException {
+    public String generateKeyStoreRepresentationOfCertificate(String alias) throws KeyStoreCertificateException, KeyStoreMalfunctionedException {
         try {
             loadKeyStore();
             Certificate certificate = keyStore.getCertificate(alias);
+            if (certificate != null) {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                KeyStore tempKeyStore = KeyStore.getInstance("JKS");
+                tempKeyStore.load(null, null);
+                tempKeyStore.setCertificateEntry("alias_name", certificate);
+                tempKeyStore.store(baos, "temp_keystore_password".toCharArray());
 
-            if (certificate == null)
-                throw new KeyStoreCertificateException(ALIAS_DOES_NOT_EXIST);
+                return Base64.getEncoder().encodeToString(baos.toByteArray());
+            }
+            return "";
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            KeyStore tempKeyStore = KeyStore.getInstance("JKS");
-            tempKeyStore.load(null, null);
-            tempKeyStore.setCertificateEntry("alias_name", certificate);
-            tempKeyStore.store(baos, "temp_keystore_password".toCharArray());
-            return Base64.getEncoder().encodeToString(baos.toByteArray());
-        } catch (KeyStoreException | CertificateException e) {
+        } catch (KeyStoreException |
+                 CertificateException e) {
             throw new KeyStoreCertificateException(ERROR_WITH_CERTIFICATE_READING);
         } catch (IOException | NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private String getAliasFromX500Name(final String x500Name) {
-        return String.valueOf(new X500Name(x500Name).getRDNs(BCStyle.UID)[0].getTypesAndValues()[0].getValue());
+    private String getAliasFromX500Name(String x500Name) {
+        return String.valueOf(
+                new X500Name(x500Name).getRDNs(BCStyle.UID)[0].getTypesAndValues()[0].getValue()
+        );
     }
 
 }
