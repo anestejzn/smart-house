@@ -75,13 +75,18 @@
             registrationForm.get('passwordFormControl').hasError('minlength') &&
             !registrationForm.get('passwordFormControl').hasError('required')
           ">
-                    Password should contains at least 8 characters, one digit and one
+                    Password should contains at least 12 characters, one digit and one
                     special character
                 </mat-error>
                 <mat-error name="emptyPassword" *ngIf="
             registrationForm.get('passwordFormControl').hasError('required')
           ">
                     Password is <strong>required</strong>
+                </mat-error>
+                <mat-error name="invalidPassword" *ngIf="
+            registrationForm.get('passwordFormControl').hasError('pattern')
+          ">
+                    Please enter a valid password
                 </mat-error>
             </mat-form-field>
 

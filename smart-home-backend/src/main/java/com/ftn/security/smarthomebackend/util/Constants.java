@@ -30,7 +30,7 @@ public class Constants {
     public static final int MAX_NUM_VERIFY_TRIES = 3;
 
     //REGEX
-    public static final String LEGIT_PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,100}$";
+    public static final String LEGIT_PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{12,100}$";
     public static final String LEGIT_NAME_REG = "^[A-Za-z]{1,1}[a-z]{1,20}([ ]?[A-Za-z]?[a-z]{1,20}|[a-z]{1,20})$";
     public static final String LEGIT_COUNTRY_REG = "[a-zA-Z ]{2,40}";
 
