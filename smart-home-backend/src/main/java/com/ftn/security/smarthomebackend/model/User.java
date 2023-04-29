@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Entity
@@ -47,6 +48,9 @@ public abstract class User {
     protected Role role;
     @Column(name="verified", nullable = false)
     protected Boolean verified=false;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+    protected List<BlacklistedJWT> blacklistedJWTs;
 
     public User(
             String email,

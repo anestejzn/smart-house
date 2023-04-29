@@ -17,10 +17,10 @@ import java.util.List;
 
 
 public interface ICertificateService {
-    void createAndSaveRootCertificate() throws KeyStoreMalfunctionedException;
-    void createAndSaveIntermediateCertificate(final String alias) throws KeyStoreMalfunctionedException, AliasDoesNotExistException;
-    void createAndSaveLeafCertificate(NewCertificateRequest certRequest) throws EntityNotFoundException, AliasAlreadyExistsException, KeyStoreCertificateException, InvalidKeyUsagesComboException, CertificateParsingException, CertificateEncodingException, KeyStoreException, MailCannotBeSentException, MessagingException, IOException, KeyStoreMalfunctionedException, AliasDoesNotExistException;
-    List<SortedAliasesResponse> getAliases(CertificateSortType type, CertificateValidityType validity) throws KeyStoreCertificateException, EntityNotFoundException, CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, InvalidCertificateException, KeyStoreMalfunctionedException;
-    List<CertificateResponse> getCertificateByAlias(String alias) throws KeyStoreCertificateException, EntityNotFoundException, CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, InvalidCertificateException, KeyStoreMalfunctionedException;
-    boolean cancelCertificate(String alias, String reason) throws EntityNotFoundException, AliasAlreadyExistsException, AliasDoesNotExistException, KeyStoreMalfunctionedException;
+    void createAndSaveRootCertificate() throws KeyStoreMalfunctionedException, InvalidCertificateException, CertificateParsingException;
+    void createAndSaveIntermediateCertificate(final String alias) throws KeyStoreMalfunctionedException, AliasDoesNotExistException, InvalidCertificateException, CertificateParsingException;
+    void createAndSaveLeafCertificate(final NewCertificateRequest certRequest) throws EntityNotFoundException, AliasDoesNotExistException, KeyStoreMalfunctionedException, AliasAlreadyExistsException, InvalidCertificateException, KeyStoreCertificateException, CertificateParsingException, MessagingException, CertificateEncodingException, KeyStoreException, MailCannotBeSentException, IOException;
+    List<SortedAliasesResponse> getAliasesByFilters(final CertificateSortType type, final CertificateValidityType validity) throws KeyStoreMalfunctionedException;
+    List<CertificateResponse> getCertificateByAlias(final String alias) throws KeyStoreCertificateException, KeyStoreMalfunctionedException;
+    boolean cancelCertificate(final String alias, final String reason) throws EntityNotFoundException, KeyStoreMalfunctionedException;
 }

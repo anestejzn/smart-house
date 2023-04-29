@@ -1,9 +1,32 @@
 package com.ftn.security.smarthomebackend.util;
 
+import com.ftn.security.smarthomebackend.dto.request.NewCertificateRequest;
+import com.ftn.security.smarthomebackend.exception.InvalidCertificateException;
 import com.ftn.security.smarthomebackend.exception.InvalidKeyUsagesComboException;
-import org.bouncycastle.asn1.x509.KeyPurposeId;
-import org.bouncycastle.asn1.x509.KeyUsage;
+import com.ftn.security.smarthomebackend.model.IssuerData;
+import com.ftn.security.smarthomebackend.model.SubjectData;
+import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.asn1.x500.X500NameBuilder;
+import org.bouncycastle.asn1.x500.style.BCStyle;
+import org.bouncycastle.asn1.x509.*;
+import org.bouncycastle.cert.CertIOException;
+import org.bouncycastle.cert.X509v3CertificateBuilder;
+import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
+import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils;
+import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder;
+import org.bouncycastle.operator.OperatorCreationException;
+import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
+
+import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
+
+import static com.ftn.security.smarthomebackend.util.exception_messages.CertificateServiceExceptionMessages.CANT_GEN_CERT;
 
 public class CertificateUtils {
     private static final Map<String, Integer> keyUsagesStrToEnum = Map.of(
@@ -46,7 +69,45 @@ public class CertificateUtils {
         return extendedKeyUsagesCodeToStr.getOrDefault(code, null);
     }
 
-    public static void validateKeyUsagesSelection(final String[] keyUsages) throws InvalidKeyUsagesComboException {
+    public static X509Certificate generateX509Certificate(SubjectData subj, IssuerData issuer, PublicKey issuerPK, NewCertificateRequest certReq) throws InvalidCertificateException {
+        try {
+            JcaContentSignerBuilder builder = new JcaContentSignerBuilder("SHA256WithRSAEncryption");
+            builder = builder.setProvider("BC");
+            X509v3CertificateBuilder certGen = new JcaX509v3CertificateBuilder(
+                    issuer.getX500name(),
+                    new BigInteger(subj.getSerialNumber()),
+                    subj.getStartDate(),
+                    subj.getEndDate(),
+                    subj.getX500name(),
+                    subj.getPublicKey()
+            );
+
+            addRegularExtensions(certGen, subj.getPublicKey(), issuerPK);
+            if (certReq != null) {
+                CertificateUtils.validateKeyUsagesSelection(certReq.getKeyUsages());
+                addExtensionsForLeaf(certGen, certReq);
+            }
+            else
+                addExtensionsForRootOrInter(certGen);
+
+            return new JcaX509CertificateConverter().setProvider("BC")
+                    .getCertificate(certGen.build(builder.build(issuer.getPrivateKey())));
+        } catch (IllegalArgumentException | IllegalStateException | OperatorCreationException | CertificateException ignored ) {
+            throw new InvalidCertificateException(CANT_GEN_CERT);
+        } catch (InvalidKeyUsagesComboException e) {
+            throw new InvalidCertificateException(e.getMessage());
+        }
+    }
+
+    public static X500Name generateX500Name(final String bcE, final String bcCN, final String bcO, final String bcOU,
+                                            final String bcC, final String bcST, final String bcL, final String bUID) {
+        return new X500NameBuilder(BCStyle.INSTANCE)
+                .addRDN(BCStyle.E, bcE).addRDN(BCStyle.CN, bcCN).addRDN(BCStyle.O, bcO).addRDN(BCStyle.OU, bcOU)
+                .addRDN(BCStyle.C, bcC).addRDN(BCStyle.ST, bcST).addRDN(BCStyle.L, bcL).addRDN(BCStyle.UID, bUID)
+                .build();
+    }
+
+    private static void validateKeyUsagesSelection(final String[] keyUsages) throws InvalidKeyUsagesComboException {
         boolean hasKeyAgreement = false;
         boolean hasDecipher = false;
         boolean hasEncipher = false;
@@ -62,4 +123,50 @@ public class CertificateUtils {
         else if (!hasKeyAgreement && (hasDecipher || hasEncipher))
             throw new InvalidKeyUsagesComboException("'Key agreement' key usage must be selected if 'Decipher only' or 'Encipher only' is selected!");
     }
+
+    private static void addRegularExtensions(X509v3CertificateBuilder certGen, PublicKey subjectPublicKey, PublicKey issuerPublicKey) {
+        try {
+            JcaX509ExtensionUtils certExtUtils = new JcaX509ExtensionUtils();
+            certGen.addExtension(Extension.basicConstraints, true, new BasicConstraints(false));
+            certGen.addExtension(Extension.authorityKeyIdentifier, false, certExtUtils.createAuthorityKeyIdentifier(issuerPublicKey));
+            certGen.addExtension(Extension.subjectKeyIdentifier, false, certExtUtils.createSubjectKeyIdentifier(subjectPublicKey));
+        } catch (NoSuchAlgorithmException | CertIOException ignored) {}
+    }
+    private static void addExtensionsForLeaf(X509v3CertificateBuilder certGen, NewCertificateRequest certificateRequest) {
+        try {
+            certGen.addExtension(
+                    Extension.keyUsage, false,
+                    new KeyUsage(
+                            Arrays.stream(certificateRequest.getKeyUsages())
+                                    .map(CertificateUtils::mapKeyUsageStrToInt)
+                                    .reduce(0, (a, b) -> a | b)
+                    )
+            );
+            certGen.addExtension(
+                    Extension.extendedKeyUsage, false,
+                    new ExtendedKeyUsage(
+                            Arrays.stream(certificateRequest.getExtendedKeyUsages())
+                                    .map(CertificateUtils::mapExtendedKeyUsageStrToKeyPurposeId)
+                                    .filter(Objects::nonNull).toArray(KeyPurposeId[]::new)
+                    )
+            );
+        } catch (CertIOException ignored) {}
+    }
+
+    private static void addExtensionsForRootOrInter(X509v3CertificateBuilder certGen) {
+        try {
+            certGen.addExtension(
+                    Extension.keyUsage, false,
+                    new KeyUsage(keyUsagesStrToEnum.values().stream()
+                            .filter(ku -> ku != KeyUsage.encipherOnly && ku != KeyUsage.decipherOnly)
+                            .reduce(0, (a, b) -> a | b))
+            );
+            certGen.addExtension(
+                    Extension.extendedKeyUsage, false,
+                    new ExtendedKeyUsage(extendedKeyUsagesStrToEnum.values().toArray(new KeyPurposeId[0]))
+            );
+        } catch (CertIOException ignored) {}
+    }
+
+
 }

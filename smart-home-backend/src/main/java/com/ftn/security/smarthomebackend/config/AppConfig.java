@@ -6,6 +6,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -22,9 +24,8 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import java.util.Locale;
 
 @Configuration
-
 public class AppConfig implements WebMvcConfigurer {
-    private final long MAX_AGE_SECS = 3600;
+    private static final long MAX_AGE_SECS = 3600;
     private final UserRepository repository;
     private final CustomUserDetailsService customUserDetailsService;
 
@@ -35,8 +36,12 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("http://localhost:4200","http://localhost:4201")
-                .allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:4200","http://localhost:4201")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .exposedHeaders("Authorization")
+                .allowCredentials(true)
                 .maxAge(MAX_AGE_SECS);
     }
 
@@ -45,7 +50,6 @@ public class AppConfig implements WebMvcConfigurer {
         return config.getAuthenticationManager();
     }
 
-
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -53,7 +57,6 @@ public class AppConfig implements WebMvcConfigurer {
         authProvider.setUserDetailsService(customUserDetailsService);
         return authProvider;
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
