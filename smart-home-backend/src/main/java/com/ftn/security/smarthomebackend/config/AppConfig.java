@@ -50,7 +50,6 @@ public class AppConfig implements WebMvcConfigurer {
         return config.getAuthenticationManager();
     }
 
-
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -58,7 +57,6 @@ public class AppConfig implements WebMvcConfigurer {
         authProvider.setUserDetailsService(customUserDetailsService);
         return authProvider;
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

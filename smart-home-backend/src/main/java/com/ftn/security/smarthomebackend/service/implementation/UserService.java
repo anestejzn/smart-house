@@ -1,25 +1,29 @@
 package com.ftn.security.smarthomebackend.service.implementation;
 
+import com.auth0.jwt.JWT;
 import com.ftn.security.smarthomebackend.dto.response.UserDTO;
 import com.ftn.security.smarthomebackend.enums.EntityType;
 
 import com.ftn.security.smarthomebackend.enums.Role;
 import com.ftn.security.smarthomebackend.exception.*;
+import com.ftn.security.smarthomebackend.model.BlacklistedJWT;
 import com.ftn.security.smarthomebackend.model.RegistrationVerification;
 import com.ftn.security.smarthomebackend.model.User;
 import com.ftn.security.smarthomebackend.repository.UserRepository;
+import com.ftn.security.smarthomebackend.security.JWTUtils;
 import com.ftn.security.smarthomebackend.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.ftn.security.smarthomebackend.util.Helper.passwordsDontMatch;
 
 @Service
 public class UserService implements IUserService {
-
     @Autowired
     private UserRepository userRepository;
 
@@ -80,4 +84,25 @@ public class UserService implements IUserService {
     public User save(User user){
         return userRepository.save(user);
     }
+
+    @Override
+    public void updateUsersJWTBlacklist(User user, BlacklistedJWT jwt) {
+        if (user.getBlacklistedJWTs() == null)
+            user.setBlacklistedJWTs(new ArrayList<>());
+
+        user.getBlacklistedJWTs().add(jwt);
+        save(user);
+    }
+
+    @Override
+    public void removeExpiredJWTsFromUserBlacklist(User user) {
+        user.setBlacklistedJWTs(
+                user.getBlacklistedJWTs()
+                    .stream()
+                    .filter(blacklistedJWT -> !JWTUtils.jwtHasExpired(blacklistedJWT.getJwt()))
+                    .collect(Collectors.toList())
+        );
+        save(user);
+    }
+
 }

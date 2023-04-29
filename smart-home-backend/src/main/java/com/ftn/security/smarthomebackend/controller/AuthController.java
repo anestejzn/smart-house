@@ -2,7 +2,10 @@ package com.ftn.security.smarthomebackend.controller;
 
 import com.ftn.security.smarthomebackend.dto.request.LoginRequest;
 import com.ftn.security.smarthomebackend.dto.response.LoginResponse;
+import com.ftn.security.smarthomebackend.exception.InvalidCredsException;
+import com.ftn.security.smarthomebackend.exception.InvalidJWTException;
 import com.ftn.security.smarthomebackend.service.interfaces.IAuthService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,14 +15,19 @@ import javax.validation.*;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-
     @Autowired
     private IAuthService authService;
 
     @PostMapping(path="/login")
     @ResponseStatus(HttpStatus.OK)
-    public LoginResponse login(@Valid @RequestBody final LoginRequest loginRequest, HttpServletResponse response) {
+    public LoginResponse login(@Valid @RequestBody final LoginRequest loginRequest, HttpServletResponse response) throws InvalidCredsException {
         return authService.login(loginRequest.getEmail(), loginRequest.getPassword(), response);
+    }
+
+    @PostMapping(path = "/logout")
+    @ResponseStatus(HttpStatus.OK)
+    public void logout(HttpServletRequest request) {
+        authService.logout(request);
     }
 
 }

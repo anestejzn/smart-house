@@ -12,9 +12,14 @@ export class ConfigService {
   ///////////////////AUTH///////////////////
   AUTH_URL = `${this.API_URL}/auth`;
   LOGIN_URL = `${this.AUTH_URL}/login`;
+  LOGOUT_URL = `${this.AUTH_URL}/logout`;
 
   getLoginUrl(): string {
     return this.LOGIN_URL;
+  }
+
+  getLogoutUrl(): string {
+    return this.LOGOUT_URL;
   }
 
   ///////////CSR/////////////////////////

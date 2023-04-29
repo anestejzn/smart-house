@@ -30,13 +30,16 @@ export class AuthService {
     this.currentUser$.next(loginResponse.user);
   }
 
-  logOut() {
-    localStorage.clear();
+  logOut(): Observable<null> {
     this.currentUser$.next(null);
+    return this.http.post<null>(
+      this.configService.getLogoutUrl(),
+      null
+    );
   }
 
   getSubjectCurrentUser(): BehaviorSubject<User> {
-    const user = localStorage.getItem('user');
+    const user = sessionStorage.getItem('user');
     if (user !== null && user !== undefined) {
       const parsedUser: User = JSON.parse(user);
       this.currentUser$.next(parsedUser);

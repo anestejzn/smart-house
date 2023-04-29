@@ -1,10 +1,12 @@
 package com.ftn.security.smarthomebackend.security;
 
-import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ftn.security.smarthomebackend.dto.response.UserResponse;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 import com.ftn.security.smarthomebackend.exception.FingerprintCookieNotFoundException;
+import com.ftn.security.smarthomebackend.exception.InvalidJWTException;
+import com.ftn.security.smarthomebackend.model.BlacklistedJWT;
+import com.ftn.security.smarthomebackend.model.User;
 import com.ftn.security.smarthomebackend.service.implementation.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -54,25 +56,29 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private Authentication getAuthentication(HttpServletRequest request) {
         try {
             return getUsernamePasswordAuthentication(request);
-        } catch (EntityNotFoundException | FingerprintCookieNotFoundException ignored) {
+        } catch (EntityNotFoundException | InvalidJWTException | FingerprintCookieNotFoundException ignored) {
             return null;
         }
     }
 
-    private Authentication getUsernamePasswordAuthentication(HttpServletRequest request) throws EntityNotFoundException, FingerprintCookieNotFoundException {
-        String token = request.getHeader(JwtProperties.HEADER_STRING).replace(TOKEN_PREFIX,"");
-        DecodedJWT jwt = JWT.require(HMAC512(SECRET.getBytes())).build().verify(token);
-        String email = jwt.getSubject();
+    private Authentication getUsernamePasswordAuthentication(HttpServletRequest request) throws EntityNotFoundException, FingerprintCookieNotFoundException, InvalidJWTException {
+        DecodedJWT jwt = JWTUtils.extractJWTFromRequest(request);
+        User user = userService.getVerifiedUser(JWTUtils.extractEmailFromJWT(jwt));
+
+        if (isJwtBlacklisted(user, jwt.getToken()))
+            return null;
 
         String rawFingerprint = getFingerprintFromCookie(request);
-        if (FingerprintUtils.verifyFingerprint(jwt.getClaim(FingerprintProperties.FINGERPRINT_CLAIM).asString(), rawFingerprint))
-            return email != null ? getSpringAuthToken(email) : null;
+        if (!FingerprintUtils.verifyFingerprint(JWTUtils.extractFingerprintFromJWT(jwt), rawFingerprint)) {
+            userService.updateUsersJWTBlacklist(user, new BlacklistedJWT(JWTUtils.extractTokenFromJWT(jwt), user));
+            return null;
+        }
 
-        return null;
+        return getSpringAuthToken(user);
     }
 
-    private UsernamePasswordAuthenticationToken getSpringAuthToken(String email) throws EntityNotFoundException {
-        return getUsernamePasswordAuthenticationToken(new UserResponse(userService.getVerifiedUser(email)));
+    private UsernamePasswordAuthenticationToken getSpringAuthToken(User user) {
+        return getUsernamePasswordAuthenticationToken(new UserResponse(user));
     }
 
     private UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(UserResponse userResponse) {
@@ -95,4 +101,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         return fingerprintCookie.getValue();
     }
+
+    private boolean isJwtBlacklisted(User user, String jwt) {
+        for (BlacklistedJWT blJWT : user.getBlacklistedJWTs())
+            if (blJWT.getJwt().equals(jwt))
+                return true;
+        return false;
+    }
+
 }

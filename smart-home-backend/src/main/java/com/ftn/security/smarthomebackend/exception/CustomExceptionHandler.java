@@ -15,28 +15,24 @@ public class CustomExceptionHandler {
     @ExceptionHandler(value = EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String entityNotFoundException(EntityNotFoundException entityNotFoundException) {
-
         return entityNotFoundException.getMessage();
     }
 
     @ExceptionHandler(value = PasswordsDoNotMatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String passwordsDoNotMatchException(PasswordsDoNotMatchException passwordsDoNotMatchException) {
-
         return passwordsDoNotMatchException.getMessage();
     }
 
     @ExceptionHandler(value = EntityAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String entityAlreadyExistsException(EntityAlreadyExistsException entityAlreadyExists) {
-
         return entityAlreadyExists.getMessage();
     }
 
     @ExceptionHandler(value = NoSuchElementException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String noSuchElementException() {
-
         return "Required element cannot be found.";
     }
 
@@ -53,29 +49,30 @@ public class CustomExceptionHandler {
     @ExceptionHandler(value = WrongVerifyTryException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String wrongVerifyTryException(WrongVerifyTryException wrongVerifyTryException) {
-
         return wrongVerifyTryException.getMessage();
     }
 
     @ExceptionHandler(value = MailCannotBeSentException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String mailCannotBeSentException(MailCannotBeSentException mailCannotBeSentException) {
-
         return mailCannotBeSentException.getMessage();
     }
 
     @ExceptionHandler(value = AliasAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String aliasAlreadyExistsException(AliasAlreadyExistsException aliasAlreadyExists) {
-
         return aliasAlreadyExists.getMessage();
     }
 
     @ExceptionHandler(value = InvalidKeyUsagesComboException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String wrongVerifyTryException(InvalidKeyUsagesComboException invalidKeyUsagesComboExcpetion) {
-
-        return invalidKeyUsagesComboExcpetion.getMessage();
+    public String wrongVerifyTryException(InvalidKeyUsagesComboException invalidKeyUsagesComboException) {
+        return invalidKeyUsagesComboException.getMessage();
     }
 
+    @ExceptionHandler(value = InvalidCredsException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String invalidCredsOnLogin(InvalidCredsException invalidCredsException) {
+        return invalidCredsException.getMessage();
+    }
 }
