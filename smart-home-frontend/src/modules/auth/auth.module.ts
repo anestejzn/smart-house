@@ -16,7 +16,7 @@ import { LoginComponent } from './pages/login/login.component';
     LoginComponent,
     RegistrationComponent,
     VerificationComponent,
-    SuccessfulVerificationComponent
+    SuccessfulVerificationComponent,
   ],
   imports: [
     CommonModule,

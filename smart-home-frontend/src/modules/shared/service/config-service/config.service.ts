@@ -12,6 +12,16 @@ export class ConfigService {
   ///////////////////AUTH///////////////////
   AUTH_URL = `${this.API_URL}/auth`;
   LOGIN_URL = `${this.AUTH_URL}/login`;
+  CONFIRM_PIN_URL = `${this.AUTH_URL}/confirm-pin`;
+
+  getGeneratePinUrl(email: string){
+    return `${this.AUTH_URL}/generate-pin/${email}`;
+  }
+
+  getIncrementFailedAttempts(email: string){
+    return `${this.AUTH_URL}/increment-failed-attempts/${email}`;
+  }
+
 
 
   //////////////////USERS////////////////

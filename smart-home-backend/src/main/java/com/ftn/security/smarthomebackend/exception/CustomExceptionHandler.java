@@ -75,4 +75,11 @@ public class CustomExceptionHandler {
     public String invalidCredsOnLogin(InvalidCredsException invalidCredsException) {
         return invalidCredsException.getMessage();
     }
+    @ExceptionHandler(value = UserLockedException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public String userLockedException(UserLockedException userLockedException){
+
+        return userLockedException.getMessage();
+    }
+
 }

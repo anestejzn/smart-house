@@ -1,13 +1,11 @@
 package com.ftn.security.smarthomebackend.service.implementation;
 
-import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ftn.security.smarthomebackend.dto.response.LoginResponse;
 import com.ftn.security.smarthomebackend.dto.response.UserResponse;
-import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
-import com.ftn.security.smarthomebackend.exception.InvalidCredsException;
-import com.ftn.security.smarthomebackend.exception.InvalidJWTException;
+import com.ftn.security.smarthomebackend.exception.*;
 import com.ftn.security.smarthomebackend.model.BlacklistedJWT;
+import com.ftn.security.smarthomebackend.model.RegularUser;
 import com.ftn.security.smarthomebackend.model.User;
 import com.ftn.security.smarthomebackend.security.FingerprintProperties;
 import com.ftn.security.smarthomebackend.security.FingerprintUtils;
@@ -24,18 +22,27 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+
+import static com.ftn.security.smarthomebackend.util.Helper.generateSecurityCode;
+import static com.ftn.security.smarthomebackend.util.Helper.getHash;
 
 @Service
 public class AuthService implements IAuthService {
     @Autowired
     private AuthenticationManager authenticationManager;
-
+    @Autowired
+    private EmailService emailService;
     @Autowired
     private IUserService userService;
 
     @Override
-    public LoginResponse login(final String email, final String password, final HttpServletResponse response) throws InvalidCredsException {
+    public LoginResponse login(final String email, final String password, final HttpServletResponse response)
+            throws UserLockedException, InvalidCredsException {
         Authentication authenticate = null;
         try {
             authenticate = authenticationManager.authenticate(
@@ -44,9 +51,14 @@ public class AuthService implements IAuthService {
         } catch (BadCredentialsException ignored) {
             throw new InvalidCredsException("Given creds are not valid!");
         }
+
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         UserPrinciple userPrinciple = (UserPrinciple) authenticate.getPrincipal();
         UserResponse userResponse = userPrinciple.getUser();
+
+        if(userResponse.getLockedUntil() != null && userResponse.getLockedUntil().isAfter(LocalDateTime.now())){
+            throw new UserLockedException("Your account is locked.");
+        }
 
         String rawFingerprint = FingerprintUtils.generateRandomRawFingerprint();
 
@@ -69,8 +81,51 @@ public class AuthService implements IAuthService {
             String email = JWTUtils.extractEmailFromJWT(jwt);
             User usr = userService.getVerifiedUser(email);
             userService.updateUsersJWTBlacklist(usr, new BlacklistedJWT(JWTUtils.extractTokenFromJWT(jwt), usr));
-        }  catch (InvalidJWTException | EntityNotFoundException ignored) {}
+        } catch (InvalidJWTException | EntityNotFoundException ignored) {
+        }
     }
 
+    @Override
+    public void generatePin(String email) throws EntityNotFoundException, IOException, MailCannotBeSentException {
+        RegularUser user = (RegularUser) userService.getVerifiedUser(email);
+        user.setFailedAttempts(0);
+        String pin = String.valueOf(generateSecurityCode());
+        String hashPin = getHash(pin);
+        user.setPin(hashPin);
+        userService.save(user);
+        sendPinEmail(pin);
+    }
 
+    @Override
+    public boolean confirmPin(String email, String pin) throws EntityNotFoundException, WrongVerifyTryException {
+        RegularUser user = (RegularUser) userService.getVerifiedUser(email);
+        if(checkPin(pin, user.getPin())){
+            return true;
+        }
+        else {
+            throw new WrongVerifyTryException("Your security code is not accepted. Try again.");
+        }
+    }
+
+    @Override
+    public boolean incrementFailedAttempts(String email) throws EntityNotFoundException {
+        User user = userService.getVerifiedUser(email);
+        user.setFailedAttempts(user.getFailedAttempts()+1);
+        System.out.println(user.getFailedAttempts());
+        if(user.getFailedAttempts() == 4){
+            user.setLockedUntil((LocalDateTime.now()).plusDays(1));
+            userService.save(user);
+            return false;
+        }
+        userService.save(user);
+        return true;
+    }
+
+    private boolean checkPin(String enteredPin, String pin){
+        return BCrypt.checkpw(enteredPin, pin);
+    }
+
+    private void sendPinEmail(String pin) throws IOException, MailCannotBeSentException {
+        this.emailService.sendPinCodeEmail(pin);
+    }
 }

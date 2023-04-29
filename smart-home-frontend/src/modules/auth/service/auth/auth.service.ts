@@ -6,11 +6,13 @@ import { LoginRequest } from '../../model/login/login-request';
 import { LoginResponse } from '../../model/login/login-response';
 import { User } from 'src/modules/shared/model/user';
 import { WebSocketService } from 'src/modules/shared/service/web-socket-service/web-socket.service';
+import { ConfirmPinRequest } from '../../model/confirm-pin-request/confirm-pin-request';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+ 
   public currentUser$: BehaviorSubject<User>;
 
   constructor(private configService: ConfigService, private http: HttpClient, private webSocketService: WebSocketService) {
@@ -47,5 +49,18 @@ export class AuthService {
     }
 
     return this.currentUser$;
+  }
+
+  generatePin(email:string) {
+    return this.http.get<void>(
+      this.configService.getGeneratePinUrl(email));
+  }
+
+  confirmPin(confirmPinRequest: ConfirmPinRequest){
+    return this.http.put<boolean>(this.configService.CONFIRM_PIN_URL, confirmPinRequest);
+  }
+
+  incrementFailedAttempts(email: string) {
+    return this.http.get<boolean>(this.configService.getIncrementFailedAttempts(email));
   }
 }

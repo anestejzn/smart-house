@@ -65,11 +65,13 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       ]),
       passwordAgainFormControl: new FormControl('', [
         Validators.required,
-        Validators.minLength(8),
+        Validators.minLength(12),
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{12,100}$')
       ]),
       passwordFormControl: new FormControl('', [
         Validators.required,
-        Validators.minLength(9),
+        Validators.minLength(12),
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{12,100}$')
       ]),
       roleFormControl: new FormControl('', [
         Validators.required,
