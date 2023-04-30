@@ -11,8 +11,17 @@ export class ConfigService {
   API_URL = environment.apiUrl;
   ///////////////////AUTH///////////////////
   AUTH_URL = `${this.API_URL}/auth`;
-  LOGIN_URL = `${this.AUTH_URL}/login`;
+  LOGIN_URL = `${this.AUTH_URL}/login-reg-user`;
+  LOGOUT_URL = `${this.AUTH_URL}/logout`;
   CONFIRM_PIN_URL = `${this.AUTH_URL}/confirm-pin`;
+
+  getLoginUrl(): string {
+    return this.LOGIN_URL;
+  }
+
+  getLogoutUrl(): string {
+    return this.LOGOUT_URL;
+  }
 
   getGeneratePinUrl(email: string){
     return `${this.AUTH_URL}/generate-pin/${email}`;
@@ -33,10 +42,6 @@ export class ConfigService {
   /////////////////VERIFY/////////////////
   VERIFY_URL = `${this.API_URL}/verify`;
   SEND_CODE_AGAIN_URL = `${this.VERIFY_URL}/send-code-again`;
-
-  getLoginUrl(): string {
-    return this.LOGIN_URL;
-  }
 
   ///////////CSR/////////////////////////
   CSR_URL = `${this.API_URL}/csr`;

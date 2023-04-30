@@ -26,8 +26,8 @@ export class NavBarComponent implements OnInit {
   }
 
   logOut(){
-    
-    this.authService.logOut();
+    this.authService.logOut().subscribe();
+    sessionStorage.clear();
     this.router.navigate(['/smart-home/auth/login'])
   }
 

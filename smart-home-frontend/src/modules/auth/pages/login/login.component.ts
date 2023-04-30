@@ -72,13 +72,12 @@ export class LoginComponent implements OnInit, OnDestroy {
           )
         },
         error => {
-         
-          if(error.error === null){
+          console.log(error.error);
+          if(error.error === "Invalid creds!"){
             this.toast.error('Email or password is not correct!', 'Login failed');
-            console.log("llalal");
             this.incrementFailedAttempts(loginRequest.email);
           }
-          else{
+          else {
             this.showSpiner = false;
             this.toast.error("Your account is locked.", "Locked account");
           }
@@ -97,7 +96,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authSubscription = this.authService.confirmPin(confirmPinRequest).subscribe(
       response => {
         if(response){
-          this.authService.setLocalStorage(this.user);
+          this.authService.setSessionStorage(this.user);
           this.webSocketService.connect();
           
           this.router.navigate(['/smart-home/user/home']);

@@ -11,8 +11,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from '../auth/auth.module';
 import { AdminModule } from '../admin/admin.module';
 import { SharedModule } from '../shared/shared.module';
-import { AuthInterceptor } from './interceptors/auth-interceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -32,16 +30,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     ReactiveFormsModule
   ],
   exports:[MaterialModule],
-  providers: [
-    [
-      {
-        provide: HTTP_INTERCEPTORS,
-        useClass: AuthInterceptor,
-        multi: true
-      },
-
-    ]
-  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
