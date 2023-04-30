@@ -23,10 +23,16 @@ public class AuthController {
     @Autowired
     private IAuthService authService;
 
-    @PostMapping(path="/login")
+    @PostMapping(path="/login-admin")
     @ResponseStatus(HttpStatus.OK)
-    public LoginResponse login(@Valid @RequestBody final LoginRequest loginRequest, HttpServletResponse response) throws InvalidCredsException, UserLockedException {
-        return authService.login(loginRequest.getEmail(), loginRequest.getPassword(), response);
+    public LoginResponse loginAdmin(@Valid @RequestBody final LoginRequest loginRequest, HttpServletResponse response) throws InvalidCredsException, UserLockedException {
+        return authService.loginAdmin(loginRequest.getEmail(), loginRequest.getPassword(), response);
+    }
+
+    @PostMapping(path="/login-reg-user")
+    @ResponseStatus(HttpStatus.OK)
+    public LoginResponse loginRegularUser(@Valid @RequestBody final LoginRequest loginRequest, HttpServletResponse response) throws InvalidCredsException, UserLockedException {
+        return authService.loginRegularUser(loginRequest.getEmail(), loginRequest.getPassword(), response);
     }
 
     @PostMapping(path = "/logout")

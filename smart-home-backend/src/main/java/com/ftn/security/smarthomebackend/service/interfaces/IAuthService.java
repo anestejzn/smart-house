@@ -13,8 +13,8 @@ import java.io.IOException;
 
 public interface IAuthService {
     void logout(HttpServletRequest request);
-    LoginResponse login(final String email, final String password, final HttpServletResponse response)
-            throws UserLockedException, InvalidCredsException;
+    LoginResponse loginAdmin(final String email, final String password, final HttpServletResponse response) throws UserLockedException, InvalidCredsException;
+    LoginResponse loginRegularUser(final String email, final String password, final HttpServletResponse response) throws UserLockedException, InvalidCredsException;
     void generatePin(String pin) throws EntityNotFoundException, IOException, MailCannotBeSentException;
     boolean confirmPin(String email, String pin) throws EntityNotFoundException, WrongVerifyTryException;
     boolean incrementFailedAttempts(String email) throws EntityNotFoundException;

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
-import { CustomInterceptor } from './interceptors/custom.interceptor';
+import { AuthInterceptor } from './interceptors/auth-interceptor';
 
 
 
@@ -18,6 +18,11 @@ import { CustomInterceptor } from './interceptors/custom.interceptor';
     })
   ],
   providers:[
-    { provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi: true },]
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ]
 })
 export class SharedModule { }

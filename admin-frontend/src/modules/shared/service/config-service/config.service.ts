@@ -11,7 +11,7 @@ export class ConfigService {
   API_URL = environment.apiUrl;
   ///////////////////AUTH///////////////////
   AUTH_URL = `${this.API_URL}/auth`;
-  LOGIN_URL = `${this.AUTH_URL}/login`;
+  LOGIN_URL = `${this.AUTH_URL}/login-admin`;
   LOGOUT_URL = `${this.AUTH_URL}/logout`;
 
   getLoginUrl(): string {

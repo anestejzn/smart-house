@@ -6,6 +6,11 @@ import { VerificationComponent } from "./pages/verification/verification.compone
 
 export const AuthRoutes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    component: LoginComponent
+  },
+  {
     path: "login",
     pathMatch: "full",
     component: LoginComponent
