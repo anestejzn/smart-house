@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Csr } from '../../model/csr';
+import { Csr } from '../../../model/csr';
 import { ToastrService } from 'ngx-toastr';
-import { CertificateService } from '../../service/certificate-service/certificate.service';
+import { CertificateService } from '../../../service/certificate-service/certificate.service';
 import { Subscription } from 'rxjs';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatRadioChange } from '@angular/material/radio';
-import { CertificateRequest } from '../../model/certificate-request';
+import { CertificateRequest } from '../../../model/certificate-request';
 
 @Component({
   selector: 'app-create-certificate-dialog',

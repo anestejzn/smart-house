@@ -2,9 +2,9 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { CancelCertificateRequest } from '../../model/cancel-certificate-request';
-import { SortedAliases } from '../../model/sorted-aliases';
-import { CertificateService } from '../../service/certificate-service/certificate.service';
+import { CancelCertificateRequest } from '../../../model/cancel-certificate-request';
+import { SortedAliases } from '../../../model/sorted-aliases';
+import { CertificateService } from '../../../service/certificate-service/certificate.service';
 
 @Component({
   selector: 'app-cancel-certificate-dialog',

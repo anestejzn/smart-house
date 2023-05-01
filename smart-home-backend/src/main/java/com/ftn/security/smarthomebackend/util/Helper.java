@@ -7,8 +7,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Random;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.ftn.security.smarthomebackend.util.Constants.*;
 
 public class Helper {
 
@@ -50,6 +53,20 @@ public class Helper {
         } catch (NoSuchAlgorithmException e) {
             // Handle exception
             return null;
+        }
+    }
+
+    public static List<Integer> extractSqMetersNumbers(String input) {
+        try {
+            String[] extract = input.split(":");
+            List<Integer> nums = new LinkedList<>(); 
+            nums.add(Integer.parseInt(extract[0]));
+            nums.add(Integer.parseInt(extract[1]));
+            
+            return nums;
+        } catch (Exception e) {
+            
+            return Arrays.asList(MIN_SQ_AREA, BOTTOM_MARGIN_FILTERING_SQ_AREA);
         }
     }
 

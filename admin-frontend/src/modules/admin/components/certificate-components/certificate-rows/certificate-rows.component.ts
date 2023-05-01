@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { SortedAliases } from '../../model/sorted-aliases';
+import { SortedAliases } from '../../../model/sorted-aliases';
 import { CancelCertificateDialogComponent } from '../cancel-certificate-dialog/cancel-certificate-dialog.component';
 import { CertificateDetailsDialogComponent } from '../certificate-details-dialog/certificate-details-dialog.component';
 

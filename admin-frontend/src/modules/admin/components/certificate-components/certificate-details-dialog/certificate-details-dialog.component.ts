@@ -2,9 +2,9 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { CertificateData } from '../../model/certificate-data';
-import { SortedAliases } from '../../model/sorted-aliases';
-import { CertificateService } from '../../service/certificate-service/certificate.service';
+import { CertificateData } from '../../../model/certificate-data';
+import { SortedAliases } from '../../../model/sorted-aliases';
+import { CertificateService } from '../../../service/certificate-service/certificate.service';
 
 @Component({
   selector: 'app-certificate-details-dialog',

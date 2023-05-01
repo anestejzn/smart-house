@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CertificateData } from '../../model/certificate-data';
+import { CertificateData } from '../../../model/certificate-data';
 
 @Component({
   selector: 'app-certificate-details-tab',

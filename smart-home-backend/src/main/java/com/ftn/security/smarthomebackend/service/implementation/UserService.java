@@ -1,6 +1,5 @@
 package com.ftn.security.smarthomebackend.service.implementation;
 
-import com.auth0.jwt.JWT;
 import com.ftn.security.smarthomebackend.dto.response.UserDTO;
 import com.ftn.security.smarthomebackend.enums.EntityType;
 
@@ -17,9 +16,11 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.ftn.security.smarthomebackend.dto.response.UserDTO.fromUserListToDTO;
 import static com.ftn.security.smarthomebackend.util.Helper.passwordsDontMatch;
 
 @Service
@@ -103,6 +104,12 @@ public class UserService implements IUserService {
                     .collect(Collectors.toList())
         );
         save(user);
+    }
+
+    @Override
+    public List<UserDTO> getAllActiveRegularUsers() {
+
+        return fromUserListToDTO(userRepository.getAllActiveRegularUsers());
     }
 
 }

@@ -1,0 +1,14 @@
+
+div.form-container {
+    min-height: 25rem;
+    min-width: 45rem;
+    padding: 3%;
+
+    .sorting-column {
+        flex-basis: 25% !important;
+    }
+
+    .real-estate-column {
+        flex-basis: 75% !important;
+    }
+}

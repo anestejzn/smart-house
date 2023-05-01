@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SortedAliases } from '../../model/sorted-aliases';
+import { SortedAliases } from '../../../model/sorted-aliases';
 
 @Component({
   selector: 'app-certificate-one-row',
