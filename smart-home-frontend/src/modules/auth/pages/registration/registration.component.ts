@@ -73,9 +73,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         Validators.minLength(12),
         Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{12,100}$')
       ]),
-      roleFormControl: new FormControl('', [
-        Validators.required,
-      ]),
+      // roleFormControl: new FormControl('', [
+      //   Validators.required,
+      // ]),
     },
     [matchPasswordsValidator()]
   );
@@ -112,7 +112,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         surname: this.registrationForm.get('surnameFormControl').value,
         password: this.registrationForm.get('passwordFormControl').value,
         confirmPassword: this.registrationForm.get('passwordAgainFormControl').value,
-        role: this.registrationForm.get('roleFormControl').value
+        // role: this.registrationForm.get('roleFormControl').value
       }
 
       this.showSpiner = true;

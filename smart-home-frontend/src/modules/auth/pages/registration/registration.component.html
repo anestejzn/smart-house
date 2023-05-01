@@ -2,7 +2,7 @@
     <h1 class="text-center">Registration</h1>
     <form color="primary" [formGroup]="registrationForm">
         <div style="display: flex">
-            <mat-form-field class="colomn" appearance="fill">
+            <mat-form-field class="email-colomn" appearance="fill">
                 <mat-label>Email</mat-label>
                 <input type="email" matInput formControlName="emailFormControl" [errorStateMatcher]="matcher"
                     placeholder="email@domain.com" />
@@ -17,7 +17,7 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="password-colomn">
+            <!-- <mat-form-field appearance="fill" class="password-colomn">
                 <mat-label>Role</mat-label>
                 <mat-select formControlName="roleFormControl">
                     <mat-option *ngFor="let role of regularUserRoles" [value]="role">
@@ -27,7 +27,7 @@
                 <mat-error name="emptyRole" *ngIf="registrationForm.get('roleFormControl').hasError('required')">
                     Role is <strong>required</strong>
                 </mat-error>
-            </mat-form-field>
+            </mat-form-field> -->
 
         </div>
         <div style="display: flex">

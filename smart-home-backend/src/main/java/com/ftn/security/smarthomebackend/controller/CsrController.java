@@ -22,7 +22,7 @@ public class CsrController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyRole('ROLE_TENANT', 'ROLE_OWNER')")
+    @PreAuthorize("hasAnyRole('ROLE_REGULAR_USER')")
     public void createCsr(@Valid @RequestBody final CSRRequest csrRequest) throws EntityNotFoundException {
         csrService.createCSR(csrRequest.getEmail());
     }

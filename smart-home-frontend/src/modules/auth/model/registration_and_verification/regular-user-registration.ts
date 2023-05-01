@@ -5,5 +5,5 @@ export interface RegularUserRegistration {
   surname: string;
   password: string;
   confirmPassword: string;
-  role: string;
+  // role: string;
 }

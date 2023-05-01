@@ -1,6 +1,7 @@
 package com.ftn.security.smarthomebackend.controller;
 
 import com.ftn.security.smarthomebackend.dto.request.VerifyRequest;
+import com.ftn.security.smarthomebackend.enums.Role;
 import com.ftn.security.smarthomebackend.exception.*;
 import com.ftn.security.smarthomebackend.dto.response.UserDTO;
 import com.ftn.security.smarthomebackend.dto.request.RegularUserRegistrationRequest;
@@ -30,7 +31,7 @@ public class UserController {
             request.getSurname(),
             request.getPassword(),
             request.getConfirmPassword(),
-            request.getRole()
+            Role.REGULAR_USER
         );
     }
 
