@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RealEstateView } from '../../model/real-estate-view';
 import { RealEstateService } from '../../service/real-estate/real-estate.service';
 import { Subscription } from 'rxjs';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AddNewRealEstateDialogComponent } from '../../components/real-estate-components/add-new-real-estate-dialog/add-new-real-estate-dialog.component';
 
 @Component({
   selector: 'app-all-real-estates-view',
@@ -17,7 +19,9 @@ export class AllRealEstatesViewComponent implements OnInit, OnDestroy {
   range: string = "10:600";
   selectedOwner: number = -1;
 
-  constructor(private realEstateService: RealEstateService) {
+  constructor(private realEstateService: RealEstateService,
+              private addNewDialog: MatDialog
+  ) {
     this.realEstates = [];
   }
 
@@ -48,6 +52,15 @@ export class AllRealEstatesViewComponent implements OnInit, OnDestroy {
   changedOwner(id: number): void {
     this.selectedOwner = id;
     this.loadRealEstates();
+  }
+
+  addNewRealEstate(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minWidth = '48rem'; // Set the width of the dialog
+    dialogConfig.minHeight = '35rem'; // Set the height of the dialog
+    dialogConfig.maxHeight = '90vh'; // Set the maximum height of the dialog
+    dialogConfig.maxWidth = '90vw'; // Set the maximum width of the dialog
+    this.addNewDialog.open(AddNewRealEstateDialogComponent, dialogConfig);
   }
 
   ngOnDestroy(): void {

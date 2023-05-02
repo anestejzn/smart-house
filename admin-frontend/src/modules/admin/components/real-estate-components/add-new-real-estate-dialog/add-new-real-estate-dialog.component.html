@@ -1,0 +1,126 @@
+<div style="padding: 3%;" class="dialog-container">
+    <h1 mat-dialog-title class="center-content"><b>Add new real estate object</b></h1>
+
+    <mat-dialog-content style="min-height: 7rem; min-width: 7rem;">
+        <br>
+        <form color="primary" [formGroup]="addingForm">
+            <div style="display: flex">
+
+                <mat-form-field class="colomn" appearance="fill">
+                    <mat-label>Name For Real Estate Object</mat-label>
+                    <input type="text" matInput formControlName="nameFormControl" 
+                        placeholder="Enter name" />
+                    <mat-error name="emptyName" *ngIf="addingForm.get('nameFormControl').hasError('required')">
+                        Name is <strong>required</strong>
+                    </mat-error>
+                    <mat-error name="invalidName" *ngIf="addingForm.get('nameFormControl').hasError('pattern')">
+                        No special characters & less than 20 characters
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="colomn" appearance="fill">
+                    <mat-label>Square meters area</mat-label>
+                    <input type="number" matInput formControlName="sqAreaFormControl" placeholder="Enter sq meters" />
+                    <mat-error name="emptySq" *ngIf="addingForm.get('sqAreaFormControl').hasError('required')">
+                        Name is <strong>required</strong>
+                    </mat-error>
+                    <mat-error name="invalidSq" *ngIf="addingForm.get('sqAreaFormControl').hasError('pattern')">
+                        Please enter a valid area(10m2-600m2)
+                    </mat-error>
+                </mat-form-field>
+                    
+                <mat-form-field class="colomn" appearance="fill">
+                    <mat-label>Owner</mat-label>
+                    <mat-select name="ownerField" formControlName="ownerFormControl">
+                        <mat-option *ngFor="let owner of allActiveRegularUsers" [value]="owner">
+                            {{owner.email}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error name="invalidOwner" *ngIf="addingForm.get('ownerFormControl').hasError('required')">
+                        Owner is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+
+            <div style="display: flex;">
+                <br>
+                <mat-form-field appearance="fill">
+                    <mat-label>City</mat-label>
+                    <input type="text" matInput [errorStateMatcher]="matcher" aria-label="State" [matAutocomplete]="auto"
+                        formControlName="cityFormControl" placeholder="Choose city" />
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let city of filteredCities | async" [value]="city">
+                            <span>{{ city }}</span>
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error name="invalidCity" *ngIf="addingForm.get('cityFormControl').hasError('pattern')">
+                        City cannot contain digits
+                    </mat-error>
+                    <mat-error name="emptyCity" *ngIf="addingForm.get('cityFormControl').hasError('required')">
+                        City is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="colomn" appearance="fill">
+                    <mat-label>Street</mat-label>
+                    <input type="text" matInput formControlName="streetFormControl" placeholder="Enter street" />
+                    <mat-error name="emptyStreet" *ngIf="addingForm.get('streetFormControl').hasError('required')">
+                        Street is <strong>required</strong>
+                    </mat-error>
+                    <mat-error name="invalidStreet" *ngIf="addingForm.get('streetFormControl').hasError('pattern')">
+                        Please enter a valid street
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="colomn" appearance="fill">
+                    <mat-label>Street number</mat-label>
+                    <input type="number" matInput formControlName="numberFormControl" placeholder="Enter street number" />
+                    <mat-error name="emptyNumber" *ngIf="addingForm.get('numberFormControl').hasError('required')">
+                        Street number is <strong>required</strong>
+                    </mat-error>
+                    <mat-error name="invalidNumber" *ngIf="addingForm.get('numberFormControl').hasError('pattern')">
+                        Please enter a valid street number
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+
+            <div style="display: flex;">
+
+                <mat-form-field class="colomn" appearance="fill">
+                    <mat-label>Tenant</mat-label>
+                    <mat-select formControlName="currentTenantFormControl" name="tenantField">
+                        <mat-option *ngFor="let tenant of allActiveRegularUsers" [value]="tenant">
+                            {{tenant.email}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button mat-raised-button class="add-btn" (click)="addTenant()">Add</button>
+
+            </div>
+
+            <div style="display: flex;">
+                <div class="added-tenants-box">
+                    <br>
+                    <span *ngIf="tenants.length == 0; else tenantsBlock" class="no-tenants">Add tenants...</span>
+                    <ng-template #tenantsBlock>
+                        <span *ngFor="let tenant of tenants" class="added-tenant" (click)="deleteTenant(tenant)">
+                            {{tenant.email}} X
+                        </span>
+                    </ng-template>
+                </div>
+
+            </div>
+
+        </form>
+
+        
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="activity-buttons" align="center">
+        <button mat-button class="cancel-button" [mat-dialog-close]="null">Close</button>
+        <button mat-raised-button class="green-button block-button" [disabled]="!addingForm.valid"
+            [mat-dialog-close]="true">Save</button>
+    </mat-dialog-actions>
+</div>

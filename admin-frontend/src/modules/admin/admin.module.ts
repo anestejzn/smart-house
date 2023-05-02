@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CsrTableComponent } from './components/csr-table/csr-table.component';
 import { MaterialModule } from '../material/material.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AdminRoutes } from './admin.routes';
 import { HomeComponent } from './pages/home/home.component';
@@ -21,6 +21,7 @@ import { AllRealEstatesViewComponent } from './pages/all-real-estates-view/all-r
 import { RealEstateRowComponent } from './components/real-estate-components/real-estate-row/real-estate-row.component';
 import { RealEstateSortingButtonsComponent } from './components/real-estate-components/real-estate-sorting-buttons/real-estate-sorting-buttons.component';
 import { RealEstateRowsComponent } from './components/real-estate-components/real-estate-rows/real-estate-rows.component';
+import { AddNewRealEstateDialogComponent } from './components/real-estate-components/add-new-real-estate-dialog/add-new-real-estate-dialog.component';
 
 
 
@@ -42,12 +43,14 @@ import { RealEstateRowsComponent } from './components/real-estate-components/rea
     AllRealEstatesViewComponent,
     RealEstateRowComponent,
     RealEstateSortingButtonsComponent,
-    RealEstateRowsComponent
+    RealEstateRowsComponent,
+    AddNewRealEstateDialogComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forChild(AdminRoutes)
   ]
 })
