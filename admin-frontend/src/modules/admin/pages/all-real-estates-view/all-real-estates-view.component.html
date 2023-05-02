@@ -1,13 +1,21 @@
 <div class="form-container">
     <div class="row">
         <div class="column sorting-column">
-            <app-real-estate-sorting-buttons>
+            <h1><b>Real Estates:</b></h1>
 
+            <div class="button-container">
+                <button mat-raised-button>+ New</button>
+            </div>
+
+            <app-real-estate-sorting-buttons
+            (changedSortByNameEvent)="changeSortByName($event)" 
+            (changedFilterBySquareAreaEvent)="changeFilterBySqArea($event)"
+            (changedOwnerEvent)="changedOwner($event)">
             </app-real-estate-sorting-buttons>
         </div>
         <div class="column real-estate-column">
-            <app-real-estate-rows>
-                
+            <app-real-estate-rows 
+            [realEstates]="realEstates">
             </app-real-estate-rows>
         </div>
     </div>

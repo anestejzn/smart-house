@@ -59,14 +59,16 @@ public class Helper {
     public static List<Integer> extractSqMetersNumbers(String input) {
         try {
             String[] extract = input.split(":");
-            List<Integer> nums = new LinkedList<>(); 
+            List<Integer> nums = new LinkedList<>();
             nums.add(Integer.parseInt(extract[0]));
             nums.add(Integer.parseInt(extract[1]));
-            
-            return nums;
+
+            return (nums.get(0) < MIN_SQ_AREA || nums.get(1) > MAX_SQ_AREA)
+                ? Arrays.asList(MIN_SQ_AREA, MAX_SQ_AREA)
+                : nums;
         } catch (Exception e) {
             
-            return Arrays.asList(MIN_SQ_AREA, BOTTOM_MARGIN_FILTERING_SQ_AREA);
+            return Arrays.asList(MIN_SQ_AREA, MAX_SQ_AREA);
         }
     }
 

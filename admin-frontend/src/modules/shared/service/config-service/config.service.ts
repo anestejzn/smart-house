@@ -60,5 +60,16 @@ export class ConfigService {
     return `${this.CERTIFICATE_URL}/cancel`;
   }
 
+  ///////////USER///////////////
+  USER_URL = `${this.API_URL}/users`;
+  ALL_ACTIVE_REGULAR_USERS = `${this.USER_URL}/all-active-regular`;
+
+
+  ///////////REAL ESTATE////////
+  REAL_ESTATE_URL = `${this.API_URL}/real-estates`;
+
+  getUrlForFilteringRealEstates(ascending: boolean, range: string, selectedOwner: number): string {
+    return `${this.REAL_ESTATE_URL}/${ascending}/${range}/${selectedOwner}`;
+  }
 
 }

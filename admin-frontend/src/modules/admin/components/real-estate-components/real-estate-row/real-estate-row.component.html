@@ -1,1 +1,25 @@
-<p>real-estate-row works!</p>
+<div *ngIf="realEstate" class="alias-row" style="width: 92%;">
+    <table style="width: 100%;">
+        <colgroup>
+            <col span="1" style="width: 2%;">
+            <col span="1" style="width: 45%;">
+            <col span="1" style="width: 46%;">
+            <col span="1" style="width: 7%;">
+        </colgroup>
+        <th>
+            {{index}}.
+        </th>
+        <th class="alias-th">
+            <span>
+                <mat-icon>home</mat-icon>
+                {{realEstate.name}}
+            </span>
+        </th>
+        <th>
+            {{realEstate.ownerFullName}}
+        </th>
+        <th>
+            {{realEstate.sqArea}}m2
+        </th>
+    </table>
+</div>
