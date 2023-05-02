@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RealEstateView } from 'src/modules/admin/model/real-estate-view';
+import { RealEstateView } from 'src/modules/admin/model/real-estate';
 
 @Component({
   selector: 'app-real-estate-rows',

@@ -13,12 +13,12 @@
     }
 
     .added-tenants-box {
-        display: flexbox;
+        display: inline-block;
         border-radius: 1rem;
         background-color: white;
         border: 1px solid var(--deep-blue);
         width: 40rem;
-        height: 7rem;
+        height: 8rem;
         margin-left: 1rem;
     }
 
@@ -28,12 +28,13 @@
     }
 
     span.added-tenant {
+        display: inline-block;
         border-radius: 1rem;
         background-color: var(--deep-blue);
         color: white;
         font-size: 0.9rem;
         padding: 0.5rem;
-        margin: 0.4rem;
+        margin: 0.3rem;
         cursor: pointer;
     }
 

@@ -8,6 +8,7 @@ import com.ftn.security.smarthomebackend.model.RegularUser;
 import com.ftn.security.smarthomebackend.model.User;
 import com.ftn.security.smarthomebackend.repository.RegularUserRepository;
 import com.ftn.security.smarthomebackend.dto.response.UserDTO;
+import com.ftn.security.smarthomebackend.service.interfaces.IRegularUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import static com.ftn.security.smarthomebackend.util.Constants.ZERO_FAILED_ATTEMPTS;
@@ -17,7 +18,7 @@ import static com.ftn.security.smarthomebackend.util.Helper.generateRandomString
 import static com.ftn.security.smarthomebackend.util.Helper.getHash;
 
 @Component
-public class RegularUserService {
+public class RegularUserService implements IRegularUserService {
 
     @Autowired
     private RegularUserRepository regularUserRepository;
@@ -27,6 +28,10 @@ public class RegularUserService {
                 .orElseThrow(() -> new EntityNotFoundException(email, EntityType.USER));
     }
 
+    public RegularUser getRegularUserById(Long id) throws EntityNotFoundException {
+        return regularUserRepository.getRegularUserById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id, EntityType.USER));
+    }
 
     public UserDTO create(
             String email,

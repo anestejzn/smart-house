@@ -85,42 +85,39 @@
                 </mat-form-field>
 
             </div>
-
-            <div style="display: flex;">
-
-                <mat-form-field class="colomn" appearance="fill">
-                    <mat-label>Tenant</mat-label>
-                    <mat-select formControlName="currentTenantFormControl" name="tenantField">
-                        <mat-option *ngFor="let tenant of allActiveRegularUsers" [value]="tenant">
-                            {{tenant.email}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <button mat-raised-button class="add-btn" (click)="addTenant()">Add</button>
-
-            </div>
-
-            <div style="display: flex;">
-                <div class="added-tenants-box">
-                    <br>
-                    <span *ngIf="tenants.length == 0; else tenantsBlock" class="no-tenants">Add tenants...</span>
-                    <ng-template #tenantsBlock>
-                        <span *ngFor="let tenant of tenants" class="added-tenant" (click)="deleteTenant(tenant)">
-                            {{tenant.email}} X
-                        </span>
-                    </ng-template>
-                </div>
-
-            </div>
-
         </form>
-
+        <div style="display: flex;">
+        
+            <mat-form-field class="colomn" appearance="fill">
+                <mat-label>Tenant</mat-label>
+                <mat-select [(ngModel)]="currentTenant" name="tenantField">
+                    <mat-option *ngFor="let tenant of allActiveRegularUsers" [value]="tenant">
+                        {{tenant.email}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-raised-button class="add-btn" (click)="addTenant()">Add</button>
+        
+        </div>
+        
+        <div style="display: flex;">
+            <div class="added-tenants-box">
+                <br>
+                <span *ngIf="tenants.length == 0; else tenantsBlock" class="no-tenants">Add tenants...</span>
+                <ng-template #tenantsBlock>
+                    <span *ngFor="let tenant of tenants" class="added-tenant" (click)="deleteTenant(tenant)">
+                        {{tenant.email}} X
+                    </span>
+                </ng-template>
+            </div>
+        
+        </div>
         
     </mat-dialog-content>
 
     <mat-dialog-actions class="activity-buttons" align="center">
         <button mat-button class="cancel-button" [mat-dialog-close]="null">Close</button>
         <button mat-raised-button class="green-button block-button" [disabled]="!addingForm.valid"
-            [mat-dialog-close]="true">Save</button>
+            [mat-dialog-close]="true" (click)="save()">Save</button>
     </mat-dialog-actions>
 </div>

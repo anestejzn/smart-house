@@ -20,6 +20,10 @@ public class Constants {
     public static final String PASSWORDS_DO_NOT_MATCH_MESSAGE = "Passwords don't match. Try again.";
     public static final String WRONG_SECURITY_CODE = "Security code is number greater than 0.";
     public static final String INVALID_CERTIFICATE_EXCEPTION = "This certificate is invalid";
+    public static final String EMPTY_RE_NAME = "Real estate name must contain 20 characters.";
+    public static final String SQ_AREA_MESSAGE = "Square area must be between 10m2 and 600m2.";
+    public static final String CITY_ERROR_MESSAGE = "City must contain between 1 and 20 characters.";
+    public static final String STREET_ERROR_MESSAGE = "Street must contain between 1 and 20 characters.";
 
     //CONSTANTS
     public static final int MIN_SECURITY_NUM = 1000;
@@ -35,7 +39,11 @@ public class Constants {
     //REGEX
     public static final String LEGIT_PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,100}$";
     public static final String LEGIT_NAME_REG = "^[A-Za-z]{1,1}[a-z]{1,20}([ ]?[A-Za-z]?[a-z]{1,20}|[a-z]{1,20})$";
-    public static final String LEGIT_COUNTRY_REG = "[a-zA-Z ]{2,40}";
+//    public static final String LEGIT_COUNTRY_REG = "[a-zA-Z ]{2,40}";
+    public static final String LEGIT_RE_NAME_REG = "[a-zA-Z1-9 ]{1,20}";
+    public static final String LEGIT_RE_SQ_AREA_REG = "(?:[1-9][0-9]|[1-5][0-9]{2}|600)";
+    public static final String LEGIT_RE_CITY_AND_STREET_REG = "[a-zA-Z ]{1,20}";
+    public static final String POSITIVE_WHOLE_NUMBER_REG = "[1-9][0-9]*";
 
     public static final String EMPTY_REASON = "Reason for cancellation certificate must exist.";
 

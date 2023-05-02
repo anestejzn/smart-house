@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { RealEstateView } from '../../model/real-estate-view';
+import { RealEstateView } from '../../model/real-estate';
 import { RealEstateService } from '../../service/real-estate/real-estate.service';
 import { Subscription } from 'rxjs';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddNewRealEstateDialogComponent } from '../../components/real-estate-components/add-new-real-estate-dialog/add-new-real-estate-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-all-real-estates-view',
@@ -20,7 +21,8 @@ export class AllRealEstatesViewComponent implements OnInit, OnDestroy {
   selectedOwner: number = -1;
 
   constructor(private realEstateService: RealEstateService,
-              private addNewDialog: MatDialog
+              private addNewDialog: MatDialog,
+              private toast: ToastrService
   ) {
     this.realEstates = [];
   }
@@ -60,7 +62,15 @@ export class AllRealEstatesViewComponent implements OnInit, OnDestroy {
     dialogConfig.minHeight = '35rem'; // Set the height of the dialog
     dialogConfig.maxHeight = '90vh'; // Set the maximum height of the dialog
     dialogConfig.maxWidth = '90vw'; // Set the maximum width of the dialog
-    this.addNewDialog.open(AddNewRealEstateDialogComponent, dialogConfig);
+    const dialogRef = this.addNewDialog.open(AddNewRealEstateDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.toast.success('Real Estate Object is successfully created.', 'Success!');
+        this.loadRealEstates();
+      }
+    });
+
   }
 
   ngOnDestroy(): void {

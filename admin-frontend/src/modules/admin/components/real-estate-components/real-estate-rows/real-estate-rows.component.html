@@ -1,7 +1,8 @@
 <div class="all-aliases-container">
     <div *ngIf="realEstates && realEstates.length > 0; else noContent">
         <div *ngFor="let re of realEstates; let i=index">
-            <app-real-estate-row [realEstate]="re" [index]="i+1"
+            <app-real-estate-row 
+            [realEstate]="re" [index]="i+1"
                 ></app-real-estate-row>
         </div>
     </div>

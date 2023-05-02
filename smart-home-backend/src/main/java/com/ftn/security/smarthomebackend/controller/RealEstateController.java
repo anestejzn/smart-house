@@ -1,6 +1,9 @@
 package com.ftn.security.smarthomebackend.controller;
 
+import com.ftn.security.smarthomebackend.dto.request.NewRealEstateRequest;
 import com.ftn.security.smarthomebackend.dto.response.RealEstateViewResponse;
+import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
+
 import com.ftn.security.smarthomebackend.service.interfaces.IRealEstateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +34,24 @@ public class RealEstateController {
                 ascending,
                 sqArea,
                 ownerId
+        );
+    }
+
+    @PostMapping("/create/real-estate")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public boolean createRealEstate(@RequestBody @Valid NewRealEstateRequest request)
+            throws EntityNotFoundException
+    {
+
+        return realEstateService.createRealEstate(
+            request.getName(),
+            request.getSqMeters(),
+            request.getCity(),
+            request.getStreet(),
+            request.getStreetNum(),
+            request.getOwnerId(),
+            request.getTenantsIds()
         );
     }
 
