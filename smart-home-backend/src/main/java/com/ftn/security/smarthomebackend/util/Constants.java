@@ -6,6 +6,7 @@ public class Constants {
     public static final String TEMPLATE_FILE_PATH = "./src/main/resources/static/emailTemplates/";
 
     //MESSAGES
+    public static final String MISSING_ID = "Id is missing";
     public static final String WRONG_PASSWORD =
             "Password/confirm password must contain at least 8 characters. " +
                     "At least one number and one special character.";

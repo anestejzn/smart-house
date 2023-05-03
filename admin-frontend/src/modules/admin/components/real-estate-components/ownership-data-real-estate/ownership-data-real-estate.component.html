@@ -1,0 +1,21 @@
+<div *ngIf="realEstate" class="ownership-container">
+
+    <div style="position: relative;">
+        <div class="edit-container">
+            <button mat-mini-fab color="primary">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <h1 class="center-content">Owner</h1>
+    <div>
+        <app-owner-data [owner]="realEstate.owner"></app-owner-data>
+    </div>
+
+    <h1 class="center-content">Tenants</h1>
+    <div>
+        <app-tenant-data [tenants]="realEstate.tenants"></app-tenant-data>
+    </div>
+    
+</div>

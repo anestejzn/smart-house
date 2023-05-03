@@ -1,6 +1,7 @@
 package com.ftn.security.smarthomebackend.controller;
 
 import com.ftn.security.smarthomebackend.dto.request.NewRealEstateRequest;
+import com.ftn.security.smarthomebackend.dto.response.RealEstateResponse;
 import com.ftn.security.smarthomebackend.dto.response.RealEstateViewResponse;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 
@@ -15,12 +16,23 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+import static com.ftn.security.smarthomebackend.util.Constants.MISSING_ID;
+
 @RestController
 @RequestMapping("real-estates")
 public class RealEstateController {
 
     @Autowired
     private IRealEstateService realEstateService;
+
+
+    @GetMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REGULAR_USER')")
+    public RealEstateResponse getRealEstates(@PathVariable @Valid @NotBlank(message = MISSING_ID) Long id) throws EntityNotFoundException {
+
+        return realEstateService.getRealEstate(id);
+    }
 
     @GetMapping(value = "/{ascending}/{sqArea}/{ownerId}")
     @ResponseStatus(HttpStatus.OK)

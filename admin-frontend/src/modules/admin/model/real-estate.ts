@@ -1,3 +1,4 @@
+import { User } from "src/modules/shared/model/user"
 
 export interface RealEstateView {
     id: number,
@@ -14,4 +15,14 @@ export interface NewRealEstateRequest {
     streetNum: string,
     ownerId: number,
     tenantsIds: number[]
+}
+
+export interface RealEstate {
+    name: string,
+    sqMeters: number,
+    city: string,
+    street: string,
+    streetNum: string,
+    owner: User,
+    tenants: User[]
 }

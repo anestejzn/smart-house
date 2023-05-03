@@ -1,0 +1,15 @@
+<div *ngIf="owner" class="owner-data-container">
+    <hr>
+    <br>
+    
+    <div style="display: flex; margin: 0 2rem;">
+        <mat-icon>person</mat-icon>
+        <div class="inner-container-basic-data">
+            <span class="name-span">{{owner.name}} {{owner.surname}}</span>
+            <span class="email-span" style="display: block;">{{owner.email}}</span>
+        </div>
+    </div>
+
+    <br>
+    <hr>
+</div>

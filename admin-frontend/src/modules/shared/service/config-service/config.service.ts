@@ -73,4 +73,8 @@ export class ConfigService {
     return `${this.REAL_ESTATE_URL}/${ascending}/${range}/${selectedOwner}`;
   }
 
+  getUrlForRealEstateById(id: string): string {
+    return `${this.REAL_ESTATE_URL}/${id}`;
+  }
+
 }

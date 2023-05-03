@@ -1,0 +1,23 @@
+
+span.added-tenant {
+    display: inline-block;
+    border-radius: 1rem;
+    background-color: var(--deep-blue);
+    color: white;
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    margin: 0.4rem;
+    cursor: pointer;
+}
+
+.no-tenants {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.tenants-container {
+     display: flex;
+     max-width: 30rem;
+     flex-wrap: wrap;
+     margin-left: 0.5rem;
+ }

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { RealEstateView } from 'src/modules/admin/model/real-estate';
 
 @Component({
@@ -11,9 +12,13 @@ export class RealEstateRowComponent implements OnInit {
   @Input() realEstate: RealEstateView;
   @Input() index: number;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  goToDetailsPage(): void {
+    this.router.navigate([`/smart-home/admin/real-estate/${this.realEstate.id}`]);
   }
 
 }

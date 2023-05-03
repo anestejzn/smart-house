@@ -1,0 +1,29 @@
+
+
+.owner-data-container {
+    margin: 1rem 5rem;
+
+    hr {
+       border: 1px solid var(--deep-blue);
+    }
+
+    mat-icon {
+        transform: scale(2);
+    }
+
+    .name-span {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    span.email-span {
+        display: block !important;
+        font-size: 1rem;
+    }
+
+    .inner-container-basic-data {
+        margin-top: -0.5rem;
+        margin-left: 1rem;
+    }
+
+}

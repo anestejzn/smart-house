@@ -22,6 +22,11 @@ import { RealEstateRowComponent } from './components/real-estate-components/real
 import { RealEstateSortingButtonsComponent } from './components/real-estate-components/real-estate-sorting-buttons/real-estate-sorting-buttons.component';
 import { RealEstateRowsComponent } from './components/real-estate-components/real-estate-rows/real-estate-rows.component';
 import { AddNewRealEstateDialogComponent } from './components/real-estate-components/add-new-real-estate-dialog/add-new-real-estate-dialog.component';
+import { DetailRealEstateComponent } from './pages/detail-real-estate/detail-real-estate.component';
+import { BasicRealEstateInfoComponent } from './components/real-estate-components/basic-real-estate-info/basic-real-estate-info.component';
+import { OwnershipDataRealEstateComponent } from './components/real-estate-components/ownership-data-real-estate/ownership-data-real-estate.component';
+import { OwnerDataComponent } from './components/real-estate-components/owner-data/owner-data.component';
+import { TenantDataComponent } from './components/real-estate-components/tenant-data/tenant-data.component';
 
 
 
@@ -44,7 +49,12 @@ import { AddNewRealEstateDialogComponent } from './components/real-estate-compon
     RealEstateRowComponent,
     RealEstateSortingButtonsComponent,
     RealEstateRowsComponent,
-    AddNewRealEstateDialogComponent
+    AddNewRealEstateDialogComponent,
+    DetailRealEstateComponent,
+    BasicRealEstateInfoComponent,
+    OwnershipDataRealEstateComponent,
+    OwnerDataComponent,
+    TenantDataComponent
   ],
   imports: [
     CommonModule,

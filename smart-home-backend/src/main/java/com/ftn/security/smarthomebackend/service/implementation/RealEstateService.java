@@ -1,13 +1,14 @@
 package com.ftn.security.smarthomebackend.service.implementation;
 
+import com.ftn.security.smarthomebackend.dto.response.RealEstateResponse;
 import com.ftn.security.smarthomebackend.dto.response.RealEstateViewResponse;
+import com.ftn.security.smarthomebackend.enums.EntityType;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 import com.ftn.security.smarthomebackend.model.RealEstate;
 import com.ftn.security.smarthomebackend.model.RegularUser;
 import com.ftn.security.smarthomebackend.repository.RealEstateRepository;
 import com.ftn.security.smarthomebackend.service.interfaces.IRealEstateService;
 import com.ftn.security.smarthomebackend.service.interfaces.IRegularUserService;
-import com.ftn.security.smarthomebackend.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,18 @@ public class RealEstateService implements IRealEstateService {
     public List<RealEstateViewResponse> filterRealEstates(boolean ascending, String sqArea, Long ownerId) {
 
         return fromListToResponse(getRealEstatesList(ascending, sqArea, ownerId));
+    }
+
+    @Override
+    public RealEstate getRealEstateById(Long id) throws EntityNotFoundException {
+        return realEstateRepository.getRealEstateById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id, EntityType.USER));
+    }
+
+    @Override
+    public RealEstateResponse getRealEstate(Long id) throws EntityNotFoundException {
+
+        return new RealEstateResponse(getRealEstateById(id));
     }
 
     @Override

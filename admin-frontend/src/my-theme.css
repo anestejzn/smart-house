@@ -3237,3 +3237,13 @@ mat-radio-button.sort-btn {
 .invalid-cert {
   color: red;
 }
+
+.edit-container button {
+  display: none;
+}
+
+.edit-container {
+  position: absolute;
+  margin-left: 85%;
+  margin-top: 0.7rem;
+}
