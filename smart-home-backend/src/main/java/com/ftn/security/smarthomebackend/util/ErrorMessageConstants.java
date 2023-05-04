@@ -11,5 +11,6 @@ public class ErrorMessageConstants {
     public static final String WRONG_VERIFY_HASH = "Verify hash must be added.";
     public static final String NULL_VALUE = "Attribute must not be empty.";
     public static final String EMPTY_STRING = "String attribute must not be empty";
+    public static final String OWNER_AND_TENANT_OVERLAP = "Owner and tenant cannot be the same person.";
 
 }

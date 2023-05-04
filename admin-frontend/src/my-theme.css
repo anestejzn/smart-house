@@ -3247,3 +3247,9 @@ mat-radio-button.sort-btn {
   margin-left: 85%;
   margin-top: 0.7rem;
 }
+
+.center-page-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

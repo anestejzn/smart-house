@@ -68,6 +68,8 @@ export class ConfigService {
   ///////////REAL ESTATE////////
   REAL_ESTATE_URL = `${this.API_URL}/real-estates`;
   REAL_ESTATE_CREATION = `${this.REAL_ESTATE_URL}/create/real-estate`;
+  REAL_ESTATE_BASIC_INFO_EDIT = `${this.REAL_ESTATE_URL}/edit-basic-info/real-estate`;
+  REAL_ESTATE_OWNERSHIP_INFO_EDIT = `${this.REAL_ESTATE_URL}/edit-ownership/real-estate`;
 
   getUrlForFilteringRealEstates(ascending: boolean, range: string, selectedOwner: number): string {
     return `${this.REAL_ESTATE_URL}/${ascending}/${range}/${selectedOwner}`;

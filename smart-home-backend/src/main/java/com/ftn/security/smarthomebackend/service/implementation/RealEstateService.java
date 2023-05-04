@@ -4,6 +4,7 @@ import com.ftn.security.smarthomebackend.dto.response.RealEstateResponse;
 import com.ftn.security.smarthomebackend.dto.response.RealEstateViewResponse;
 import com.ftn.security.smarthomebackend.enums.EntityType;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
+import com.ftn.security.smarthomebackend.exception.OwnerAndTenantOverlapException;
 import com.ftn.security.smarthomebackend.model.RealEstate;
 import com.ftn.security.smarthomebackend.model.RegularUser;
 import com.ftn.security.smarthomebackend.repository.RealEstateRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.ftn.security.smarthomebackend.dto.response.RealEstateViewResponse.fromListToResponse;
 import static com.ftn.security.smarthomebackend.util.Constants.FILTER_BY_ALL;
@@ -46,6 +48,38 @@ public class RealEstateService implements IRealEstateService {
     }
 
     @Override
+    public RealEstateResponse editBasicInfo(Long id,
+                                 String name,
+                                 Integer sqMeters,
+                                 String city,
+                                 String street,
+                                 String streetNum
+    ) throws EntityNotFoundException {
+        RealEstate realEstate = getRealEstateById(id);
+        realEstate.setName(name);
+        realEstate.setSqMeters(sqMeters);
+        realEstate.setCity(city);
+        realEstate.setStreet(street);
+        realEstate.setStreetNum(streetNum);
+
+        return new RealEstateResponse(realEstateRepository.save(realEstate));
+    }
+
+    @Override
+    public RealEstateResponse editOwnership(Long id, Long ownerId, Long[] tenantsIds)
+            throws EntityNotFoundException, OwnerAndTenantOverlapException {
+        RegularUser owner = regularUserService.getRegularUserById(ownerId);
+        List<RegularUser> tenants = extractTenants(tenantsIds);
+        checkOwnerAndTenantOverlap(owner, tenants);
+
+        RealEstate realEstate = getRealEstateById(id);
+        realEstate.setOwner(owner);
+        realEstate.setTenants(tenants);
+
+        return new RealEstateResponse(realEstateRepository.save(realEstate));
+    }
+
+    @Override
     public boolean createRealEstate(String name,
                                     Integer sqMeters,
                                     String city,
@@ -53,13 +87,11 @@ public class RealEstateService implements IRealEstateService {
                                     String streetNum,
                                     Long ownerId,
                                     Long[] tenantsIds
-    ) throws EntityNotFoundException {
+    ) throws EntityNotFoundException, OwnerAndTenantOverlapException {
         RegularUser owner = regularUserService.getRegularUserById(ownerId);
-        List<RegularUser> tenants = new LinkedList<>();
-        for (Long id : tenantsIds) {
-            tenants.add(regularUserService.getRegularUserById(id));
-        }
+        List<RegularUser> tenants = extractTenants(tenantsIds);
 
+        checkOwnerAndTenantOverlap(owner, tenants);
         realEstateRepository.save(
                 new RealEstate(
                         name,
@@ -72,6 +104,23 @@ public class RealEstateService implements IRealEstateService {
                 ));
 
         return true;
+    }
+
+    private List<RegularUser> extractTenants(Long[] tenantsIds) throws EntityNotFoundException {
+        List<RegularUser> tenants = new LinkedList<>();
+        for (Long id : tenantsIds) {
+            tenants.add(regularUserService.getRegularUserById(id));
+        }
+
+        return tenants;
+    }
+
+    private void checkOwnerAndTenantOverlap(RegularUser owner, List<RegularUser> tenants) throws OwnerAndTenantOverlapException {
+        for (RegularUser tenant : tenants) {
+            if (Objects.equals(tenant.getId(), owner.getId())) {
+                throw new OwnerAndTenantOverlapException();
+            }
+        }
     }
 
     private List<RealEstate> getRealEstatesList(boolean ascending, String sqArea, Long ownerId) {

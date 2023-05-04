@@ -44,6 +44,10 @@ export class DetailRealEstateComponent implements OnInit, OnDestroy {
     )
   }
 
+  updatedData() {
+    this.loadRealEstateData();
+  }
+
   ngOnDestroy(): void {
     if (this.realEstateSubscription) {
       this.realEstateSubscription.unsubscribe();

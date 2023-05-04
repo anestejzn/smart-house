@@ -13,16 +13,16 @@ public interface RealEstateRepository extends JpaRepository<RealEstate, Long> {
 
     Optional<RealEstate> getRealEstateById(Long id);
 
-    @Query("select re from RealEstate re where re.sqMeters > ?1 and re.sqMeters <= ?2 order by re.name asc ")
+    @Query("select re from RealEstate re where re.sqMeters >= ?1 and re.sqMeters <= ?2 order by re.name asc ")
     List<RealEstate> filterAllRealEstatesAsc(Integer bottomSqArea, Integer topSqArea);
 
-    @Query("select re from RealEstate re where re.sqMeters > ?1 and re.sqMeters <= ?2 order by re.name desc ")
+    @Query("select re from RealEstate re where re.sqMeters >= ?1 and re.sqMeters <= ?2 order by re.name desc ")
     List<RealEstate> filterAllRealEstatesDesc(Integer bottomSqArea, Integer topSqArea);
 
-    @Query("select re from RealEstate re where re.sqMeters > ?1 and re.sqMeters <= ?2 and re.owner.id = ?3 order by re.name asc ")
+    @Query("select re from RealEstate re where re.sqMeters >= ?1 and re.sqMeters <= ?2 and re.owner.id = ?3 order by re.name asc ")
     List<RealEstate> filterRealEstatesByOwnerAsc(Integer bottomSqArea, Integer topSqArea, Long id);
 
-    @Query("select re from RealEstate re where re.sqMeters > ?1 and re.sqMeters <= ?2 and re.owner.id = ?3 order by re.name desc ")
+    @Query("select re from RealEstate re where re.sqMeters >= ?1 and re.sqMeters <= ?2 and re.owner.id = ?3 order by re.name desc ")
     List<RealEstate> filterRealEstatesByOwnerDesc(Integer bottomSqArea, Integer topSqArea, Long id);
 
 }

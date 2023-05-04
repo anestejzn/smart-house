@@ -116,10 +116,14 @@ export class AddNewRealEstateDialogComponent implements OnInit, OnDestroy {
       }
       this.realEstateCreationSubscription = this.realEstateService.createNewRealEstate(data).subscribe(
         res => {
-          console.log(res);
+          if (res) {
+            this.toast.success('Real Estate Object is successfully created.', 'Success!');
+          }
         },
         err => {
-          this.toast.error(err.error, 'Error happened');
+          if (err) {
+            this.toast.error(err.error, 'Error happened');
+          }
         }
       )
     } else {

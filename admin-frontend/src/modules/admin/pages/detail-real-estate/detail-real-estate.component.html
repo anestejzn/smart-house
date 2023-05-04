@@ -1,20 +1,22 @@
-<div *ngIf="realEstate; else notFoundBlock" class="smart-home-container">
-    <div style="display: flex;">
-        <div class="basic-data-container">
-            <app-basic-real-estate-info [realEstate]="realEstate"></app-basic-real-estate-info>
+<div *ngIf="realEstate; else notFoundBlock" class="center-page-content">
+    <div>
+        <div style="display: flex;">
+            <div class="basic-data-container">
+                <app-basic-real-estate-info (updatedRealEstateEvent)="updatedData()" [realEstate]="realEstate"></app-basic-real-estate-info>
+            </div>
+            <div class="devices-container">
+                <h1 class="center-content">Devices</h1>
+                <p class="center-content">Coming soon</p>
+            </div>
         </div>
-        <div class="devices-container">
-            <h1 class="center-content">Devices</h1>
-            <p class="center-content">Coming soon</p>
-        </div>
-    </div>
-    <div style="display: flex;">
-        <div>
-            <app-ownership-data-real-estate [realEstate]="realEstate"></app-ownership-data-real-estate>
-        </div>
-        <div class="activity-container">
-            <h1 class="center-content">Activity</h1>
-            <p class="center-content">Coming soon</p>
+        <div style="display: flex;">
+            <div>
+                <app-ownership-data-real-estate (updatedRealEstateEvent)="updatedData()" [realEstate]="realEstate"></app-ownership-data-real-estate>
+            </div>
+            <div class="activity-container">
+                <h1 class="center-content">Activity</h1>
+                <p class="center-content">Coming soon</p>
+            </div>
         </div>
     </div>
 </div>

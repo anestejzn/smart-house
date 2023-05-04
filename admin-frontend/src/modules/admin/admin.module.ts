@@ -27,6 +27,8 @@ import { BasicRealEstateInfoComponent } from './components/real-estate-component
 import { OwnershipDataRealEstateComponent } from './components/real-estate-components/ownership-data-real-estate/ownership-data-real-estate.component';
 import { OwnerDataComponent } from './components/real-estate-components/owner-data/owner-data.component';
 import { TenantDataComponent } from './components/real-estate-components/tenant-data/tenant-data.component';
+import { EditBasicReDataDialogComponent } from './components/real-estate-components/edit-basic-re-data-dialog/edit-basic-re-data-dialog.component';
+import { EditOwnershipReDialogComponent } from './components/real-estate-components/edit-ownership-re-dialog/edit-ownership-re-dialog.component';
 
 
 
@@ -54,7 +56,9 @@ import { TenantDataComponent } from './components/real-estate-components/tenant-
     BasicRealEstateInfoComponent,
     OwnershipDataRealEstateComponent,
     OwnerDataComponent,
-    TenantDataComponent
+    TenantDataComponent,
+    EditBasicReDataDialogComponent,
+    EditOwnershipReDialogComponent
   ],
   imports: [
     CommonModule,

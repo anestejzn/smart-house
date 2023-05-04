@@ -103,7 +103,7 @@
         <div style="display: flex;">
             <div class="added-tenants-box">
                 <br>
-                <span *ngIf="tenants.length == 0; else tenantsBlock" class="no-tenants">Add tenants...</span>
+                <span *ngIf="tenants && tenants.length == 0; else tenantsBlock" class="no-tenants">Add tenants...</span>
                 <ng-template #tenantsBlock>
                     <span *ngFor="let tenant of tenants" class="added-tenant" (click)="deleteTenant(tenant)">
                         {{tenant.email}} X

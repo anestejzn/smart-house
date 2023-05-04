@@ -21,8 +21,7 @@ export class AllRealEstatesViewComponent implements OnInit, OnDestroy {
   selectedOwner: number = -1;
 
   constructor(private realEstateService: RealEstateService,
-              private addNewDialog: MatDialog,
-              private toast: ToastrService
+              private addNewDialog: MatDialog
   ) {
     this.realEstates = [];
   }
@@ -66,7 +65,6 @@ export class AllRealEstatesViewComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.toast.success('Real Estate Object is successfully created.', 'Success!');
         this.loadRealEstates();
       }
     });
