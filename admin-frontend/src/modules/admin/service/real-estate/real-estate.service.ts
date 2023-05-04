@@ -31,4 +31,8 @@ export class RealEstateService {
     return this.http.put<RealEstate>(this.configService.REAL_ESTATE_OWNERSHIP_INFO_EDIT, data);
   }
 
+  delete(id: number): Observable<boolean> {
+     return this.http.delete<boolean>(this.configService.getUrlForRealEstateDeletion(id));
+  }
+
 }

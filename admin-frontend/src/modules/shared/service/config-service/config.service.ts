@@ -79,4 +79,8 @@ export class ConfigService {
     return `${this.REAL_ESTATE_URL}/${id}`;
   }
 
+  getUrlForRealEstateDeletion(id: number): string {
+    return `${this.REAL_ESTATE_URL}/${id}`;
+  }
+
 }

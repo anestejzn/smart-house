@@ -99,4 +99,13 @@ public class RealEstateController {
         );
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public boolean editOwnershipRealEstate(@PathVariable @Valid @NotBlank(message = MISSING_ID) Long id)
+            throws EntityNotFoundException {
+
+        return realEstateService.delete(id);
+    }
+
 }

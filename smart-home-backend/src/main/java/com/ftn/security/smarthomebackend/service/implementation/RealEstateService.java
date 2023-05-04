@@ -80,6 +80,14 @@ public class RealEstateService implements IRealEstateService {
     }
 
     @Override
+    public boolean delete(Long id) throws EntityNotFoundException {
+        RealEstate realEstate =  getRealEstateById(id);
+        realEstateRepository.delete(realEstate);
+
+        return true;
+    }
+
+    @Override
     public boolean createRealEstate(String name,
                                     Integer sqMeters,
                                     String city,

@@ -20,4 +20,6 @@ public interface IRealEstateService {
     RealEstateResponse editBasicInfo(Long id, String name, Integer sqMeters, String city, String street, String streetNum) throws EntityNotFoundException;
 
     RealEstateResponse editOwnership(Long id, Long ownerId, Long[] tenantsIds) throws EntityNotFoundException, OwnerAndTenantOverlapException;
+
+    boolean delete(Long id) throws EntityNotFoundException;
 }
