@@ -1,0 +1,35 @@
+
+
+.basic-data-container {
+    margin-top: 3rem;
+    margin-right: 3rem;
+    margin-bottom: 3rem;
+}
+
+.devices-container {
+    border: 3px solid var(--deep-blue);
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    min-width: 40rem;
+    border-radius: 1rem;
+}
+
+.activity-container {
+    border: 3px solid var(--deep-blue);
+    margin-left: 3rem;
+    min-width: 40rem;
+    border-radius: 1rem;
+}
+
+.delete-btn {
+
+    position: absolute;
+    right: 5%;
+    top: 85%;
+
+    mat-icon {
+        color: white;
+        transform: scale(1.3);
+    }
+
+}

@@ -1,0 +1,22 @@
+<div>
+    <label class="label-sort">Pick certificate type: </label>
+    <mat-radio-group>
+        <mat-radio-button class="sort-btn"
+        *ngFor="let sort of sortByType"
+          [value]="sort.name"
+          [checked]="sort.checked"
+          (change)="selectSortType(sort.name)">
+          {{ sort.name }}
+        </mat-radio-button>
+    </mat-radio-group>
+    <hr>
+    <label class="label-sort">Pick validity: </label>
+    <mat-radio-group>
+        <mat-radio-button *ngFor="let sort of sortByValidity" [value]="sort.name" [checked]="sort.checked"
+            (change)="selectSortValidity(sort.name)"
+            class="sort-btn">
+            {{ sort.name }}
+        </mat-radio-button>
+    </mat-radio-group>
+    <hr>
+</div>

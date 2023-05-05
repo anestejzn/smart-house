@@ -1,0 +1,30 @@
+<div>
+    <label class="label-sort">Sort by name: </label>
+    <mat-radio-group>
+        <mat-radio-button *ngFor="let sort of sortByName" [value]="sort.asc" [checked]="sort.checked"
+            (change)="selectSortByName(sort.asc)"
+            class="sort-btn">
+            {{ sort.name }}
+        </mat-radio-button>
+    </mat-radio-group>
+    <hr>
+    <label class="label-sort">Pick square area: </label>
+    <mat-radio-group>
+        <mat-radio-button *ngFor="let sort of filterBySquareArea" [value]="sort.returnValue" [checked]="sort.checked"
+            (change)="selectFilterBySqArea(sort.returnValue)"
+            class="sort-btn">
+            {{ sort.name }}
+        </mat-radio-button>
+    </mat-radio-group>
+    <hr>
+    <label class="label-sort">Pick owner: </label>
+    <mat-form-field appearance="fill">
+        <mat-label>Owner</mat-label>
+        <mat-select [(ngModel)]="selectedOwner" name="ownerField">
+            <mat-option *ngFor="let owner of owners" [value]="owner" (click)="changedOwner()">
+                {{owner}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <hr>
+</div>

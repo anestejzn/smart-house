@@ -3215,32 +3215,14 @@ h1 {
   margin-right: 1rem;
 }
 
-.random-color-2 {
-  background-color: burlywood;
+.label-sort {
+  font-size: 1.2rem;
+  display: block;
 }
 
-.random-color-1 {
-  background-color: darkkhaki;
-}
-
-.random-color-0 {
-  background-color: lightblue;
-}
-
-.random-color-3 {
-  background-color: gray;
-}
-
-.random-color-4 {
-  background-color: chocolate;
-}
-
-.random-color-5 {
-  background-color: seagreen;
-}
-
-.random-color-6 {
-  background-color: lemonchiffon;
+mat-radio-button.sort-btn {
+  display: block;
+  margin-top: 0.3rem;
 }
 
 .standard-dialog-container {
@@ -3254,4 +3236,20 @@ h1 {
 
 .invalid-cert {
   color: red;
+}
+
+.edit-container button {
+  display: none;
+}
+
+.edit-container {
+  position: absolute;
+  margin-left: 85%;
+  margin-top: 0.7rem;
+}
+
+.center-page-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

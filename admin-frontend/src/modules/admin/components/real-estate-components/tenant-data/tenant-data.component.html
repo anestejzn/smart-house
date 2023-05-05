@@ -1,0 +1,13 @@
+<div *ngIf="tenants && tenants.length > 0; else noTenantsBlock">
+    <div class="tenants-container">
+        <br>
+        <span *ngFor="let tenant of tenants" class="added-tenant">
+            {{tenant.email}}
+        </span>
+    </div>
+</div>
+<ng-template #noTenantsBlock>
+    <div class="no-tenants center-content">
+        There are no tenants for this unit.
+    </div>
+</ng-template>

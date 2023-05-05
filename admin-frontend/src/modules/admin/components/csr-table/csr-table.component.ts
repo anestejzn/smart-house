@@ -5,7 +5,7 @@ import { CsrDataSource } from '../../model/csr-data-source';
 import { Csr } from '../../model/csr';
 import { MatDialog } from '@angular/material/dialog';
 import { CsrDetailsDialogComponent } from '../csr-details-dialog/csr-details-dialog.component';
-import { CreateCertificateDialogComponent } from '../create-certificate-dialog/create-certificate-dialog.component';
+import { CreateCertificateDialogComponent } from '../certificate-components/create-certificate-dialog/create-certificate-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-csr-table',

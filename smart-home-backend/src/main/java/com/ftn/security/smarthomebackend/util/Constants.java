@@ -4,6 +4,7 @@ public class Constants {
     //PATHS
     public static final String TEMPLATE_FILE_PATH = "./src/main/resources/static/emailTemplates/";
     //MESSAGES
+    public static final String MISSING_ID = "Id is missing";
     public static final String WRONG_PASSWORD =
             "Password/confirm password must contain at least 8 characters. " +
                     "At least one number and one special character.";
@@ -18,6 +19,10 @@ public class Constants {
     public static final String PASSWORDS_DO_NOT_MATCH_MESSAGE = "Passwords don't match. Try again.";
     public static final String WRONG_SECURITY_CODE = "Security code is number greater than 0.";
     public static final String INVALID_CERTIFICATE_EXCEPTION = "This certificate is invalid";
+    public static final String EMPTY_RE_NAME = "Real estate name must contain 20 characters.";
+    public static final String SQ_AREA_MESSAGE = "Square area must be between 10m2 and 600m2.";
+    public static final String CITY_ERROR_MESSAGE = "City must contain between 1 and 20 characters.";
+    public static final String STREET_ERROR_MESSAGE = "Street must contain between 1 and 20 characters.";
 
     //CONSTANTS
     public static final int MIN_SECURITY_NUM = 1000;
@@ -25,6 +30,10 @@ public class Constants {
     public static final int SALT_LENGTH = 4;
     public static final int ZERO_FAILED_ATTEMPTS = 0;
     public static final int MAX_NUM_VERIFY_TRIES = 3;
+    public static final int MIN_SQ_AREA = 10;
+    public static final int BOTTOM_MARGIN_FILTERING_SQ_AREA = 50;
+    public static final int MAX_SQ_AREA = 600;
+    public static final int FILTER_BY_ALL = -1;
 
     //REGEX
     public static final String LEGIT_PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,100}$";
@@ -32,6 +41,11 @@ public class Constants {
     public static final String LEGIT_COUNTRY_REG = "[a-zA-Z ]{2,40}";
     public static final String PIN_CODE_REG = "^\\d{4}$";
     public static final String VALID_PERIOD_REG = "^\\d{1,100}$";
+//    public static final String LEGIT_COUNTRY_REG = "[a-zA-Z ]{2,40}";
+    public static final String LEGIT_RE_NAME_REG = "[a-zA-Z1-9 ]{1,20}";
+    public static final String LEGIT_RE_SQ_AREA_REG = "(?:[1-9][0-9]|[1-5][0-9]{2}|600)";
+    public static final String LEGIT_RE_CITY_AND_STREET_REG = "[a-zA-Z ]{1,20}";
+    public static final String POSITIVE_WHOLE_NUMBER_REG = "[1-9][0-9]*";
 
     public static final String EMPTY_REASON = "Reason for cancellation certificate must exist.";
     public static final String INVALID_ALIAS_NAME = "Alias cannot be empty!";

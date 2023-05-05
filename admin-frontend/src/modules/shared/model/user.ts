@@ -4,7 +4,7 @@ export interface User {
   email: string;
   name: string;
   surname: string;
-  accountStatus: string;
-  role: string;
+  accountStatus?: string;
+  role?: string;
 }
  

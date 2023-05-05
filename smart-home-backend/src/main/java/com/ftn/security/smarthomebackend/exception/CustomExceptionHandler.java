@@ -30,6 +30,12 @@ public class CustomExceptionHandler {
         return entityAlreadyExists.getMessage();
     }
 
+    @ExceptionHandler(value = OwnerAndTenantOverlapException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String ownerAndTenantOverlapException(OwnerAndTenantOverlapException ownerAndTenantOverlapException) {
+        return ownerAndTenantOverlapException.getMessage();
+    }
+
     @ExceptionHandler(value = NoSuchElementException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String noSuchElementException() {

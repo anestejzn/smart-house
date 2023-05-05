@@ -9,15 +9,25 @@ import com.ftn.security.smarthomebackend.service.interfaces.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("users")
 public class UserController {
     @Autowired
     private IUserService userService;
+
+    @GetMapping("all-active-regular")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REGULAR_USER')")
+    public List<UserDTO> getAllActiveRegularUsers() {
+
+        return userService.getAllActiveRegularUsers();
+    }
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)

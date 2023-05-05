@@ -36,8 +36,8 @@ export class ConfigService {
   //////////////////USERS////////////////
   USERS_URL = `${this.API_URL}/users`;
   CREATE_REGULAR_USER_URL = `${this.USERS_URL}/register`;
-    ACTIVATE_ACCOUNT_URL = `${this.USERS_URL}/activate-account`;
-
+  ACTIVATE_ACCOUNT_URL = `${this.USERS_URL}/activate-account`;
+  ALL_ACTIVE_REGULAR_USERS = `${this.USERS_URL}/all-active-regular`;
 
   /////////////////VERIFY/////////////////
   VERIFY_URL = `${this.API_URL}/verify`;
@@ -49,4 +49,18 @@ export class ConfigService {
   getCreateCsrUrl(): string {
     return this.CSR_URL;
   }
+
+   ///////////REAL ESTATE////////
+  REAL_ESTATE_URL = `${this.API_URL}/real-estates`;
+  REAL_ESTATE_CREATION = `${this.REAL_ESTATE_URL}/create/real-estate`;
+  REAL_ESTATE_TENANTS_INFO_EDIT = `${this.REAL_ESTATE_URL}/edit-tenants-regular/real-estate`;
+
+  getUrlForFilteringRealEstates(ascending: boolean, range: string, selectedOwner: number): string {
+    return `${this.REAL_ESTATE_URL}/${ascending}/${range}/${selectedOwner}`;
+  }
+
+  getUrlForRealEstateById(id: string): string {
+    return `${this.REAL_ESTATE_URL}/${id}`;
+  }
+
 }

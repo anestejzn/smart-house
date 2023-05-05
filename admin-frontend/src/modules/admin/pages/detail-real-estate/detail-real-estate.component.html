@@ -1,0 +1,31 @@
+<div *ngIf="realEstate; else notFoundBlock" class="center-page-content">
+    <div>
+        <div style="display: flex;">
+            <div class="basic-data-container">
+                <app-basic-real-estate-info (updatedRealEstateEvent)="updatedData()" [realEstate]="realEstate"></app-basic-real-estate-info>
+            </div>
+            <div class="devices-container">
+                <h1 class="center-content">Devices</h1>
+                <p class="center-content">Coming soon</p>
+            </div>
+        </div>
+        <div style="display: flex;">
+            <div>
+                <app-ownership-data-real-estate (updatedRealEstateEvent)="updatedData()" [realEstate]="realEstate"></app-ownership-data-real-estate>
+            </div>
+            <div class="activity-container">
+                <h1 class="center-content">Activity</h1>
+                <p class="center-content">Coming soon</p>
+            </div>
+        </div>
+    </div>
+    <button mat-fab color="warn" class="delete-btn" (click)="deleteRealEstate()">
+        <mat-icon>delete</mat-icon>
+    </button>
+</div>
+<ng-template #notFoundBlock>
+    <div style="font-size: 2rem; margin: 3rem; font-weight: bold;">
+        Not found
+    </div>
+</ng-template>
+

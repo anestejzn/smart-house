@@ -8,12 +8,8 @@
     <div class="spacer">
       <div *ngIf="loggedUser && loggedUser.accountStatus === 'ACTIVE'">
         &nbsp;&nbsp;
-        <a
-          [routerLink]="['']"
-          routerLinkActive="active"
-          mat-button
-          color="primary"
-          >Devices</a>
+        <a [routerLink]="['/smart-home/user/all-real-estates']" routerLinkActive="active" mat-button color="primary">Real
+          Estate</a>
         </div>
     </div>
   

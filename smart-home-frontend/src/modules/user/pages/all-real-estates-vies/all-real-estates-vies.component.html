@@ -1,0 +1,16 @@
+<div class="form-container">
+    <div class="row">
+        <div class="column sorting-column">
+            <h1><b>Real Estates:</b></h1>
+
+            <app-real-estate-sorting-buttons (changedSortByNameEvent)="changeSortByName($event)"
+                (changedFilterBySquareAreaEvent)="changeFilterBySqArea($event)">
+            </app-real-estate-sorting-buttons>
+        </div>
+        <div class="column real-estate-column">
+            <app-real-estate-rows [realEstates]="realEstates">
+            </app-real-estate-rows>
+        </div>
+    </div>
+</div>
+

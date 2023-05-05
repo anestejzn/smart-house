@@ -60,5 +60,27 @@ export class ConfigService {
     return `${this.CERTIFICATE_URL}/cancel`;
   }
 
+  ///////////USER///////////////
+  USER_URL = `${this.API_URL}/users`;
+  ALL_ACTIVE_REGULAR_USERS = `${this.USER_URL}/all-active-regular`;
+
+
+  ///////////REAL ESTATE////////
+  REAL_ESTATE_URL = `${this.API_URL}/real-estates`;
+  REAL_ESTATE_CREATION = `${this.REAL_ESTATE_URL}/create/real-estate`;
+  REAL_ESTATE_BASIC_INFO_EDIT = `${this.REAL_ESTATE_URL}/edit-basic-info/real-estate`;
+  REAL_ESTATE_OWNERSHIP_INFO_EDIT = `${this.REAL_ESTATE_URL}/edit-ownership/real-estate`;
+
+  getUrlForFilteringRealEstates(ascending: boolean, range: string, selectedOwner: number): string {
+    return `${this.REAL_ESTATE_URL}/${ascending}/${range}/${selectedOwner}`;
+  }
+
+  getUrlForRealEstateById(id: string): string {
+    return `${this.REAL_ESTATE_URL}/${id}`;
+  }
+
+  getUrlForRealEstateDeletion(id: number): string {
+    return `${this.REAL_ESTATE_URL}/${id}`;
+  }
 
 }
