@@ -11,14 +11,18 @@ import com.ftn.security.smarthomebackend.exception.WrongVerifyTryException;
 import com.ftn.security.smarthomebackend.service.interfaces.IAuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.*;
+import jakarta.validation.*;
 import java.io.IOException;
 
 @RestController
 @RequestMapping("/auth")
+@Validated
 public class AuthController {
     @Autowired
     private IAuthService authService;
@@ -31,19 +35,19 @@ public class AuthController {
 
     @PostMapping(path="/login-reg-user")
     @ResponseStatus(HttpStatus.OK)
-    public LoginResponse loginRegularUser(@Valid @RequestBody final LoginRequest loginRequest, HttpServletResponse response) throws InvalidCredsException, UserLockedException {
+    public LoginResponse loginRegularUser(@Valid @NotNull @RequestBody final LoginRequest loginRequest, HttpServletResponse response) throws InvalidCredsException, UserLockedException {
         return authService.loginRegularUser(loginRequest.getEmail(), loginRequest.getPassword(), response);
     }
 
     @PostMapping(path = "/logout")
     @ResponseStatus(HttpStatus.OK)
-    public void logout(HttpServletRequest request) {
+    public void logout(final HttpServletRequest request) {
         authService.logout(request);
     }
 
     @GetMapping("/generate-pin/{email}")
     @ResponseStatus(HttpStatus.OK)
-    public void generatePin(@PathVariable final String email) throws EntityNotFoundException, IOException, MailCannotBeSentException {
+    public void generatePin(@Valid @NotNull @NotBlank @PathVariable final String email) throws EntityNotFoundException, IOException, MailCannotBeSentException {
         authService.generatePin(email);
     }
 
@@ -55,8 +59,7 @@ public class AuthController {
 
     @GetMapping("/increment-failed-attempts/{email}")
     @ResponseStatus(HttpStatus.OK)
-    public boolean incrementFailedAttempts(@PathVariable final String email) throws EntityNotFoundException {
+    public boolean incrementFailedAttempts(@Valid @NotNull @NotBlank @PathVariable final String email) throws EntityNotFoundException {
         return authService.incrementFailedAttempts(email);
     }
-
 }

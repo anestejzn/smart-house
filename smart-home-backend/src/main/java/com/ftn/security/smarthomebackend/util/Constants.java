@@ -1,10 +1,8 @@
 package com.ftn.security.smarthomebackend.util;
 
 public class Constants {
-
     //PATHS
     public static final String TEMPLATE_FILE_PATH = "./src/main/resources/static/emailTemplates/";
-
     //MESSAGES
     public static final String WRONG_PASSWORD =
             "Password/confirm password must contain at least 8 characters. " +
@@ -32,8 +30,12 @@ public class Constants {
     public static final String LEGIT_PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,100}$";
     public static final String LEGIT_NAME_REG = "^[A-Za-z]{1,1}[a-z]{1,20}([ ]?[A-Za-z]?[a-z]{1,20}|[a-z]{1,20})$";
     public static final String LEGIT_COUNTRY_REG = "[a-zA-Z ]{2,40}";
+    public static final String PIN_CODE_REG = "^\\d{4}$";
+    public static final String VALID_PERIOD_REG = "^\\d{1,100}$";
 
     public static final String EMPTY_REASON = "Reason for cancellation certificate must exist.";
+    public static final String INVALID_ALIAS_NAME = "Alias cannot be empty!";
+    public static final String VALIDITY_PERIOD_MUST_BE_NUMBER = "Validity period must be a number!";
 
     // KEY STORE
     public static final String KEYSTORE_FILEPATH = "src/main/resources/keystore/keystore.jks";

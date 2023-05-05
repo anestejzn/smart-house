@@ -1,6 +1,5 @@
 package com.ftn.security.smarthomebackend.service.implementation;
 
-import com.auth0.jwt.JWT;
 import com.ftn.security.smarthomebackend.dto.response.UserDTO;
 import com.ftn.security.smarthomebackend.enums.EntityType;
 
@@ -37,13 +36,11 @@ public class UserService implements IUserService {
     public User getVerifiedUser(String email) throws EntityNotFoundException {
         return userRepository.getVerifiedUser(email)
                 .orElseThrow(() -> new EntityNotFoundException(email, EntityType.USER));
-
     }
 
     @Override
     public boolean checkIfUserAlreadyExists(String email) {
         Optional<User> user = userRepository.findByEmail(email);
-
         return user.isPresent();
     }
 
@@ -72,16 +69,14 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean activate(String verifyId, int securityCode)
-            throws EntityNotFoundException, WrongVerifyTryException {
+    public boolean activate(String verifyId, int securityCode) throws EntityNotFoundException, WrongVerifyTryException {
         RegistrationVerification verify = verificationService.update(verifyId, securityCode);
         regularUserService.activateAccount(verify.getUserEmail());
-
         return true;
     }
 
     @Override
-    public User save(User user){
+    public User save(User user) {
         return userRepository.save(user);
     }
 
@@ -97,10 +92,10 @@ public class UserService implements IUserService {
     @Override
     public void removeExpiredJWTsFromUserBlacklist(User user) {
         user.setBlacklistedJWTs(
-                user.getBlacklistedJWTs()
-                    .stream()
-                    .filter(blacklistedJWT -> !JWTUtils.jwtHasExpired(blacklistedJWT.getJwt()))
-                    .collect(Collectors.toList())
+            user.getBlacklistedJWTs()
+                .stream()
+                .filter(blacklistedJWT -> !JWTUtils.jwtHasExpired(blacklistedJWT.getJwt()))
+                .collect(Collectors.toList())
         );
         save(user);
     }

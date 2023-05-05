@@ -21,7 +21,6 @@ export class NavBarComponent implements OnInit {
       .getSubjectCurrentUser()
       .subscribe(user => {
         this.loggedUser = user;
-        console.log(this.loggedUser);
       });
   }
 

@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.io.IOException;
 import java.security.*;
 import java.security.cert.CertificateEncodingException;
@@ -33,30 +33,28 @@ public class CertificateController {
     @GetMapping(value = "aliases/{type}/{validity}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public List<SortedAliasesResponse> getAllAliases(@PathVariable @Valid CertificateSortType type, @PathVariable @Valid CertificateValidityType validity)
-            throws KeyStoreCertificateException, EntityNotFoundException, CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, InvalidCertificateException, KeyStoreMalfunctionedException
-    {
+    public List<SortedAliasesResponse> getAllAliases(@PathVariable @Valid CertificateSortType type, @PathVariable @Valid CertificateValidityType validity) throws KeyStoreMalfunctionedException {
         return certificateService.getAliasesByFilters(type, validity);
     }
 
     @GetMapping(value = "/{alias}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public List<CertificateResponse> getCertificateByAlias(@PathVariable String alias) throws KeyStoreCertificateException, EntityNotFoundException, CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException, InvalidCertificateException, KeyStoreMalfunctionedException {
+    public List<CertificateResponse> getCertificateByAlias(@PathVariable String alias) throws KeyStoreCertificateException, KeyStoreMalfunctionedException {
         return certificateService.getCertificateByAlias(alias);
     }
 
     @PostMapping("/create/root")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public void createRootCertificate() throws KeyStoreMalfunctionedException, InvalidKeyUsagesComboException, CertificateParsingException, InvalidCertificateException {
+    public void createRootCertificate() throws KeyStoreMalfunctionedException, CertificateParsingException, InvalidCertificateException {
         certificateService.createAndSaveRootCertificate();
     }
 
     @PostMapping("/create/intermediates")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public void createIntermediateCertificate() throws KeyStoreMalfunctionedException, AliasDoesNotExistException, InvalidKeyUsagesComboException, CertificateParsingException, InvalidCertificateException {
+    public void createIntermediateCertificate() throws KeyStoreMalfunctionedException, AliasDoesNotExistException, CertificateParsingException, InvalidCertificateException {
         for (String intermediate_alias : INTERMEDIATE_CERT_ALIASES)
             certificateService.createAndSaveIntermediateCertificate(intermediate_alias);
     }
@@ -71,7 +69,7 @@ public class CertificateController {
     @PutMapping("/cancel")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public boolean cancelCertificate(@Valid @RequestBody final CancelCertificateRequest request) throws AliasAlreadyExistsException, EntityNotFoundException, AliasDoesNotExistException, KeyStoreMalfunctionedException {
+    public boolean cancelCertificate(@Valid @RequestBody final CancelCertificateRequest request) throws EntityNotFoundException, KeyStoreMalfunctionedException {
         return certificateService.cancelCertificate(request.getAlias(), request.getCancelReason());
     }
 
