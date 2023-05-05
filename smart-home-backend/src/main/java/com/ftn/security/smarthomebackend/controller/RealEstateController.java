@@ -9,14 +9,14 @@ import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 
 import com.ftn.security.smarthomebackend.exception.OwnerAndTenantOverlapException;
 import com.ftn.security.smarthomebackend.service.interfaces.IRealEstateService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import static com.ftn.security.smarthomebackend.util.Constants.MISSING_ID;
