@@ -52,6 +52,9 @@ public abstract class User {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
     protected List<BlacklistedJWT> blacklistedJWTs;
 
+    @Column(name="pin")
+    protected String pin;
+
     public User(
             String email,
             String password,

@@ -5,6 +5,7 @@ import { LoginResponse } from '../model/login/login-response';
 import { ConfigService } from 'src/modules/shared/service/config-service/config.service';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../shared/model/user';
+import { ConfirmPinRequest } from '../model/confirm-pin-request/confirm-pin-request';
 
 @Injectable({
   providedIn: 'root'
@@ -48,5 +49,18 @@ export class AuthService {
     }
 
     return this.currentUser$;
+  }
+
+  generatePin(email:string) {
+    return this.http.get<void>(
+      this.configService.getGeneratePinUrl(email));
+  }
+
+  confirmPin(confirmPinRequest: ConfirmPinRequest){
+    return this.http.put<boolean>(this.configService.CONFIRM_PIN_URL, confirmPinRequest);
+  }
+
+  incrementFailedAttempts(email: string) {
+    return this.http.get<boolean>(this.configService.getIncrementFailedAttempts(email));
   }
 }

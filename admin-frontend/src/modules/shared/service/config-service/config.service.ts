@@ -13,13 +13,22 @@ export class ConfigService {
   AUTH_URL = `${this.API_URL}/auth`;
   LOGIN_URL = `${this.AUTH_URL}/login-admin`;
   LOGOUT_URL = `${this.AUTH_URL}/logout`;
-
+  CONFIRM_PIN_URL = `${this.AUTH_URL}/confirm-pin`;
+  
   getLoginUrl(): string {
     return this.LOGIN_URL;
   }
 
   getLogoutUrl(): string {
     return this.LOGOUT_URL;
+  }
+
+  getGeneratePinUrl(email: string){
+    return `${this.AUTH_URL}/generate-pin/${email}`;
+  }
+
+  getIncrementFailedAttempts(email: string){
+    return `${this.AUTH_URL}/increment-failed-attempts/${email}`;
   }
 
   ///////////CSR/////////////////////////

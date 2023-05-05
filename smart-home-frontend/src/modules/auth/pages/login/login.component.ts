@@ -63,13 +63,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authSubscription = this.authService.login(loginRequest).subscribe(
         userResponse => {
           this.user = userResponse;
-          this.authSubscription = this.authService.generatePin(userResponse.user.email).subscribe(
-            pin => {
-              this.showSpiner = false;
-              this.enterPin = true;
-              
-            }
-          )
+          this.generatePin(userResponse.user.email);
         },
         error => {
           console.log(error.error);
@@ -113,7 +107,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authSubscription = this.authService.incrementFailedAttempts(email).subscribe(
       response => {
         this.showSpiner = false;
-        console.log(response);
         if(!response){
           this.toast.error('Your account is locked. You can login again for 24 hours.', 'Locked account');
           this.enterPin = false;
@@ -124,6 +117,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     );
   }
 
+  generatePin(email: string){
+    this.showSpiner = true;
+    this.authSubscription = this.authService.generatePin(email).subscribe(
+      pin => {
+        this.showSpiner = false;
+        this.enterPin = true;
+        
+      }
+    )
+  }
 
   ngOnDestroy(){
     if(this.authSubscription){

@@ -18,12 +18,15 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class RegularUser extends User {
+<<<<<<< HEAD
     @Column(name="pin")
     protected String pin;
 
     @ManyToMany(mappedBy = "tenants")
     @JsonIgnore
     List<RealEstate> realEstatesTenant = new LinkedList<>();
+=======
+>>>>>>> 19a4f8d (add login with pin for admin)
 
     public RegularUser(String email, String password, String name, String surname, String salt, AccountStatus status, int failedAttempts, LocalDateTime lockedUntil, Role role) {
         super(email, password, name, surname, salt, status, failedAttempts, lockedUntil, role);

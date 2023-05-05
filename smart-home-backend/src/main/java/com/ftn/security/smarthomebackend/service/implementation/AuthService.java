@@ -64,7 +64,7 @@ public class AuthService implements IAuthService {
 
     @Override
     public void generatePin(String email) throws EntityNotFoundException, IOException, MailCannotBeSentException {
-        RegularUser user = (RegularUser) userService.getVerifiedUser(email);
+        User user = userService.getVerifiedUser(email);
         user.setFailedAttempts(0);
         String pin = String.valueOf(generateSecurityCode());
         String hashPin = getHash(pin);
@@ -75,11 +75,13 @@ public class AuthService implements IAuthService {
 
     @Override
     public boolean confirmPin(String email, String pin) throws EntityNotFoundException, WrongVerifyTryException {
-        RegularUser user = (RegularUser) userService.getVerifiedUser(email);
-        if(checkPin(pin, user.getPin()))
+        User user = userService.getVerifiedUser(email);
+        if (checkPin(pin, user.getPin())) {
             return true;
-        else
+        }
+        else{
             throw new WrongVerifyTryException("Your security code is not accepted. Try again.");
+        }
     }
 
     @Override
