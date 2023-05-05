@@ -22,4 +22,6 @@ public interface IRealEstateService {
     RealEstateResponse editOwnership(Long id, Long ownerId, Long[] tenantsIds) throws EntityNotFoundException, OwnerAndTenantOverlapException;
 
     boolean delete(Long id) throws EntityNotFoundException;
+
+    RealEstateResponse editTenants(Long id, Long[] tenantsIds) throws EntityNotFoundException, OwnerAndTenantOverlapException;
 }

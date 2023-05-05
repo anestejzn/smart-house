@@ -39,7 +39,7 @@ public class RealEstateController {
 
     @GetMapping(value = "/{ascending}/{sqArea}/{ownerId}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REGULAR_USER')")
     public List<RealEstateViewResponse> filterRealEstates(@PathVariable @Valid boolean ascending,
                                                           @PathVariable @Valid @NotBlank String sqArea,
                                                           @PathVariable @Valid @NotNull Long ownerId)
@@ -95,6 +95,18 @@ public class RealEstateController {
         return realEstateService.editOwnership(
                 request.getId(),
                 request.getOwnerId(),
+                request.getTenantsIds()
+        );
+    }
+
+    @PutMapping("/edit-tenants-regular/real-estate")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAnyRole('ROLE_REGULAR_USER')")
+    public RealEstateResponse editTenantsRealEstate(@RequestBody @Valid RealEstateOwnershipRequest request)
+            throws EntityNotFoundException, OwnerAndTenantOverlapException {
+
+        return realEstateService.editTenants(
+                request.getId(),
                 request.getTenantsIds()
         );
     }

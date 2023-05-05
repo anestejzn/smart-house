@@ -1,0 +1,31 @@
+mat-icon {
+    transform: scale(1.1);
+}
+
+table {
+
+    th {
+        font-size: 1rem;
+    }
+
+    th.alias-th {
+        text-align: left;
+        padding-left: 1rem;
+    }
+
+    mat-icon {
+        vertical-align: middle;
+    }
+}
+
+.alias-row {
+    margin-top: 1rem;
+    background-color: var(--gray);
+    border-radius: 1rem;
+    padding: 0.4rem;
+}
+
+.alias-row:hover {
+    padding: 0.5rem;
+    border: 1px solid var(--deep-blue);
+}

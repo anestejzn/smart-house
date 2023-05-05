@@ -3177,6 +3177,7 @@ h1 {
 .pac-container {
   background-color: var(--gray) !important;
 }
+
 .pac-item-query {
   font-size: 16px !important;
   color: var(--deep-blue);
@@ -3214,30 +3215,41 @@ h1 {
   margin-right: 1rem;
 }
 
-.random-color-2 {
-  background-color: burlywood;
+.label-sort {
+  font-size: 1.2rem;
+  display: block;
 }
 
-.random-color-1 {
-  background-color: darkkhaki;
+mat-radio-button.sort-btn {
+  display: block;
+  margin-top: 0.3rem;
 }
 
-.random-color-0 {
-  background-color: lightblue;
+.standard-dialog-container {
+  min-height: 40rem;
+  min-width: 40rem;
 }
 
-.random-color-3 {
-  background-color: gray;
+.valid-cert {
+  color: green;
 }
 
-.random-color-4 {
-  background-color: chocolate;
+.invalid-cert {
+  color: red;
 }
 
-.random-color-5 {
-  background-color: seagreen;
+.edit-container button {
+  display: none;
 }
 
-.random-color-6 {
-  background-color: lemonchiffon;
+.edit-container {
+  position: absolute;
+  margin-left: 85%;
+  margin-top: 0.7rem;
+}
+
+.center-page-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

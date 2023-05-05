@@ -24,7 +24,7 @@ public class UserController {
 
     @GetMapping("all-active-regular")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REGULAR_USER')")
     public List<UserDTO> getAllActiveRegularUsers() {
 
         return userService.getAllActiveRegularUsers();

@@ -25,7 +25,7 @@ export class RealEstateSortingButtonsComponent implements OnInit, OnDestroy {
     { name: '<=50m2', checked: false, returnValue: '10:50' },
     { name: '>50m2 && <=100m2', checked: false, returnValue: '50:100' },
     { name: '>100m2 && <=200m2', checked: false, returnValue: '100:200' },
-    { name: '>200m2', checked: false, returnValue: '200:600' },
+    { name: '>=200m2', checked: false, returnValue: '200:600' },
   ];
 
   owners: String[] = [

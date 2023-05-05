@@ -88,6 +88,19 @@ public class RealEstateService implements IRealEstateService {
     }
 
     @Override
+    public RealEstateResponse editTenants(Long id, Long[] tenantsIds)
+            throws EntityNotFoundException, OwnerAndTenantOverlapException
+    {
+        List<RegularUser> tenants = extractTenants(tenantsIds);
+        RealEstate realEstate = getRealEstateById(id);
+        checkOwnerAndTenantOverlap(realEstate.getOwner(), tenants);
+
+        realEstate.setTenants(tenants);
+
+        return new RealEstateResponse(realEstateRepository.save(realEstate));
+    }
+
+    @Override
     public boolean createRealEstate(String name,
                                     Integer sqMeters,
                                     String city,

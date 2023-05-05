@@ -13,6 +13,10 @@ export class UserService {
 
   constructor(private http: HttpClient, private configService: ConfigService) { }
 
+  getAllActiveRegularUsers() {
+    return this.http.get<User[]>(this.configService.ALL_ACTIVE_REGULAR_USERS);
+  }
+
   registerRegularUser(newUser: RegularUserRegistration): Observable<User> {
     return this.http.post<User>(
       this.configService.CREATE_REGULAR_USER_URL,

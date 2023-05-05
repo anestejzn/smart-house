@@ -1,0 +1,44 @@
+<div style="padding: 3%;" class="dialog-container" *ngIf="realEstate && showPage">
+    <h1 mat-dialog-title class="center-content"><b>Change Real Estate Data</b></h1>
+
+    <mat-dialog-content style="min-height: 7rem; min-width: 7rem;">
+        <br>
+        <div class="center-page-content">
+            <div style="display: flex">
+                <mat-form-field class="colomn" appearance="fill">
+                    <mat-label>{{selectedOwner.email}}</mat-label>
+                    <input type="text" matInput [disabled]="true" [value]="selectedOwner.email" />
+                </mat-form-field>
+
+                <mat-form-field class="colomn" appearance="fill">
+                    <mat-label>Tenant</mat-label>
+                    <mat-select (valueChange)="changedTenant($event)" name="tenantField">
+                        <mat-option *ngFor="let tenant of allActiveRegularUsers" [value]="tenant">
+                            {{tenant.email}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button mat-raised-button class="add-btn" (click)="addTenant()">Add</button>
+            </div>
+
+        </div>
+
+
+        <div class="added-tenants-box tenants-box-edit">
+            <br>
+            <span *ngIf="tenants && tenants.length == 0; else tenantsBlock" class="no-tenants">Add tenants...</span>
+            <ng-template #tenantsBlock>
+                <span *ngFor="let tenant of tenants" class="added-tenant" (click)="deleteTenant(tenant)">
+                    {{tenant.email}} X
+                </span>
+            </ng-template>
+        </div>
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="activity-buttons" align="center">
+        <button mat-button class="cancel-button" [mat-dialog-close]="null">Close</button>
+        <button mat-raised-button class="green-button block-button" [mat-dialog-close]="true"
+            (click)="save()">Save</button>
+    </mat-dialog-actions>
+</div>

@@ -4,7 +4,6 @@ import { RealEstateService } from '../../service/real-estate/real-estate.service
 import { Subscription } from 'rxjs';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddNewRealEstateDialogComponent } from '../../components/real-estate-components/add-new-real-estate-dialog/add-new-real-estate-dialog.component';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-all-real-estates-view',
@@ -72,7 +71,7 @@ export class AllRealEstatesViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.realEstateService) {
+    if (this.realEstateSubscription) {
       this.realEstateSubscription.unsubscribe();
     }
   }
