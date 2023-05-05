@@ -16,15 +16,12 @@ import java.io.IOException;
 @RestController
 @RequestMapping("users")
 public class UserController {
-
     @Autowired
     private IUserService userService;
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO create(@Valid @RequestBody RegularUserRegistrationRequest request)
-            throws PasswordsDoNotMatchException, EntityAlreadyExistsException, IOException, MailCannotBeSentException {
-
+    public UserDTO create(@Valid @RequestBody RegularUserRegistrationRequest request) throws PasswordsDoNotMatchException, EntityAlreadyExistsException, IOException, MailCannotBeSentException {
         return userService.create(
             request.getEmail(),
             request.getName(),
@@ -37,11 +34,7 @@ public class UserController {
 
     @PutMapping("/activate-account")
     @ResponseStatus(HttpStatus.OK)
-    public boolean update(@javax.validation.Valid @RequestBody VerifyRequest verifyRequest)
-            throws EntityNotFoundException, WrongVerifyTryException {
-
+    public boolean update(@Valid @RequestBody VerifyRequest verifyRequest) throws EntityNotFoundException, WrongVerifyTryException {
         return userService.activate(verifyRequest.getVerifyId(), verifyRequest.getSecurityCode());
     }
-
-
 }

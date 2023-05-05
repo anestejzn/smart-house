@@ -12,15 +12,12 @@ import static com.ftn.security.smarthomebackend.util.Constants.WRONG_ROLE;
 @Getter
 @Setter
 public class RegularUserRegistrationRequest extends UserRequest {
-
     @NotBlank(message = WRONG_PASSWORD)
-    @Pattern(regexp = Constants.LEGIT_PASSWORD_REG,
-            message = WRONG_PASSWORD)
+    @Pattern(regexp = Constants.LEGIT_PASSWORD_REG, message = WRONG_PASSWORD)
     private final String password;
 
     @NotBlank(message = WRONG_PASSWORD)
-    @Pattern(regexp = Constants.LEGIT_PASSWORD_REG,
-            message = WRONG_PASSWORD)
+    @Pattern(regexp = Constants.LEGIT_PASSWORD_REG, message = WRONG_PASSWORD)
     private final String confirmPassword;
 
 //    @NotNull(message = WRONG_ROLE)

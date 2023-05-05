@@ -4,13 +4,14 @@ import com.ftn.security.smarthomebackend.dto.request.CSRRequest;
 import com.ftn.security.smarthomebackend.dto.response.CsrResponse;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 import com.ftn.security.smarthomebackend.service.interfaces.ICsrService;
+import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -38,7 +39,7 @@ public class CsrController {
     @PostMapping("/reject")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public CsrResponse rejectCsr(@Valid @NotNull @RequestBody Long id) throws EntityNotFoundException {
+    public CsrResponse rejectCsr(@Valid @NotNull @PositiveOrZero @RequestBody Long id) throws EntityNotFoundException {
         return csrService.rejectCSR(id);
     }
 }
