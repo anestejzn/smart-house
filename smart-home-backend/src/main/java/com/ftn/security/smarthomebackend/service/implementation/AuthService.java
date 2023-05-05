@@ -19,7 +19,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,6 +32,7 @@ import static com.ftn.security.smarthomebackend.util.Helper.generateSecurityCode
 import static com.ftn.security.smarthomebackend.util.Helper.getHash;
 
 @Service
+
 public class AuthService implements IAuthService {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -76,12 +76,10 @@ public class AuthService implements IAuthService {
     @Override
     public boolean confirmPin(String email, String pin) throws EntityNotFoundException, WrongVerifyTryException {
         RegularUser user = (RegularUser) userService.getVerifiedUser(email);
-        if(checkPin(pin, user.getPin())){
+        if(checkPin(pin, user.getPin()))
             return true;
-        }
-        else {
+        else
             throw new WrongVerifyTryException("Your security code is not accepted. Try again.");
-        }
     }
 
     @Override
@@ -111,7 +109,7 @@ public class AuthService implements IAuthService {
         Authentication authenticate;
         try {
             authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-        } catch (BadCredentialsException ignored) {
+        } catch (Exception ignored) {
             throw new InvalidCredsException("Invalid creds!");
         }
 
