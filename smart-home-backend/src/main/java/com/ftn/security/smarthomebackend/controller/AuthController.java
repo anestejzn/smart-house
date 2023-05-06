@@ -60,7 +60,6 @@ public class AuthController {
 
     @GetMapping("/increment-failed-attempts/{email}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAuthority('INCREMENT_FAILED_ATTEMPTS')")
     public boolean incrementFailedAttempts(@Valid @NotNull @NotBlank @PathVariable final String email) throws EntityNotFoundException {
         return authService.incrementFailedAttempts(email);
     }

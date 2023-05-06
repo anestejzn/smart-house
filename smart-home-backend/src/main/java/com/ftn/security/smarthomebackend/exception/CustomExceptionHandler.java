@@ -82,14 +82,14 @@ public class CustomExceptionHandler {
         return invalidCredsException.getMessage();
     }
     @ExceptionHandler(value = UserLockedException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String userLockedException(UserLockedException userLockedException){
 
         return userLockedException.getMessage();
     }
 
     @ExceptionHandler(value = MostCommonPasswordException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String mostCommonPasswordException(MostCommonPasswordException mostCommonPasswordException){
 
         return mostCommonPasswordException.getMessage();

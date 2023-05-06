@@ -67,13 +67,16 @@ export class LoginComponent implements OnInit, OnDestroy {
         },
         error => {
           console.log(error.error);
-          if(error.error === "Invalid creds!"){
-            this.toast.error('Email or password is not correct!', 'Login failed');
-            this.incrementFailedAttempts(loginRequest.email);
-          }
-          else {
+          console.log("error" + error.error.text);
+          if(error.error === "Your account is locked."){
             this.showSpiner = false;
             this.toast.error("Your account is locked.", "Locked account");
+            
+          }
+          else {
+            this.toast.error('Email or password is not correct!', 'Login failed');
+            this.incrementFailedAttempts(loginRequest.email);
+            this.showSpiner = false;
           }
         }
       );

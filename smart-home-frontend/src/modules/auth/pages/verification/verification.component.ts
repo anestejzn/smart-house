@@ -97,7 +97,7 @@ export class VerificationComponent implements OnInit {
 
   
   goToLoginPage(){
-    this.router.navigate(["/login"]);
+    this.router.navigate(["/smart-home/auth/login"]);
   }
   
   ngOnDestroy(): void {

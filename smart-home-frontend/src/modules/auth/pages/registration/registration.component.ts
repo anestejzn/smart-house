@@ -112,7 +112,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         surname: this.registrationForm.get('surnameFormControl').value,
         password: this.registrationForm.get('passwordFormControl').value,
         confirmPassword: this.registrationForm.get('passwordAgainFormControl').value,
-        role: this.registrationForm.get('roleFormControl').value
+        role: 'ROLE_'+this.registrationForm.get('roleFormControl').value
       }
 
       this.showSpiner = true;
@@ -125,7 +125,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
                   'Please go to your email to verify account!',
                   'Registration successfully'
                 );
-                this.router.navigate([`/login`]);
+                this.router.navigate([`/smart-home/auth/login`]);
               },
               error => {
                 this.showSpiner = false;
