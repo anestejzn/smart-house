@@ -18,8 +18,6 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class RegularUser extends User {
-    @Column(name="pin")
-    protected String pin;
 
     @ManyToMany(mappedBy = "tenants")
     @JsonIgnore

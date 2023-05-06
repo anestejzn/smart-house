@@ -65,11 +65,13 @@ public class AuthService implements IAuthService {
     @Override
     public void generatePin(String email) throws EntityNotFoundException, IOException, MailCannotBeSentException {
         User user = userService.getVerifiedUser(email);
+        System.out.println(user.getName());
         user.setFailedAttempts(0);
         String pin = String.valueOf(generateSecurityCode());
         String hashPin = getHash(pin);
         user.setPin(hashPin);
-        userService.save(user);
+        User userpin = userService.save(user);
+        System.out.println(userpin.getPin());
         sendPinEmail(pin);
     }
 
@@ -98,6 +100,7 @@ public class AuthService implements IAuthService {
     }
 
     private boolean checkPin(String enteredPin, String pin){
+        System.out.println(pin + "tralla");
         return BCrypt.checkpw(enteredPin, pin);
     }
 
@@ -136,6 +139,7 @@ public class AuthService implements IAuthService {
         try {
             userService.removeExpiredJWTsFromUserBlacklist(userService.getVerifiedUser(email));
         } catch (EntityNotFoundException ignored) {}
+        System.out.println("uspesno");
         return new LoginResponse(JWTUtils.generateJWT(email, rawFingerprint), userResponse);
     }
 }
