@@ -2,7 +2,7 @@ package com.ftn.security.smarthomebackend.service.implementation;
 
 import com.ftn.security.smarthomebackend.enums.AccountStatus;
 import com.ftn.security.smarthomebackend.enums.EntityType;
-import com.ftn.security.smarthomebackend.enums.Role;
+import com.ftn.security.smarthomebackend.model.Role;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 import com.ftn.security.smarthomebackend.model.RegularUser;
 import com.ftn.security.smarthomebackend.model.User;

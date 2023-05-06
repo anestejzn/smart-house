@@ -31,7 +31,7 @@ public class RealEstateController {
 
     @GetMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REGULAR_USER')")
+    @PreAuthorize("hasAuthority('GET_REAL_ESTATE')")
     public RealEstateResponse getRealEstate(@PathVariable @Valid @NotBlank(message = MISSING_ID) Long id) throws EntityNotFoundException {
 
         return realEstateService.getRealEstate(id);
@@ -39,7 +39,7 @@ public class RealEstateController {
 
     @GetMapping(value = "/{ascending}/{sqArea}/{ownerId}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REGULAR_USER')")
+    @PreAuthorize("hasAuthority('FILTER_REAL_ESTATE')")
     public List<RealEstateViewResponse> filterRealEstates(@PathVariable @Valid boolean ascending,
                                                           @PathVariable @Valid @NotBlank String sqArea,
                                                           @PathVariable @Valid @NotNull Long ownerId)
@@ -54,7 +54,7 @@ public class RealEstateController {
 
     @PostMapping("/create/real-estate")
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('CREATE_REAL_ESTATE')")
     public boolean createRealEstate(@RequestBody @Valid NewRealEstateRequest request)
             throws EntityNotFoundException, OwnerAndTenantOverlapException {
 
@@ -71,7 +71,7 @@ public class RealEstateController {
 
     @PutMapping("/edit-basic-info/real-estate")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('EDIT_REAL_ESTATE')")
     public RealEstateResponse editBasicInfoRealEstate(@RequestBody @Valid RealEstateBasicInfoRequest request)
             throws EntityNotFoundException
     {
@@ -88,7 +88,7 @@ public class RealEstateController {
 
     @PutMapping("/edit-ownership/real-estate")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('EDIT_OWNER_REAL_ESTATE')")
     public RealEstateResponse editOwnershipRealEstate(@RequestBody @Valid RealEstateOwnershipRequest request)
             throws EntityNotFoundException, OwnerAndTenantOverlapException {
 
@@ -101,7 +101,7 @@ public class RealEstateController {
 
     @PutMapping("/edit-tenants-regular/real-estate")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('ROLE_REGULAR_USER')")
+    @PreAuthorize("hasAuthority('EDIT_TENANTS_REAL_ESTATE')") //REGULAR
     public RealEstateResponse editTenantsRealEstate(@RequestBody @Valid RealEstateOwnershipRequest request)
             throws EntityNotFoundException, OwnerAndTenantOverlapException {
 
@@ -113,8 +113,8 @@ public class RealEstateController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public boolean editOwnershipRealEstate(@PathVariable @Valid @NotBlank(message = MISSING_ID) Long id)
+    @PreAuthorize("hasAuthority('DELETE_REAL_ESTATE')")
+    public boolean removeRealEstate(@PathVariable @Valid @NotBlank(message = MISSING_ID) Long id)
             throws EntityNotFoundException {
 
         return realEstateService.delete(id);

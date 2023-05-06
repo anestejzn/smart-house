@@ -1,7 +1,6 @@
 package com.ftn.security.smarthomebackend.model;
 
 import com.ftn.security.smarthomebackend.enums.AccountStatus;
-import com.ftn.security.smarthomebackend.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,7 +43,8 @@ public abstract class User {
 
     @Column(name="locked_until")
     protected LocalDateTime lockedUntil;
-    @Column(name="role", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
     protected Role role;
     @Column(name="verified", nullable = false)
     protected Boolean verified=false;

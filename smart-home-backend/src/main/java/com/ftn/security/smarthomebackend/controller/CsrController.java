@@ -23,14 +23,14 @@ public class CsrController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyRole('ROLE_REGULAR_USER')")
+    @PreAuthorize("hasAuthority('CREATE_CSR')")
     public void createCsr(@Valid @RequestBody final CSRRequest csrRequest) throws EntityNotFoundException {
         csrService.createCSR(csrRequest.getEmail());
     }
 
     @GetMapping("/pending")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('GET_PENDING_CSRS')")
     public List<CsrResponse> getPendingCsrs(){
         return csrService.getPendingCsrs();
     }
@@ -38,7 +38,7 @@ public class CsrController {
 
     @PostMapping("/reject")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('REJECT_CSR')")
     public CsrResponse rejectCsr(@Valid @NotNull @PositiveOrZero @RequestBody Long id) throws EntityNotFoundException {
         return csrService.rejectCSR(id);
     }

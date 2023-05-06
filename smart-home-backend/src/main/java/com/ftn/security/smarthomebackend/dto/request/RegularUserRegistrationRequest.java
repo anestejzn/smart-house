@@ -2,6 +2,7 @@ package com.ftn.security.smarthomebackend.dto.request;
 
 import com.ftn.security.smarthomebackend.util.Constants;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,8 +21,8 @@ public class RegularUserRegistrationRequest extends UserRequest {
     @Pattern(regexp = Constants.LEGIT_PASSWORD_REG, message = WRONG_PASSWORD)
     private final String confirmPassword;
 
-//    @NotNull(message = WRONG_ROLE)
-//    private final Role role;
+    @NotNull(message = WRONG_ROLE)
+    private final String role;
 
     public RegularUserRegistrationRequest(
             String email,
@@ -30,10 +31,12 @@ public class RegularUserRegistrationRequest extends UserRequest {
             String country,
             String city,
             String password,
-            String confirmPassword
+            String confirmPassword,
+            String role
     ) {
         super(email, name, surname, country, city);
         this.password = password;
         this.confirmPassword = confirmPassword;
+        this.role = role;
     }
 }

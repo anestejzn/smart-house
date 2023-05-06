@@ -2,7 +2,7 @@ package com.ftn.security.smarthomebackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.security.smarthomebackend.enums.AccountStatus;
-import com.ftn.security.smarthomebackend.enums.Role;
+import com.ftn.security.smarthomebackend.model.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

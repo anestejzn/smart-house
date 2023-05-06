@@ -15,6 +15,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.*;
@@ -59,6 +60,7 @@ public class AuthController {
 
     @GetMapping("/increment-failed-attempts/{email}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('INCREMENT_FAILED_ATTEMPTS')")
     public boolean incrementFailedAttempts(@Valid @NotNull @NotBlank @PathVariable final String email) throws EntityNotFoundException {
         return authService.incrementFailedAttempts(email);
     }

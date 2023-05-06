@@ -88,7 +88,6 @@ public class AuthService implements IAuthService {
     public boolean incrementFailedAttempts(String email) throws EntityNotFoundException {
         User user = userService.getVerifiedUser(email);
         user.setFailedAttempts(user.getFailedAttempts()+1);
-        System.out.println(user.getFailedAttempts());
         if(user.getFailedAttempts() == 4){
             user.setLockedUntil((LocalDateTime.now()).plusDays(1));
             userService.save(user);
@@ -119,7 +118,7 @@ public class AuthService implements IAuthService {
         UserPrinciple userPrinciple = (UserPrinciple) authenticate.getPrincipal();
         UserResponse userResponse = userPrinciple.getUser();
 
-        if (isAdmin != userResponse.getRole().equals(Role.ADMIN))
+        if (isAdmin != userResponse.getRole().getRoleName().equals("ROLE_ADMIN"))
             throw new InvalidCredsException("Invalid creds!");
 
         if(userResponse.getLockedUntil() != null && userResponse.getLockedUntil().isAfter(LocalDateTime.now())){

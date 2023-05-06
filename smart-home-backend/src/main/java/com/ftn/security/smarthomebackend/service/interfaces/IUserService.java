@@ -1,7 +1,7 @@
 package com.ftn.security.smarthomebackend.service.interfaces;
 
 import com.ftn.security.smarthomebackend.dto.response.UserDTO;
-import com.ftn.security.smarthomebackend.enums.Role;
+import com.ftn.security.smarthomebackend.model.Role;
 import com.ftn.security.smarthomebackend.exception.*;
 import com.ftn.security.smarthomebackend.model.BlacklistedJWT;
 import com.ftn.security.smarthomebackend.model.User;
@@ -17,8 +17,8 @@ public interface IUserService {
             String surname,
             String password,
             String confirmPassword,
-            Role role
-    ) throws EntityAlreadyExistsException, PasswordsDoNotMatchException, IOException, MailCannotBeSentException;
+            String role
+    ) throws EntityAlreadyExistsException, PasswordsDoNotMatchException, IOException, MailCannotBeSentException, MostCommonPasswordException;
     boolean checkIfUserAlreadyExists(String email);
     boolean activate(String verifyId, int securityCode) throws EntityNotFoundException, WrongVerifyTryException;
     User save(User user);

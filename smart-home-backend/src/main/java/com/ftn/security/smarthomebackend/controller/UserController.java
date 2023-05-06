@@ -23,7 +23,7 @@ public class UserController {
 
     @GetMapping("all-active-regular")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_REGULAR_USER')")
+    @PreAuthorize("hasAuthority('GET_ACTIVE_REGULARS')")
     public List<UserDTO> getAllActiveRegularUsers() {
 
         return userService.getAllActiveRegularUsers();
@@ -31,14 +31,14 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO create(@Valid @RequestBody RegularUserRegistrationRequest request) throws PasswordsDoNotMatchException, EntityAlreadyExistsException, IOException, MailCannotBeSentException {
+    public UserDTO create(@Valid @RequestBody RegularUserRegistrationRequest request) throws PasswordsDoNotMatchException, EntityAlreadyExistsException, IOException, MailCannotBeSentException, MostCommonPasswordException {
         return userService.create(
             request.getEmail(),
             request.getName(),
             request.getSurname(),
             request.getPassword(),
             request.getConfirmPassword(),
-            Role.REGULAR_USER
+            request.getRole()
         );
     }
 
