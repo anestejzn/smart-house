@@ -24,4 +24,6 @@ public interface IRealEstateService {
     boolean delete(Long id) throws EntityNotFoundException;
 
     RealEstateResponse editTenants(Long id, Long[] tenantsIds) throws EntityNotFoundException, OwnerAndTenantOverlapException;
+
+    List<RealEstateViewResponse> filterRealEstatesTenant(boolean ascending, String sqArea, Long tenantId);
 }

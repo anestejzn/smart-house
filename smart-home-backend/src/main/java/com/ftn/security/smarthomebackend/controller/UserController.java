@@ -21,12 +21,28 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @GetMapping("all-active-regular")
+    @GetMapping("all-active-owners")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAuthority('GET_ACTIVE_REGULARS')")
-    public List<UserDTO> getAllActiveRegularUsers() {
+    @PreAuthorize("hasAuthority('GET_ACTIVE_OWNERS')")
+    public List<UserDTO> getAllActiveOwnerUsers() {
 
-        return userService.getAllActiveRegularUsers();
+        return userService.getAllActiveOwnerUsers();
+    }
+
+    @GetMapping("all-active-tenants")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('GET_ACTIVE_TENANTS')")
+    public List<UserDTO> getAllActiveTenantUsers() {
+
+        return userService.getAllActiveTenantUsers();
+    }
+
+    @GetMapping("all-certified-owners")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('GET_ALL_OWNERS')")
+    public List<UserDTO> getAllCertifiedOwnerUsers() {
+
+        return userService.getAllCertifiedOwnerUsers();
     }
 
     @PostMapping("/register")

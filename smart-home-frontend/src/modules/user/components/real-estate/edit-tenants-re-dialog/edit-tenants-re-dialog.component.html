@@ -13,7 +13,7 @@
                 <mat-form-field class="colomn" appearance="fill">
                     <mat-label>Tenant</mat-label>
                     <mat-select (valueChange)="changedTenant($event)" name="tenantField">
-                        <mat-option *ngFor="let tenant of allActiveRegularUsers" [value]="tenant">
+                        <mat-option *ngFor="let tenant of allActiveTenants" [value]="tenant">
                             {{tenant.email}}
                         </mat-option>
                     </mat-select>

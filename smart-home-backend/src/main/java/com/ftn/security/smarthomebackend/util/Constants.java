@@ -35,7 +35,7 @@ public class Constants {
     public static final int MIN_SQ_AREA = 10;
     public static final int BOTTOM_MARGIN_FILTERING_SQ_AREA = 50;
     public static final int MAX_SQ_AREA = 600;
-    public static final int FILTER_BY_ALL = -1;
+    public static final Long FILTER_BY_ALL = -1L;
 
     //REGEX
     public static final String LEGIT_PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,100}$";

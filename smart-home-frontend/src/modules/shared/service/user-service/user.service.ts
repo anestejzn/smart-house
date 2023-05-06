@@ -13,8 +13,8 @@ export class UserService {
 
   constructor(private http: HttpClient, private configService: ConfigService) { }
 
-  getAllActiveRegularUsers() {
-    return this.http.get<User[]>(this.configService.ALL_ACTIVE_REGULAR_USERS);
+  getAllTenantUsers() {
+    return this.http.get<User[]>(this.configService.ALL_ACTIVE_TENANTS);
   }
 
   registerRegularUser(newUser: RegularUserRegistration): Observable<User> {

@@ -37,10 +37,10 @@ public class RealEstateController {
         return realEstateService.getRealEstate(id);
     }
 
-    @GetMapping(value = "/{ascending}/{sqArea}/{ownerId}")
+    @GetMapping(value = "owner-real-estates/{ascending}/{sqArea}/{ownerId}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAuthority('FILTER_REAL_ESTATE')")
-    public List<RealEstateViewResponse> filterRealEstates(@PathVariable @Valid boolean ascending,
+    @PreAuthorize("hasAuthority('FILTER_OWNER_REAL_ESTATES')")
+    public List<RealEstateViewResponse> filterOwnerRealEstates(@PathVariable @Valid boolean ascending,
                                                           @PathVariable @Valid @NotBlank String sqArea,
                                                           @PathVariable @Valid @NotNull Long ownerId)
     {
@@ -49,6 +49,21 @@ public class RealEstateController {
                 ascending,
                 sqArea,
                 ownerId
+        );
+    }
+
+    @GetMapping(value = "tenant-real-estates/{ascending}/{sqArea}/{tenantId}")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('FILTER_TENANT_REAL_ESTATES')")
+    public List<RealEstateViewResponse> filterTenantRealEstates(@PathVariable @Valid boolean ascending,
+                                                          @PathVariable @Valid @NotBlank String sqArea,
+                                                          @PathVariable @Valid @NotNull Long tenantId)
+    {
+
+        return realEstateService.filterRealEstatesTenant(
+                ascending,
+                sqArea,
+                tenantId
         );
     }
 
@@ -88,7 +103,7 @@ public class RealEstateController {
 
     @PutMapping("/edit-ownership/real-estate")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAuthority('EDIT_OWNER_REAL_ESTATE')")
+    @PreAuthorize("hasAuthority('EDIT_OWNERSHIP_REAL_ESTATE')")
     public RealEstateResponse editOwnershipRealEstate(@RequestBody @Valid RealEstateOwnershipRequest request)
             throws EntityNotFoundException, OwnerAndTenantOverlapException {
 

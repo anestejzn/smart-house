@@ -8,7 +8,7 @@
                 <mat-form-field class="colomn" appearance="fill">
                     <mat-label>{{selectedOwner.email}}</mat-label>
                     <mat-select name="ownerField" [(ngModel)]="selectedOwner">
-                        <mat-option *ngFor="let owner of allActiveRegularUsers" [value]="owner">
+                        <mat-option *ngFor="let owner of allActiveOwners" [value]="owner">
                             {{owner.email}}
                         </mat-option>
                     </mat-select>
@@ -20,7 +20,7 @@
                 <mat-form-field class="colomn" appearance="fill">
                     <mat-label>Tenant</mat-label>
                     <mat-select (valueChange)="changedTenant($event)" name="tenantField">
-                        <mat-option *ngFor="let tenant of allActiveRegularUsers" [value]="tenant">
+                        <mat-option *ngFor="let tenant of allActiveTenants" [value]="tenant">
                             {{tenant.email}}
                         </mat-option>
                     </mat-select>
@@ -33,7 +33,7 @@
         
         <div class="added-tenants-box tenants-box-edit">
             <br>
-            <span *ngIf="tenants && tenants.length == 0; else tenantsBlock" class="no-tenants">Add tenants...</span>
+            <span *ngIf="tenants && tenants.length === 0; else tenantsBlock" class="no-tenants">Add tenants...</span>
             <ng-template #tenantsBlock>
                 <span *ngFor="let tenant of tenants" class="added-tenant" (click)="deleteTenant(tenant)">
                     {{tenant.email}} X

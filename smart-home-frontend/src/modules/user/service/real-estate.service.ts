@@ -15,8 +15,10 @@ export class RealEstateService {
     return this.http.get<RealEstate>(this.configService.getUrlForRealEstateById(id));
   }
 
-  filterRealEstates(ascending: boolean, range: string, selectedOwner: number): Observable<RealEstateView[]> {
-    return  this.http.get<RealEstateView[]>(this.configService.getUrlForFilteringRealEstates(ascending, range, selectedOwner));
+  filterRealEstates(ascending: boolean, range: string, selectedOwner: number, role: string): Observable<RealEstateView[]> {
+    return  this.http.get<RealEstateView[]>(
+    (role === 'ROLE_OWNER') ? this.configService.getUrlForOwnerFilteringRealEstates(ascending, range, selectedOwner)
+      : this.configService.getUrlForTenantFilteringRealEstates(ascending, range, selectedOwner));
   }
 
   editTenantsRealEstateData(data: UpdateRealEstateRequest) {

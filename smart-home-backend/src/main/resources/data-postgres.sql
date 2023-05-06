@@ -1,24 +1,29 @@
+-- sifra1234A2@
+
 insert into role (role_name) values ('ROLE_TENANT'),
                                ('ROLE_OWNER'),
                                ('ROLE_ADMIN');
 
 insert into privilege (privilege_name) values
-                                 ('INCREMENT_FAILED_ATTEMPTS'),
-                                 ('GET_ALIASES'),
-                                 ('GET_CERTIFICATE_BY_ALIAS'),
-                                 ('CREATE_CERTIFICATE'),
-                                 ('CANCEL_CERTIFICATE'),
-                                 ('CREATE_CSR'),
-                                 ('GET_PENDING_CSRS'),
-                                 ('REJECT_CSR'),
-                                 ('GET_REAL_ESTATE'),
-                                 ('FILTER_REAL_ESTATE'),
-                                 ('CREATE_REAL_ESTATE'),
-                                 ('EDIT_REAL_ESTATE'),
-                                 ('EDIT_OWNER_REAL_ESTATE'),
-                                 ('EDIT_TENANTS_REAL_ESTATE'),
-                                 ('DELETE_REAL_ESTATE'),
-                                 ('GET_ACTIVE_REGULARS');
+                             ('INCREMENT_FAILED_ATTEMPTS'),
+                             ('GET_ALIASES'),
+                             ('GET_CERTIFICATE_BY_ALIAS'),
+                             ('CREATE_CERTIFICATE'),
+                             ('CANCEL_CERTIFICATE'),
+                             ('CREATE_CSR'),
+                             ('GET_PENDING_CSRS'),
+                             ('REJECT_CSR'),
+                             ('GET_REAL_ESTATE'),           --9
+                             ('FILTER_OWNER_REAL_ESTATES'), --10
+                             ('CREATE_REAL_ESTATE'),        --11
+                             ('EDIT_REAL_ESTATE'),          --12
+                             ('EDIT_OWNERSHIP_REAL_ESTATE'),--13
+                             ('EDIT_TENANTS_REAL_ESTATE'),  --14
+                             ('DELETE_REAL_ESTATE'),        --15
+                             ('GET_ACTIVE_OWNERS'),         --16
+                             ('GET_ALL_OWNERS'),            --17
+                             ('FILTER_TENANT_REAL_ESTATES'),--18
+                             ('GET_ACTIVE_TENANTS');        --19
 
 insert into role_privilege (role_id, privilege_id) values
                                                     (3,2),
@@ -34,13 +39,16 @@ insert into role_privilege (role_id, privilege_id) values
                                                     (2,9),
                                                     (3,10),
                                                     (2,10),
-                                                    (1,10),
                                                     (3,11),
                                                     (3,12),
                                                     (3,13),
-                                                    (3,14),
+                                                    (2,14),
                                                     (3,15),
-                                                    (3,16);
+                                                    (3,16),
+                                                    (3,17),
+                                                    (1,18),
+                                                    (2,19),
+                                                    (3,19);
 
 insert into regular_user (id, email, password, name, surname, salt, status, failed_attempts, locked_until, verified, role_id, pin) values
                         (nextval('users_id_gen'), 'peki@maildrop.cc', '$2y$10$uwgoYpON2hx80Xpfgn4.O.j0Pys.uATCE2gQu3BNr/DwC8qn6G9am', 'Pera', 'Peric', '123', 4, 0, null, true, 1, null),

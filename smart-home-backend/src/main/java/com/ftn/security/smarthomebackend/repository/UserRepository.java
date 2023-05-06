@@ -14,8 +14,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where u.email=?1 and u.verified=true")
     Optional<User> getVerifiedUser(String email);
 
-    @Query("select u from User u where u.role = 0 and u.status = 0 and u.verified=true")
-    List<User> getAllActiveRegularUsers();
+    @Query("select u from User u where u.role.roleName = 'ROLE_OWNER' and u.status = 0 and u.verified=true")
+    List<User> getAllActiveOwnerUsers();
+
+    @Query("select u from User u where u.role.roleName = 'ROLE_OWNER' and (u.status = 0 or u.status = 1) and u.verified=true")
+    List<User> getAllCertifiedOwnerUsers();
+
+    @Query("select u from User u where u.role.roleName = 'ROLE_TENANT' and u.status = 0 and u.verified=true")
+    List<User> getAllActiveTenantUsers();
 
     Optional<User> findByEmail(String email);
 

@@ -116,9 +116,21 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<UserDTO> getAllActiveRegularUsers() {
+    public List<UserDTO> getAllActiveOwnerUsers() {
 
-        return fromUserListToDTO(userRepository.getAllActiveRegularUsers());
+        return fromUserListToDTO(userRepository.getAllActiveOwnerUsers());
+    }
+
+    @Override
+    public List<UserDTO> getAllCertifiedOwnerUsers() {
+
+        return fromUserListToDTO(userRepository.getAllCertifiedOwnerUsers());
+    }
+
+    @Override
+    public List<UserDTO> getAllActiveTenantUsers() {
+
+        return fromUserListToDTO(userRepository.getAllActiveTenantUsers());
     }
 
     private boolean isMostCommonPassword(String password) throws FileNotFoundException {

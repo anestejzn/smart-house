@@ -25,5 +25,9 @@ public interface IUserService {
     void updateUsersJWTBlacklist(User user, BlacklistedJWT jwt);
     void removeExpiredJWTsFromUserBlacklist(User user);
 
-    List<UserDTO> getAllActiveRegularUsers();
+    List<UserDTO> getAllActiveOwnerUsers();
+
+    List<UserDTO> getAllCertifiedOwnerUsers();
+
+    List<UserDTO> getAllActiveTenantUsers();
 }

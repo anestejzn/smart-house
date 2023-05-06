@@ -1,6 +1,6 @@
-<div *ngIf="realEstate" class="ownership-container">
+<div *ngIf="realEstate && loggedUser" class="ownership-container">
 
-    <div style="position: relative;">
+    <div style="position: relative;" *ngIf="loggedUser.role.roleName==='ROLE_OWNER'">
         <div class="edit-container">
             <button mat-mini-fab color="primary" (click)="editOwnership()">
                 <mat-icon>edit</mat-icon>

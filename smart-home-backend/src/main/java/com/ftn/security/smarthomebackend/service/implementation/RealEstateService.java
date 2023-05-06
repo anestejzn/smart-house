@@ -36,6 +36,22 @@ public class RealEstateService implements IRealEstateService {
     }
 
     @Override
+    public List<RealEstateViewResponse> filterRealEstatesTenant(boolean ascending, String sqArea, Long tenantId) {
+        List<RealEstate> realEstates = getRealEstatesList(ascending, sqArea, FILTER_BY_ALL);
+        List<RealEstate> filteredByTenants = new LinkedList<>();
+
+        for (RealEstate realEstate : realEstates) {
+            for (RegularUser tenant : realEstate.getTenants()) {
+                if (Objects.equals(tenant.getId(), tenantId)) {
+                    filteredByTenants.add(realEstate);
+                }
+            }
+        }
+
+        return fromListToResponse(filteredByTenants);
+    }
+
+    @Override
     public RealEstate getRealEstateById(Long id) throws EntityNotFoundException {
         return realEstateRepository.getRealEstateById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id, EntityType.USER));
@@ -149,7 +165,7 @@ public class RealEstateService implements IRealEstateService {
         Integer bottomSqArea = nums.get(0);
         Integer topSqArea = nums.get(1);
 
-        if (ownerId == FILTER_BY_ALL) {
+        if (Objects.equals(ownerId, FILTER_BY_ALL)) {
             return ascending ? realEstateRepository.filterAllRealEstatesAsc(bottomSqArea, topSqArea)
                     : realEstateRepository.filterAllRealEstatesDesc(bottomSqArea, topSqArea);
         } else {

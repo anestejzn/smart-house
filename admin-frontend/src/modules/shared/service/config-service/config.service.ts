@@ -71,7 +71,8 @@ export class ConfigService {
 
   ///////////USER///////////////
   USER_URL = `${this.API_URL}/users`;
-  ALL_ACTIVE_REGULAR_USERS = `${this.USER_URL}/all-active-regular`;
+  ALL_CERTIFIED_OWNERS = `${this.USER_URL}/all-certified-owners`;
+  ALL_ACTIVE_TENANTS = `${this.USER_URL}/all-active-tenants`;
 
 
   ///////////REAL ESTATE////////
@@ -81,7 +82,7 @@ export class ConfigService {
   REAL_ESTATE_OWNERSHIP_INFO_EDIT = `${this.REAL_ESTATE_URL}/edit-ownership/real-estate`;
 
   getUrlForFilteringRealEstates(ascending: boolean, range: string, selectedOwner: number): string {
-    return `${this.REAL_ESTATE_URL}/${ascending}/${range}/${selectedOwner}`;
+    return `${this.REAL_ESTATE_URL}/owner-real-estates/${ascending}/${range}/${selectedOwner}`;
   }
 
   getUrlForRealEstateById(id: string): string {

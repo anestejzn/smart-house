@@ -41,7 +41,7 @@ export class RealEstateSortingButtonsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.allActiveRegularUsersSubscription =this.userService.getAllActiveRegularUsers().subscribe(
+    this.allActiveRegularUsersSubscription =this.userService.getAllActiveOwners().subscribe(
       res => {
         this.allActiveRegularUsers = res;
         for (let o of this.allActiveRegularUsers) {

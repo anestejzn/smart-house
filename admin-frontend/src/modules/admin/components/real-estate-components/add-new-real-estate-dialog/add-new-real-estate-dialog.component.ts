@@ -45,11 +45,13 @@ export class AddNewRealEstateDialogComponent implements OnInit, OnDestroy {
 
 
   filteredCities: Observable<string[]>;
-  allActiveRegularUsers: User[];
+  allActiveOwners: User[];
+  allActiveTenants: User[];
   tenants: User[];
   tenantIds: number[] = [];
   currentTenant: User = null;
-  allActiveRegularUsersSubscription: Subscription;
+  allActiveOwnersSubscription: Subscription;
+  allActiveTenantsSubscription: Subscription;
   realEstateCreationSubscription: Subscription;
 
   matcher = new MyErrorStateMatcher();
@@ -59,8 +61,10 @@ export class AddNewRealEstateDialogComponent implements OnInit, OnDestroy {
     private toast: ToastrService,
     private realEstateService: RealEstateService
   ) {
-    this.allActiveRegularUsers = [];
+    this.allActiveOwners = [];
+    this.allActiveTenants = [];
     this.tenants = [];
+
     this.filteredCities = this.addingForm
       .get('cityFormControl')
       .valueChanges.pipe(
@@ -70,9 +74,15 @@ export class AddNewRealEstateDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.allActiveRegularUsersSubscription =this.userService.getAllActiveRegularUsers().subscribe(
+    this.allActiveOwnersSubscription = this.userService.getAllActiveOwners().subscribe(
       res => {
-        this.allActiveRegularUsers = res;
+        this.allActiveOwners = res;
+      }
+    )
+
+    this.allActiveTenantsSubscription = this.userService.getAllActiveTenants().subscribe(
+      res => {
+        this.allActiveTenants = res;
       }
     )
   }
@@ -138,8 +148,12 @@ export class AddNewRealEstateDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.allActiveRegularUsersSubscription) {
-      this.allActiveRegularUsersSubscription.unsubscribe();
+    if (this.allActiveOwnersSubscription) {
+      this.allActiveOwnersSubscription.unsubscribe();
+    }
+
+    if (this.allActiveTenantsSubscription) {
+      this.allActiveTenantsSubscription.unsubscribe();
     }
 
     if (this.realEstateCreationSubscription) {

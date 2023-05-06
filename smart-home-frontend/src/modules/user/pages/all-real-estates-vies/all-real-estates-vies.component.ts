@@ -22,7 +22,7 @@ export class AllRealEstatesViesComponent implements OnInit, OnDestroy {
 
   constructor(
     private realEstateService: RealEstateService,
-    private authService: AuthService
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -38,7 +38,7 @@ export class AllRealEstatesViesComponent implements OnInit, OnDestroy {
       }
     )
 
-    this.realEstateSubscription = this.realEstateService.filterRealEstates(this.ascending, this.range, this.currentUser.id).subscribe(
+    this.realEstateSubscription = this.realEstateService.filterRealEstates(this.ascending, this.range, this.currentUser.id, this.currentUser.role.roleName).subscribe(
       res => {
         if (res) {
           this.realEstates = res;

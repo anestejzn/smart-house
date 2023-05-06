@@ -28,13 +28,11 @@ public class RegularUserRegistrationRequest extends UserRequest {
             String email,
             String name,
             String surname,
-            String country,
-            String city,
             String password,
             String confirmPassword,
             String role
     ) {
-        super(email, name, surname, country, city);
+        super(email, name, surname);
         this.password = password;
         this.confirmPassword = confirmPassword;
         this.role = role;

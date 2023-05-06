@@ -15,13 +15,13 @@ import { RealEstateService } from 'src/modules/user/service/real-estate.service'
 })
 export class EditTenantsReDialogComponent implements OnInit, OnDestroy {
 
-  allActiveRegularUsers: User[];
+  allActiveTenants: User[];
   tenants: User[] = [];
   tenantIds: number[] = [];
   currentTenant: User = null;
   selectedOwner: User = null;
   realEstateSubscription: Subscription;
-  allActiveRegularUsersSubscription: Subscription;
+  allActiveTenantsSubscription: Subscription;
   authSubscription: Subscription;
   showPage: boolean = false;
 
@@ -33,9 +33,9 @@ export class EditTenantsReDialogComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.allActiveRegularUsersSubscription =this.userService.getAllActiveRegularUsers().subscribe(
+    this.allActiveTenantsSubscription =this.userService.getAllTenantUsers().subscribe(
       res => {
-        this.allActiveRegularUsers = res;
+        this.allActiveTenants = res;
       }
     )
 
@@ -118,8 +118,8 @@ export class EditTenantsReDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.allActiveRegularUsersSubscription) {
-      this.allActiveRegularUsersSubscription.unsubscribe();
+    if (this.allActiveTenantsSubscription) {
+      this.allActiveTenantsSubscription.unsubscribe();
     }
   }
 

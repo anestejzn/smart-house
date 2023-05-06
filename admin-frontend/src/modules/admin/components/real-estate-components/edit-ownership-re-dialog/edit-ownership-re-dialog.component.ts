@@ -22,18 +22,26 @@ export class EditOwnershipReDialogComponent implements OnInit, OnDestroy {
     private realEstateService: RealEstateService
   ) { }
 
-  allActiveRegularUsers: User[];
+  allActiveOwners: User[];
+  allActiveTenants: User[];
   tenants: User[] = [];
   tenantIds: number[] = [];
   currentTenant: User = null;
   selectedOwner: User = null;
   realEstateSubscription: Subscription;
-  allActiveRegularUsersSubscription: Subscription;
+  allActiveOwnersSubscription: Subscription;
+  allActiveTenantsSubscription: Subscription;
 
   ngOnInit(): void {
-    this.allActiveRegularUsersSubscription =this.userService.getAllActiveRegularUsers().subscribe(
+    this.allActiveOwnersSubscription =this.userService.getAllActiveOwners().subscribe(
       res => {
-        this.allActiveRegularUsers = res;
+        this.allActiveOwners = res;
+      }
+    )
+
+    this.allActiveTenantsSubscription =this.userService.getAllActiveTenants().subscribe(
+      res => {
+        this.allActiveTenants = res;
       }
     )
 
@@ -102,8 +110,12 @@ export class EditOwnershipReDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.allActiveRegularUsersSubscription) {
-      this.allActiveRegularUsersSubscription.unsubscribe();
+    if (this.allActiveOwnersSubscription) {
+      this.allActiveOwnersSubscription.unsubscribe();
+    }
+
+    if (this.allActiveTenantsSubscription) {
+      this.allActiveTenantsSubscription.unsubscribe();
     }
   }
 
