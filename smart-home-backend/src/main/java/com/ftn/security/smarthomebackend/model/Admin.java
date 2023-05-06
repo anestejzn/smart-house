@@ -1,7 +1,7 @@
 package com.ftn.security.smarthomebackend.model;
 
 import com.ftn.security.smarthomebackend.enums.AccountStatus;
-import com.ftn.security.smarthomebackend.enums.Role;
+import com.ftn.security.smarthomebackend.model.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Admin extends User {
 
-    public Admin(String email, String password, String name, String surname, String salt, AccountStatus status, int failedAttempts, LocalDateTime lockedUntil) {
-        super(email, password, name, surname, salt, status, failedAttempts, lockedUntil, Role.ADMIN);
+    public Admin(String email, String password, String name, String surname, String salt, AccountStatus status, int failedAttempts, LocalDateTime lockedUntil, Role role) {
+        super(email, password, name, surname, salt, status, failedAttempts, lockedUntil, role);
     }
 }

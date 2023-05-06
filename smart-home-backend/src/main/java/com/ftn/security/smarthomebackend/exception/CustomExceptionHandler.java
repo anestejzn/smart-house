@@ -88,4 +88,12 @@ public class CustomExceptionHandler {
         return userLockedException.getMessage();
     }
 
+    @ExceptionHandler(value = MostCommonPasswordException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public String mostCommonPasswordException(MostCommonPasswordException mostCommonPasswordException){
+
+        return mostCommonPasswordException.getMessage();
+    }
+
+
 }

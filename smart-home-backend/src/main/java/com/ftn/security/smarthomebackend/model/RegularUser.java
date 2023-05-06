@@ -2,7 +2,7 @@ package com.ftn.security.smarthomebackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ftn.security.smarthomebackend.enums.AccountStatus;
-import com.ftn.security.smarthomebackend.enums.Role;
+import com.ftn.security.smarthomebackend.model.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,15 +18,9 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class RegularUser extends User {
-<<<<<<< HEAD
-    @Column(name="pin")
-    protected String pin;
-
     @ManyToMany(mappedBy = "tenants")
     @JsonIgnore
     List<RealEstate> realEstatesTenant = new LinkedList<>();
-=======
->>>>>>> 19a4f8d (add login with pin for admin)
 
     public RegularUser(String email, String password, String name, String surname, String salt, AccountStatus status, int failedAttempts, LocalDateTime lockedUntil, Role role) {
         super(email, password, name, surname, salt, status, failedAttempts, lockedUntil, role);

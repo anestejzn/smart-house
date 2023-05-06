@@ -24,10 +24,12 @@ export class RealEstateService {
   }
 
   editBasicRealEstateData(data: UpdateRealEstateRequest): Observable<RealEstate> {
+    console.log(data);
     return this.http.put<RealEstate>(this.configService.REAL_ESTATE_BASIC_INFO_EDIT, data);
   }
 
   editOwnershipRealEstateData(data: UpdateRealEstateRequest): Observable<RealEstate> {
+    console.log(data);
     return this.http.put<RealEstate>(this.configService.REAL_ESTATE_OWNERSHIP_INFO_EDIT, data);
   }
 

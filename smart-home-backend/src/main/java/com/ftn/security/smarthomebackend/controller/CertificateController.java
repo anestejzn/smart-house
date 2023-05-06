@@ -32,28 +32,26 @@ public class CertificateController {
 
     @GetMapping(value = "aliases/{type}/{validity}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('GET_ALIASES')")
     public List<SortedAliasesResponse> getAllAliases(@PathVariable @Valid CertificateSortType type, @PathVariable @Valid CertificateValidityType validity) throws KeyStoreMalfunctionedException {
         return certificateService.getAliasesByFilters(type, validity);
     }
 
     @GetMapping(value = "/{alias}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('GET_CERTIFICATE_BY_ALIAS')")
     public List<CertificateResponse> getCertificateByAlias(@PathVariable String alias) throws KeyStoreCertificateException, KeyStoreMalfunctionedException {
         return certificateService.getCertificateByAlias(alias);
     }
 
     @PostMapping("/create/root")
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public void createRootCertificate() throws KeyStoreMalfunctionedException, CertificateParsingException, InvalidCertificateException {
         certificateService.createAndSaveRootCertificate();
     }
 
     @PostMapping("/create/intermediates")
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public void createIntermediateCertificate() throws KeyStoreMalfunctionedException, AliasDoesNotExistException, CertificateParsingException, InvalidCertificateException {
         for (String intermediate_alias : INTERMEDIATE_CERT_ALIASES)
             certificateService.createAndSaveIntermediateCertificate(intermediate_alias);
@@ -61,14 +59,14 @@ public class CertificateController {
 
     @PostMapping("/create/leaf")
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('CREATE_CERTIFICATE')")
     public void createLeafCertificate(@Valid @RequestBody final NewCertificateRequest certRequest) throws AliasDoesNotExistException, KeyStoreCertificateException, CertificateParsingException, MessagingException, AliasAlreadyExistsException, CertificateEncodingException, EntityNotFoundException, KeyStoreException, MailCannotBeSentException, IOException, InvalidCertificateException, KeyStoreMalfunctionedException {
         certificateService.createAndSaveLeafCertificate(certRequest);
     }
 
     @PutMapping("/cancel")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('CANCEL_CERTIFICATE')")
     public boolean cancelCertificate(@Valid @RequestBody final CancelCertificateRequest request) throws EntityNotFoundException, KeyStoreMalfunctionedException {
         return certificateService.cancelCertificate(request.getAlias(), request.getCancelReason());
     }
