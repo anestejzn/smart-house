@@ -30,13 +30,19 @@ public class AuthController {
 
     @PostMapping(path="/login-admin")
     @ResponseStatus(HttpStatus.OK)
-    public LoginResponse loginAdmin(@Valid @RequestBody final LoginRequest loginRequest, HttpServletResponse response) throws InvalidCredsException, UserLockedException {
+    public LoginResponse loginAdmin(@Valid @RequestBody final LoginRequest loginRequest, HttpServletResponse response)
+            throws InvalidCredsException, UserLockedException, EntityNotFoundException
+    {
+
         return authService.loginAdmin(loginRequest.getEmail(), loginRequest.getPassword(), response);
     }
 
     @PostMapping(path="/login-reg-user")
     @ResponseStatus(HttpStatus.OK)
-    public LoginResponse loginRegularUser(@Valid @NotNull @RequestBody final LoginRequest loginRequest, HttpServletResponse response) throws InvalidCredsException, UserLockedException {
+    public LoginResponse loginRegularUser(@Valid @NotNull @RequestBody final LoginRequest loginRequest, HttpServletResponse response)
+            throws InvalidCredsException, UserLockedException, EntityNotFoundException
+    {
+
         return authService.loginRegularUser(loginRequest.getEmail(), loginRequest.getPassword(), response);
     }
 
@@ -49,18 +55,14 @@ public class AuthController {
     @GetMapping("/generate-pin/{email}")
     @ResponseStatus(HttpStatus.OK)
     public void generatePin(@Valid @NotNull @NotBlank @PathVariable final String email) throws EntityNotFoundException, IOException, MailCannotBeSentException {
+
         authService.generatePin(email);
     }
 
     @PutMapping("/confirm-pin")
     @ResponseStatus(HttpStatus.OK)
-    public boolean confirmPin(@Valid @RequestBody final ConfirmPinRequest confirmPinRequest) throws WrongVerifyTryException, EntityNotFoundException {
-        return authService.confirmPin(confirmPinRequest.getEmail(), confirmPinRequest.getPin());
-    }
+    public void confirmPin(@Valid @RequestBody final ConfirmPinRequest confirmPinRequest) throws WrongVerifyTryException, EntityNotFoundException, UserLockedException {
 
-    @GetMapping("/increment-failed-attempts/{email}")
-    @ResponseStatus(HttpStatus.OK)
-    public boolean incrementFailedAttempts(@Valid @NotNull @NotBlank @PathVariable final String email) throws EntityNotFoundException {
-        return authService.incrementFailedAttempts(email);
+        authService.confirmPin(confirmPinRequest.getEmail(), confirmPinRequest.getPin());
     }
 }

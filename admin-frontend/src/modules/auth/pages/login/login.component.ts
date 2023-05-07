@@ -69,15 +69,19 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.generatePin(userResponse.user.email);
         },
         error => {
-          if(error.error === null){
-            this.toast.error('Email or password is not correct!', 'Login failed');
-            console.log("llalal");
-            this.incrementFailedAttempts(loginRequest.email);
-          }
-          else{
-            this.showSpiner = false;
+          // console.log(error.error)
+          if(error.error === "Your account is locked."){
             this.toast.error("Your account is locked.", "Locked account");
           }
+          else if(error.error === "Your account is locked. You can login again in 24 hours."){
+            this.toast.error("Your account is locked.", "Locked account");
+            
+          }
+          else if(error.error === "Invalid creds!" || error.error === "User is not found.") {
+            this.toast.error('Email or password is not correct!', 'Login failed');
+          }
+
+          this.showSpiner = false;
         }
       );
     }
@@ -92,15 +96,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     this.authSubscription = this.authService.confirmPin(confirmPinRequest).subscribe(
       response => {
-        if(response){
-          this.authService.setSessionStorage(this.user);
-          
-          this.router.navigate(['/smart-home/admin/home']);
-        }
+        this.authService.setSessionStorage(this.user);
+        this.router.navigate(['/smart-home/admin/home']);
       },
       error => {
         this.toast.error(error.error);
-        this.incrementFailedAttempts(confirmPinRequest.email);
       }
     )
   }
