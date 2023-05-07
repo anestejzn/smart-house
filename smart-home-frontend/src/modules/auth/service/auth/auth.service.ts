@@ -12,19 +12,30 @@ import { ConfirmPinRequest } from '../../model/confirm-pin-request/confirm-pin-r
   providedIn: 'root'
 })
 export class AuthService {
- 
+  
   public currentUser$: BehaviorSubject<User>;
-
+  
   constructor(private configService: ConfigService, private http: HttpClient, private webSocketService: WebSocketService) {
     this.currentUser$ = new BehaviorSubject<User>(null);
-   }
-
+  }
+  
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(
       this.configService.getLoginUrl(),
       loginRequest
-    );
+      );
+    }
+    
+
+  getLoggedParsedUser(): User {
+    const userString = sessionStorage.getItem('user');
+    if (userString !== null && userString !== undefined) {
+      return JSON.parse(userString);
+    }
+
+    return null;
   }
+
 
   setSessionStorage(loginResponse: LoginResponse): void {
     sessionStorage.setItem('token', loginResponse.token);

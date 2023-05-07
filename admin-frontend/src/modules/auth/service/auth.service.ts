@@ -51,6 +51,15 @@ export class AuthService {
     return this.currentUser$;
   }
 
+  getLoggedParsedUser(): User {
+    const userString = sessionStorage.getItem('user');
+    if (userString !== null && userString !== undefined) {
+      return JSON.parse(userString);
+    }
+
+    return null;
+  }
+
   generatePin(email:string) {
     return this.http.get<void>(
       this.configService.getGeneratePinUrl(email));
