@@ -74,7 +74,7 @@ export class VerificationComponent implements OnInit {
                 'You became a new member of SmartHome!',
                 'Verification successfully'
               );
-              this.router.navigate(['/successfull-verification']);
+              this.router.navigate(['/smart-home/auth/successfull-verification']);
             } else {
               this.toast.error('Verification failed, try again later.', 'Verification failed!')
             }
