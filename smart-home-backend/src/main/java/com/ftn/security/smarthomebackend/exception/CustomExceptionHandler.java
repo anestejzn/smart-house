@@ -18,6 +18,12 @@ public class CustomExceptionHandler {
         return entityNotFoundException.getMessage();
     }
 
+    @ExceptionHandler(value = CannotPerformActionException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String cannotPerformActionException(CannotPerformActionException exception) {
+        return exception.getMessage();
+    }
+
     @ExceptionHandler(value = PasswordsDoNotMatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String passwordsDoNotMatchException(PasswordsDoNotMatchException passwordsDoNotMatchException) {

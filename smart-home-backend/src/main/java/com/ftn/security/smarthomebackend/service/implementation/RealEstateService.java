@@ -3,6 +3,7 @@ package com.ftn.security.smarthomebackend.service.implementation;
 import com.ftn.security.smarthomebackend.dto.response.RealEstateResponse;
 import com.ftn.security.smarthomebackend.dto.response.RealEstateViewResponse;
 import com.ftn.security.smarthomebackend.enums.EntityType;
+import com.ftn.security.smarthomebackend.exception.CannotPerformActionException;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 import com.ftn.security.smarthomebackend.exception.OwnerAndTenantOverlapException;
 import com.ftn.security.smarthomebackend.model.RealEstate;
@@ -141,6 +142,45 @@ public class RealEstateService implements IRealEstateService {
                 ));
 
         return true;
+    }
+    
+    @Override
+    public boolean block(Long userId) throws EntityNotFoundException, CannotPerformActionException {
+        RegularUser regularUser = regularUserService.getRegularUserById(userId);
+        if (regularUser.getRole().getRoleName().equalsIgnoreCase("ROLE_OWNER")) {
+            this.checkIfOwnerHasRealEstates(userId);
+        } else {
+            this.checkIfTenantIsInRealEstate(userId);
+        }
+
+        return regularUserService.block(regularUser);
+    }
+
+    @Override
+    public boolean unblock(Long userId) throws EntityNotFoundException {
+
+        return regularUserService.unblock(userId);
+    }
+    
+    private void checkIfOwnerHasRealEstates(Long userId) throws CannotPerformActionException {
+        List<RealEstate> realEstates = realEstateRepository.getAll();
+
+        for (RealEstate realEstate : realEstates) {
+            if (Objects.equals(realEstate.getOwner().getId(), userId)) {
+                throw new CannotPerformActionException("Owner cannot be blocked while having active real estate.");
+            }
+        }
+    }
+
+    private void checkIfTenantIsInRealEstate(Long userId) throws CannotPerformActionException {
+        List<RealEstate> realEstates = realEstateRepository.getAll();
+
+        for (RealEstate realEstate : realEstates) {
+            for (RegularUser user : realEstate.getTenants()) {
+                if (Objects.equals(user.getId(), userId))
+                    throw new CannotPerformActionException("Tenant cannot be blocked while being active tenant in real estate.");
+            }
+        }
     }
 
     private List<RegularUser> extractTenants(Long[] tenantsIds) throws EntityNotFoundException {

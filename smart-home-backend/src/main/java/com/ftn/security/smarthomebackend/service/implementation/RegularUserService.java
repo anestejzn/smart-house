@@ -8,6 +8,7 @@ import com.ftn.security.smarthomebackend.model.RegularUser;
 import com.ftn.security.smarthomebackend.model.User;
 import com.ftn.security.smarthomebackend.repository.RegularUserRepository;
 import com.ftn.security.smarthomebackend.dto.response.UserDTO;
+import com.ftn.security.smarthomebackend.service.interfaces.IRealEstateService;
 import com.ftn.security.smarthomebackend.service.interfaces.IRegularUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -57,4 +58,21 @@ public class RegularUserService implements IRegularUserService {
 
         return true;
     }
+
+    public boolean block(RegularUser regularUser) {
+        regularUser.setStatus(AccountStatus.BLOCKED);
+        regularUserRepository.save(regularUser);
+
+        return true;
+    }
+
+    public boolean unblock(Long userId) throws EntityNotFoundException {
+        RegularUser regularUser = this.getRegularUserById(userId);
+        regularUser.setStatus(AccountStatus.ACTIVE);
+
+        regularUserRepository.save(regularUser);
+
+        return true;
+    }
+
 }

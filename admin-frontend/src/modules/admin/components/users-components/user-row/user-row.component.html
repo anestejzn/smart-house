@@ -1,0 +1,21 @@
+<div *ngIf="user" [class]="selected ? 'user-row-active' : 'user-row-not-active'" style="width: 92%;">
+    <table style="width: 100%;">
+        <colgroup>
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 80%;">
+            <col span="1" style="width: 10%;">
+        </colgroup>
+        <tr>
+            <td>
+                <b>{{index}}.</b>
+            </td>
+            <td>
+                <b>{{user.email}}</b>
+            </td>
+            <td style="display: flex; align-items: center;">
+                <div style="flex: 1;"></div>
+                <mat-icon>play_arrow</mat-icon>
+            </td>
+        </tr>
+    </table>
+</div>

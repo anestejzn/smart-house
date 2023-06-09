@@ -1,6 +1,7 @@
 package com.ftn.security.smarthomebackend.dto.response;
 
 import com.ftn.security.smarthomebackend.model.RegularUser;
+import com.ftn.security.smarthomebackend.model.Role;
 import com.ftn.security.smarthomebackend.model.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,14 +22,18 @@ public class UserDTO {
 
     private final String surname;
 
+    private final Role role;
+
     public UserDTO(
             String email,
             String name,
-            String surname
+            String surname,
+            Role role
     ) {
         this.email = email;
         this.name = name;
         this.surname = surname;
+        this.role = role;
     }
 
     public UserDTO(User user) {
@@ -36,6 +41,7 @@ public class UserDTO {
         this.email = user.getEmail();
         this.name = user.getName();
         this.surname = user.getSurname();
+        this.role = user.getRole();
     }
 
     public UserDTO(RegularUser regularUser) {
@@ -43,6 +49,7 @@ public class UserDTO {
         this.email = regularUser.getEmail();
         this.name = regularUser.getName();
         this.surname = regularUser.getSurname();
+        this.role = regularUser.getRole();
     }
 
     public static List<UserDTO> fromUserListToDTO(List<User> users) {

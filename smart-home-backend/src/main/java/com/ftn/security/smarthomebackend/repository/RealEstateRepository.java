@@ -13,6 +13,9 @@ public interface RealEstateRepository extends JpaRepository<RealEstate, Long> {
 
     Optional<RealEstate> getRealEstateById(Long id);
 
+    @Query("select distinct re from RealEstate re")
+    List<RealEstate> getAll();
+
     @Query("select re from RealEstate re where re.sqMeters >= ?1 and re.sqMeters <= ?2 order by re.name asc ")
     List<RealEstate> filterAllRealEstatesAsc(Integer bottomSqArea, Integer topSqArea);
 

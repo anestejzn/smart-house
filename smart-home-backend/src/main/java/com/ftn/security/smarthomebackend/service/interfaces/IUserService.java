@@ -1,6 +1,9 @@
 package com.ftn.security.smarthomebackend.service.interfaces;
 
+import com.ftn.security.smarthomebackend.dto.response.RealEstateViewResponse;
 import com.ftn.security.smarthomebackend.dto.response.UserDTO;
+import com.ftn.security.smarthomebackend.dto.response.UserResponse;
+import com.ftn.security.smarthomebackend.enums.AccountStatus;
 import com.ftn.security.smarthomebackend.model.Role;
 import com.ftn.security.smarthomebackend.exception.*;
 import com.ftn.security.smarthomebackend.model.BlacklistedJWT;
@@ -30,4 +33,6 @@ public interface IUserService {
     List<UserDTO> getAllCertifiedOwnerUsers();
 
     List<UserDTO> getAllActiveTenantUsers();
+
+    List<UserDTO> filterUsers(boolean ascending, AccountStatus status);
 }

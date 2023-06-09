@@ -1,0 +1,17 @@
+div.form-container {
+    min-height: 25rem;
+    min-width: 52rem;
+    padding: 3%;
+
+    .sorting-column {
+        flex-basis: 20% !important;
+    }
+
+    .users-column {
+        flex-basis: 40% !important;
+    }
+
+    .user-details-column {
+        flex-basis: 40% !important;
+    }
+}

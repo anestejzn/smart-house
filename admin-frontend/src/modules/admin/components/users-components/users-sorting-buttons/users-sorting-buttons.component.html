@@ -1,0 +1,19 @@
+<div>
+    <label class="label-sort">Sort by name: </label>
+    <mat-radio-group>
+        <mat-radio-button *ngFor="let sort of sortByName" [value]="sort.asc" [checked]="sort.checked"
+            (change)="selectSortByName(sort.asc)" class="sort-btn">
+            {{ sort.name }}
+        </mat-radio-button>
+    </mat-radio-group>
+    <hr>
+    <label class="label-sort">Pick account status: </label>
+    <mat-radio-group>
+        <mat-radio-button *ngFor="let sort of filterByAccountStatus" [value]="sort.returnValue" [checked]="sort.checked"
+            (change)="selectFilterByStatus(sort.returnValue)" class="sort-btn">
+            {{ sort.name }}
+        </mat-radio-button>
+    </mat-radio-group>
+    <hr>
+</div>
+

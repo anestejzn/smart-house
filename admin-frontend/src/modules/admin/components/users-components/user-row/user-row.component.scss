@@ -1,0 +1,15 @@
+
+
+.user-row-not-active:hover, .user-row-active {
+
+    mat-icon {
+        display: inline !important;
+    }
+
+}
+
+.user-row-not-active {
+    mat-icon {
+        display: none !important;
+    }
+}

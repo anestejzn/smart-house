@@ -29,7 +29,11 @@ import { OwnerDataComponent } from './components/real-estate-components/owner-da
 import { TenantDataComponent } from './components/real-estate-components/tenant-data/tenant-data.component';
 import { EditBasicReDataDialogComponent } from './components/real-estate-components/edit-basic-re-data-dialog/edit-basic-re-data-dialog.component';
 import { EditOwnershipReDialogComponent } from './components/real-estate-components/edit-ownership-re-dialog/edit-ownership-re-dialog.component';
-
+import { AllUsersViewComponent } from './pages/all-users-view/all-users-view.component';
+import { UsersSortingButtonsComponent } from './components/users-components/users-sorting-buttons/users-sorting-buttons.component';
+import { UserRowsComponent } from './components/users-components/user-rows/user-rows.component';
+import { UserRowComponent } from './components/users-components/user-row/user-row.component';
+import { UserDetailsComponent } from './components/users-components/user-details/user-details.component';
 
 
 @NgModule({
@@ -58,7 +62,12 @@ import { EditOwnershipReDialogComponent } from './components/real-estate-compone
     OwnerDataComponent,
     TenantDataComponent,
     EditBasicReDataDialogComponent,
-    EditOwnershipReDialogComponent
+    EditOwnershipReDialogComponent,
+    AllUsersViewComponent,
+    UsersSortingButtonsComponent,
+    UserRowsComponent,
+    UserRowComponent,
+    UserDetailsComponent
   ],
   imports: [
     CommonModule,

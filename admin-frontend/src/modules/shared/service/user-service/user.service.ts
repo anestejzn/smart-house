@@ -12,6 +12,10 @@ export class UserService {
   constructor(private configService: ConfigService, private http: HttpClient) {
   }
 
+  filterUsers(asc: boolean, userStatus: string) {
+    return this.http.get<User[]>(this.configService.getFilterUsersURL(asc, userStatus));
+  }
+
   getAllActiveOwners(): Observable<User[]> {
     return this.http.get<User[]>(this.configService.ALL_CERTIFIED_OWNERS);
   }

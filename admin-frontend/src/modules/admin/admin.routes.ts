@@ -4,6 +4,7 @@ import { HomeComponent } from "./pages/home/home.component";
 import { AllRealEstatesViewComponent } from "./pages/all-real-estates-view/all-real-estates-view.component";
 import { DetailRealEstateComponent } from "./pages/detail-real-estate/detail-real-estate.component";
 import { RoleGuard } from "../auth/guards/role/role.guard";
+import { AllUsersViewComponent } from "./pages/all-users-view/all-users-view.component";
 
 export const AdminRoutes: Routes = [
     {
@@ -33,5 +34,12 @@ export const AdminRoutes: Routes = [
       component: DetailRealEstateComponent,
       canActivate: [RoleGuard],
       data: { expectedRoles: 'ROLE_ADMIN' }
-    }
+    },
+    {
+      path: "all-users",
+      pathMatch: "full",
+      component: AllUsersViewComponent,
+      canActivate: [RoleGuard],
+      data: { expectedRoles: 'ROLE_ADMIN' }
+    },
   ]
