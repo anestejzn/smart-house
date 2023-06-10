@@ -1,6 +1,5 @@
 package com.ftn.security.smarthomebackend.repository;
 
-import com.ftn.security.smarthomebackend.dto.response.RealEstateViewResponse;
 import com.ftn.security.smarthomebackend.enums.AccountStatus;
 import com.ftn.security.smarthomebackend.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -2,6 +2,7 @@ package com.ftn.security.smarthomebackend.util;
 
 public class Constants {
     //PATHS
+    public static final String PHOTOS_FILE_PATH = "src/main/resources/static/images/";
     public static final String TEMPLATE_FILE_PATH = "./src/main/resources/static/emailTemplates/";
     public static final String PASSWORDS_FILE_PATH = "./src/main/resources/most_common_passwords.txt";
     //MESSAGES

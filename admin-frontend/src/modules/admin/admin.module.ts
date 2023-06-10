@@ -34,6 +34,7 @@ import { UsersSortingButtonsComponent } from './components/users-components/user
 import { UserRowsComponent } from './components/users-components/user-rows/user-rows.component';
 import { UserRowComponent } from './components/users-components/user-row/user-row.component';
 import { UserDetailsComponent } from './components/users-components/user-details/user-details.component';
+import { DevicesTabComponent } from './components/real-estate-components/devices-tab/devices-tab.component';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import { UserDetailsComponent } from './components/users-components/user-details
     UsersSortingButtonsComponent,
     UserRowsComponent,
     UserRowComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    DevicesTabComponent
   ],
   imports: [
     CommonModule,
