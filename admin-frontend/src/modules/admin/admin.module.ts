@@ -35,6 +35,8 @@ import { UserRowsComponent } from './components/users-components/user-rows/user-
 import { UserRowComponent } from './components/users-components/user-row/user-row.component';
 import { UserDetailsComponent } from './components/users-components/user-details/user-details.component';
 import { DevicesTabComponent } from './components/real-estate-components/devices-tab/devices-tab.component';
+import {CarouselModule} from "primeng/carousel";
+import { EditDeviceDialogComponent } from './components/real-estate-components/edit-device-dialog/edit-device-dialog.component';
 
 
 @NgModule({
@@ -69,12 +71,14 @@ import { DevicesTabComponent } from './components/real-estate-components/devices
     UserRowsComponent,
     UserRowComponent,
     UserDetailsComponent,
-    DevicesTabComponent
+    DevicesTabComponent,
+    EditDeviceDialogComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
     FormsModule,
+    CarouselModule,
     ReactiveFormsModule,
     RouterModule.forChild(AdminRoutes)
   ]

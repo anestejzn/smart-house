@@ -1,0 +1,46 @@
+
+.devices-content {
+    margin: 0.5rem 1rem 0 1rem;
+
+    #no-devices p {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    h1 {
+        margin-top: 1rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .img-device {
+        height: 5rem;
+        width: auto;
+        max-width: 5rem;
+        border-radius: 50%;
+        padding: 0.3rem;
+        border: 3px solid var(--deep-blue);
+    }
+
+    .one-device {
+        margin-left: 3.5rem;
+    }
+
+    mat-icon {
+        color: var(--deep-blue);
+        transform: scale(1.2);
+    }
+
+    .edit-container {
+        margin-left: 90% !important;
+        margin-top: 0 !important;
+    }
+}
+
+.devices-content:hover {
+
+    .add-device-container button {
+        display: inline-block;
+    }
+
+}

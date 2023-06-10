@@ -27,7 +27,10 @@ insert into privilege (privilege_name) values
                              ('FILTER_USERS'),              --20
                              ('BLOCK_USER'),                --21
                              ('UNBLOCK_USER'),              --22
-                             ('READ_DEVICES');              --23
+                             ('READ_DEVICES'),              --23
+                             ('DELETE_DEVICE'),             --24
+                             ('CREATE_DEVICES'),            --25
+                             ('EDIT_DEVICES');              --26
 
 insert into role_privilege (role_id, privilege_id) values
                                                     (3,2),
@@ -58,7 +61,10 @@ insert into role_privilege (role_id, privilege_id) values
                                                     (3,22),
                                                     (3,23),
                                                     (1,23),
-                                                    (2,23);
+                                                    (2,23),
+                                                    (3,24),
+                                                    (3,25),
+                                                    (3,26);
 
 insert into regular_user (id, email, password, name, surname, salt, status, failed_attempts, locked_until, verified, role_id, pin) values
                         (nextval('users_id_gen'), 'peki@maildrop.cc', '$2y$10$uwgoYpON2hx80Xpfgn4.O.j0Pys.uATCE2gQu3BNr/DwC8qn6G9am', 'Pera', 'Peric', '123', 4, 0, null, true, 1, null),

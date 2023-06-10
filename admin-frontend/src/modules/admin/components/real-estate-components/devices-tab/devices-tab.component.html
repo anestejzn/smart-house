@@ -1,1 +1,29 @@
-<p>devices-tab works!</p>
+<div class="devices-content">
+
+    <div style="position: relative;">
+        <div class="edit-container add-device-container">
+            <button (click)="openDialog(null)" matTooltip="Add device" mat-mini-fab color="primary">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <h1 class="center-content">Devices</h1>
+
+    <p-carousel *ngIf="devices?.length > 0; else noDevicesBlock" [value]="devices" [numVisible]="4" [numScroll]="2">
+        <ng-template let-device (onPage)="setIndex($event)" pTemplate="item">
+            <div class="one-device">
+                <img class="img-device" 
+                [matTooltip]="device.name" 
+                [src]="'data:image/png;base64,' + device.base64Photo"
+                (click)="openDialog(device)"
+                >            
+            </div>
+        </ng-template>
+    </p-carousel>
+    <ng-template #noDevicesBlock>
+        <div id="no-devices" class="center-content">
+            <p>There are no devices for this real estate.</p>
+        </div>
+    </ng-template>
+</div>

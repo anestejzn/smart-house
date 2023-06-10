@@ -6,9 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DeviceRepository extends JpaRepository<Device, Long> {
+
+    Optional<Device> getDeviceById(Long id);
 
     @Query("select distinct d from Device d where d.realEstate.id=?1")
     List<Device> getDevicesPerRealEstate(Long id);
