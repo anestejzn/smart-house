@@ -1,0 +1,10 @@
+<div>
+    <h1 class="center-content">{{data.device.name}}</h1>
+    <p>Device Type:<b>{{data.device.deviceType.replace('_', ' ')}}</b></p>
+    <p>Filter:<b>{{data.device.filterRegex}}</b></p>
+    <p>Read period:<b>{{data.device.periodRead}}</b></p>
+
+    <mat-dialog-actions class="activity-buttons" align="center">
+        <button mat-button class="cancel-button" [mat-dialog-close]="null">Close</button>
+    </mat-dialog-actions>
+</div>

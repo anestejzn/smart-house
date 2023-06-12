@@ -15,14 +15,21 @@ import { OwnershipDataRealEstateComponent } from './components/real-estate/owner
 import { EditTenantsReDialogComponent } from './components/real-estate/edit-tenants-re-dialog/edit-tenants-re-dialog.component';
 import { OwnerDataComponent } from './components/real-estate/owner-data/owner-data.component';
 import { TenantDataComponent } from './components/real-estate/tenant-data/tenant-data.component';
+import { DevicesTabComponent } from './components/real-estate/devices-tab/devices-tab.component';
+import { DeviceDetailsDialogComponent } from './components/real-estate/device-details-dialog/device-details-dialog.component';
+import {CarouselModule} from "primeng/carousel";
+import { AlarmRowsComponent } from './components/alarms/alarm-rows/alarm-rows.component';
+import { AlarmRowComponent } from './components/alarms/alarm-row/alarm-row.component';
+import { AlarmFilterDialogComponent } from './components/alarms/alarm-filter-dialog/alarm-filter-dialog.component';
 
 
 
 @NgModule({
-  declarations: [HomeComponent, AllRealEstatesViesComponent, DetailRealEstateComponent, BasicRealEstateInfoComponent, RealEstateSortingButtonsComponent, RealEstateRowsComponent, RealEstateRowComponent, OwnershipDataRealEstateComponent, EditTenantsReDialogComponent, OwnerDataComponent, TenantDataComponent],
+  declarations: [HomeComponent, AllRealEstatesViesComponent, DetailRealEstateComponent, BasicRealEstateInfoComponent, RealEstateSortingButtonsComponent, RealEstateRowsComponent, RealEstateRowComponent, OwnershipDataRealEstateComponent, EditTenantsReDialogComponent, OwnerDataComponent, TenantDataComponent, DevicesTabComponent, DeviceDetailsDialogComponent, AlarmRowsComponent, AlarmRowComponent, AlarmFilterDialogComponent],
   imports: [
     CommonModule,
     MaterialModule,
+    CarouselModule,
     FormsModule,
     RouterModule.forChild(UserRoutes)
   ]

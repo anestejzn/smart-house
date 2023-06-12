@@ -37,6 +37,10 @@ public class Constants {
     public static final int BOTTOM_MARGIN_FILTERING_SQ_AREA = 50;
     public static final int MAX_SQ_AREA = 600;
     public static final Long FILTER_BY_ALL = -1L;
+    public static final int LAST_7_DAYS = 7;
+    public static final int LAST_30_DAYS = 30;
+    public static final int SHOW_ALL = -1;
+    public static final int DAYS_IN_YEAR = 365;
 
     //REGEX
     public static final String LEGIT_PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,100}$";

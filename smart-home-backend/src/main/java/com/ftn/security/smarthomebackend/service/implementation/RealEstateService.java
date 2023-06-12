@@ -55,7 +55,7 @@ public class RealEstateService implements IRealEstateService {
     @Override
     public RealEstate getRealEstateById(Long id) throws EntityNotFoundException {
         return realEstateRepository.getRealEstateById(id)
-                .orElseThrow(() -> new EntityNotFoundException(id, EntityType.USER));
+                .orElseThrow(() -> new EntityNotFoundException(id, EntityType.REAL_ESTATE));
     }
 
     @Override

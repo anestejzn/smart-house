@@ -1,0 +1,7 @@
+<div *ngIf="alarm" class="alarm-row">
+    <p style="margin-bottom: 0;"><b>{{alarm.deviceName}}</b></p>
+    <p style="margin-top: 0.2rem;"><b>{{alarm.dateTime.toString().split("T")[0] + " " +
+            alarm.dateTime.toString().split("T")[1].split(":")[0] + ":" +
+            alarm.dateTime.toString().split(":")[1]}}</b></p>
+    <p style="font-size: 1.2rem;"><b>{{alarm.message}}</b></p>
+</div>

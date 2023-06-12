@@ -30,7 +30,8 @@ insert into privilege (privilege_name) values
                              ('READ_DEVICES'),              --23
                              ('DELETE_DEVICE'),             --24
                              ('CREATE_DEVICES'),            --25
-                             ('EDIT_DEVICES');              --26
+                             ('EDIT_DEVICES'),              --26
+                             ('GET_FILTERED_ALARMS');       --27
 
 insert into role_privilege (role_id, privilege_id) values
                                                     (3,2),
@@ -64,7 +65,10 @@ insert into role_privilege (role_id, privilege_id) values
                                                     (2,23),
                                                     (3,24),
                                                     (3,25),
-                                                    (3,26);
+                                                    (3,26),
+                                                    (1,27),
+                                                    (2,27),
+                                                    (3,27);
 
 insert into regular_user (id, email, password, name, surname, salt, status, failed_attempts, locked_until, verified, role_id, pin) values
                         (nextval('users_id_gen'), 'peki@maildrop.cc', '$2y$10$uwgoYpON2hx80Xpfgn4.O.j0Pys.uATCE2gQu3BNr/DwC8qn6G9am', 'Pera', 'Peric', '123', 4, 0, null, true, 1, null),
@@ -92,6 +96,13 @@ insert into device(device_type, name, filter_regex, period_read, real_estate_id,
     (0, 'Samsung NighCamera 120x', '[15-25]m', 5, 2, 'camera.png'),
     (2, 'Bosch TS 1', '[40-60]c', 10, 2, 'temperature-sensor.png'),                -- c kao celsius za temperaturu
     (1, 'Bosch Smart AirConditioner', '[20-25]c', 5, 1,'air-conditioner.png');
+
+insert into alarm(message, device_id, date_time, admin_only) values
+    ('Camera has detected movement.', 1, '2023-05-01', false),
+    ('Camera has detected movement.', 1, '2023-06-01', false),
+    ('Temperature is too high.', 3, '2023-06-02', false),
+    ('Temperature is too high.', 3, '2023-06-10', false),
+    ('Temperature too low.', 4, '2023-06-02', false);
 
 --  INSERT INTO csr (user_id, common_name, organization_unit, organization, city, state, country, status) VALUES
 --      (1, 'www.example.com', 'IT', 'Example Company', 'San Francisco', 'CA', 'US', 0);
