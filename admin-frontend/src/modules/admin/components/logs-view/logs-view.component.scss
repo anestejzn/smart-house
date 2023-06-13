@@ -1,0 +1,16 @@
+
+div.form-container {
+    min-height: 25rem;
+    min-width: 60rem;
+    padding: 3%;
+
+}
+
+.buttons-column {
+    flex-basis: 25% !important;
+    margin-right:1.5rem;
+}
+
+.table-column {
+    flex-basis: 75% !important;
+}

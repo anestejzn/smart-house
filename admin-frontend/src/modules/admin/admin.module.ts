@@ -29,6 +29,13 @@ import { OwnerDataComponent } from './components/real-estate-components/owner-da
 import { TenantDataComponent } from './components/real-estate-components/tenant-data/tenant-data.component';
 import { EditBasicReDataDialogComponent } from './components/real-estate-components/edit-basic-re-data-dialog/edit-basic-re-data-dialog.component';
 import { EditOwnershipReDialogComponent } from './components/real-estate-components/edit-ownership-re-dialog/edit-ownership-re-dialog.component';
+import { CsrViewComponent } from './pages/csr-view/csr-view.component';
+import { LogsViewComponent } from './components/logs-view/logs-view.component';
+import { LogTableComponent } from './components/log-table/log-table.component';
+import { LogSearchComponent } from './components/log-search/log-search.component';
+import { AlarmsTableComponent } from './components/alarms-table/alarms-table.component';
+import { AlarmsViewComponent } from './pages/alarms-view/alarms-view.component';
+import { CreateNewRuleComponent } from './pages/create-new-rule/create-new-rule.component';
 
 
 
@@ -58,7 +65,14 @@ import { EditOwnershipReDialogComponent } from './components/real-estate-compone
     OwnerDataComponent,
     TenantDataComponent,
     EditBasicReDataDialogComponent,
-    EditOwnershipReDialogComponent
+    EditOwnershipReDialogComponent,
+    CsrViewComponent,
+    LogsViewComponent,
+    LogTableComponent,
+    LogSearchComponent,
+    AlarmsTableComponent,
+    AlarmsViewComponent,
+    CreateNewRuleComponent
   ],
   imports: [
     CommonModule,

@@ -30,20 +30,20 @@ public class AuthController {
 
     @PostMapping(path="/login-admin")
     @ResponseStatus(HttpStatus.OK)
-    public LoginResponse loginAdmin(@Valid @RequestBody final LoginRequest loginRequest, HttpServletResponse response)
+    public LoginResponse loginAdmin(@Valid @RequestBody final LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response)
             throws InvalidCredsException, UserLockedException, EntityNotFoundException
     {
 
-        return authService.loginAdmin(loginRequest.getEmail(), loginRequest.getPassword(), response);
+        return authService.loginAdmin(loginRequest.getEmail(), loginRequest.getPassword(), request, response);
     }
 
     @PostMapping(path="/login-reg-user")
     @ResponseStatus(HttpStatus.OK)
-    public LoginResponse loginRegularUser(@Valid @NotNull @RequestBody final LoginRequest loginRequest, HttpServletResponse response)
+    public LoginResponse loginRegularUser(@Valid @NotNull @RequestBody final LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response)
             throws InvalidCredsException, UserLockedException, EntityNotFoundException
     {
 
-        return authService.loginRegularUser(loginRequest.getEmail(), loginRequest.getPassword(), response);
+        return authService.loginRegularUser(loginRequest.getEmail(), loginRequest.getPassword(), request, response);
     }
 
     @PostMapping(path = "/logout")

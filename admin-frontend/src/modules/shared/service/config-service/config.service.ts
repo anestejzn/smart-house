@@ -5,7 +5,6 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ConfigService {
-
   constructor() { }
 
   API_URL = environment.apiUrl;
@@ -93,4 +92,12 @@ export class ConfigService {
     return `${this.REAL_ESTATE_URL}/${id}`;
   }
 
+
+  ///////LOGS/////
+
+  LOG_URL = `${this.API_URL}/logs`;
+  FILTER_LOGS_URL = `${this.LOG_URL}/filter`;
+
+  /////////ALARMS/////////
+  ALARM_URL = `${this.API_URL}/alarm`;
 }

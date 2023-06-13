@@ -6,7 +6,10 @@ import com.ftn.security.smarthomebackend.model.CancelCertificate;
 import com.ftn.security.smarthomebackend.repository.CancelCertificateRepository;
 import com.ftn.security.smarthomebackend.service.WebSocketService;
 import com.ftn.security.smarthomebackend.service.interfaces.ICancelCertificateService;
+import com.ftn.security.smarthomebackend.service.interfaces.ILogService;
+import com.ftn.security.smarthomebackend.util.LogGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.logging.LogLevel;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,11 +21,18 @@ public class CancelCertificateService implements ICancelCertificateService {
     private CancelCertificateRepository cancelCertificateRepository;
     @Autowired
     private WebSocketService webSocketService;
+    @Autowired
+    private ILogService logService;
 
     public CancelCertificate getMostRecentByAlias(String alias) throws EntityNotFoundException {
 
-        return cancelCertificateRepository.findMostRecentByAlias(alias)
-                .orElseThrow(() -> new EntityNotFoundException(alias, EntityType.CERTIFICATE));
+        if(cancelCertificateRepository.findMostRecentByAlias(alias).isPresent()){
+            return cancelCertificateRepository.findMostRecentByAlias(alias).get();
+        }
+        else{
+            logService.generateLog(LogGenerator.notFoundCertificate(alias), LogLevel.INFO);
+            throw new EntityNotFoundException(alias, EntityType.CERTIFICATE);
+        }
     }
 
     public boolean mostRecentCancelledAliasExists(String alias) {
@@ -31,6 +41,7 @@ public class CancelCertificateService implements ICancelCertificateService {
     }
 
     public void cancelCertificate(String alias, String reason) {
+        //sta je ovde uradjeno???? proveriii!!
         Optional<CancelCertificate> existedCancellation = cancelCertificateRepository.findByAlias(alias);
         if(existedCancellation.isPresent()){
             existedCancellation.get().setMostRecent(false);

@@ -1,0 +1,22 @@
+<div *ngIf="!noLogs">
+    <div>
+        <label class="label-sort">Show by date and time: </label>
+        <mat-radio-group  [(ngModel)]="showDateTime">
+            <mat-radio-button *ngFor="let sort of showDateAndTime" [value]="sort"
+                (change)="selectDateTime(sort)"
+                class="sort-btn">
+                {{ sort }}
+            </mat-radio-button>
+        </mat-radio-group>
+        <hr>
+        <label class="label-sort">Show by log level: </label>
+        <mat-radio-group  [(ngModel)]="showLogLevel">
+            <mat-radio-button *ngFor="let sort of showLogLevels" [value]="sort" 
+                (change)="selectLogLevel(sort)"
+                class="sort-btn">
+                {{ sort }}
+            </mat-radio-button>
+        </mat-radio-group>
+        <hr>
+    </div>
+</div>

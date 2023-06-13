@@ -1,0 +1,47 @@
+package rules;
+
+import com.ftn.security.smarthomebackend.model.Log;
+import com.ftn.security.smarthomebackend.model.Alarm;
+import com.ftn.security.smarthomebackend.model.User;
+import java.time.*;
+import org.springframework.boot.logging.LogLevel;
+import java.util.List;
+
+
+rule "log with error"
+    agenda-group "admin_alarms"
+    when
+        $log: Log(logLevel == LogLevel.ERROR)
+    then
+        Alarm alarm = new Alarm("Log: " + $log.getLogMessage(), null, $log.getDateTime(), true);
+        insert(alarm);
+        System.out.println("---- DROOLS");
+        System.out.println("Log with logLevel ERROR found!");
+end
+
+rule "locked account"
+    agenda-group "admin_alarms"
+    when
+        $u: User(lockedUntil != null && lockedUntil.isAfter(LocalDateTime.now()))
+    then
+        Alarm alarm = new Alarm(String.format("User with email: '%s' is locked.", $u.getEmail()), null, LocalDateTime.now(), true);
+        insert(alarm);
+        System.out.println("---- DROOLS");
+        System.out.println("Locked account.");
+end
+
+
+rule "malicoius ip address"
+    agenda-group "admin_alarms"
+    when
+        $maliciousAddresses: List(size > 0)
+        $address : String()
+        eval($maliciousAddresses.contains($address))
+    then
+        String alarmMessage = String.format("Malicious address '%s'", $address);
+        Alarm alarm = new Alarm(String.format("Malicious address '%s'", $address), null, LocalDateTime.now(), true);
+        insert(alarm);
+
+        System.err.println("---- DROOLS");
+        System.err.println("Malicious address");
+end

@@ -8,8 +8,11 @@ import com.ftn.security.smarthomebackend.model.RegularUser;
 import com.ftn.security.smarthomebackend.model.User;
 import com.ftn.security.smarthomebackend.repository.RegularUserRepository;
 import com.ftn.security.smarthomebackend.dto.response.UserDTO;
+import com.ftn.security.smarthomebackend.service.interfaces.ILogService;
 import com.ftn.security.smarthomebackend.service.interfaces.IRegularUserService;
+import com.ftn.security.smarthomebackend.util.LogGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.logging.LogLevel;
 import org.springframework.stereotype.Component;
 import static com.ftn.security.smarthomebackend.util.Constants.ZERO_FAILED_ATTEMPTS;
 
@@ -22,6 +25,8 @@ public class RegularUserService implements IRegularUserService {
 
     @Autowired
     private RegularUserRepository regularUserRepository;
+    @Autowired
+    private ILogService logService;
 
     public RegularUser getRegularUserByEmail(String email) throws EntityNotFoundException {
         return regularUserRepository.getRegularUserByEmail(email)
@@ -47,6 +52,7 @@ public class RegularUserService implements IRegularUserService {
                         ZERO_FAILED_ATTEMPTS, null, role
         ));
 
+        logService.generateLog(LogGenerator.createdNewUser(email), LogLevel.INFO);
         return new UserDTO(regularUser);
     }
 
@@ -54,7 +60,7 @@ public class RegularUserService implements IRegularUserService {
         RegularUser regularUser = this.getRegularUserByEmail(userEmail);
         regularUser.setVerified(true);
         regularUserRepository.save(regularUser);
-
+        logService.generateLog(LogGenerator.activatedAccount(userEmail), LogLevel.INFO);
         return true;
     }
 }

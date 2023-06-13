@@ -9,7 +9,7 @@
       <div *ngIf="loggedUser">
         &nbsp;&nbsp;
         <a
-          [routerLink]="['/smart-home/admin/home']"
+          [routerLink]="['/smart-home/admin/csrs']"
           routerLinkActive="active"
           mat-button
           color="primary"
@@ -26,6 +26,12 @@
           mat-button
           color="primary"
           >Real Estate</a>
+          <a
+          [routerLink]="['/smart-home/admin/logs']"
+          routerLinkActive="active"
+          mat-button
+          color="primary"
+          >Logs</a>
         </div>
     </div>
 

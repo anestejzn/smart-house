@@ -10,8 +10,11 @@ import com.ftn.security.smarthomebackend.model.User;
 import com.ftn.security.smarthomebackend.repository.CsrRepository;
 import com.ftn.security.smarthomebackend.service.WebSocketService;
 import com.ftn.security.smarthomebackend.service.interfaces.ICsrService;
+import com.ftn.security.smarthomebackend.service.interfaces.ILogService;
 import com.ftn.security.smarthomebackend.service.interfaces.IUserService;
+import com.ftn.security.smarthomebackend.util.LogGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.logging.LogLevel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +33,9 @@ public class CsrService implements ICsrService {
     @Autowired
     private WebSocketService webSocketService;
 
+    @Autowired
+    private ILogService logService;
+
     @Override
     public void createCSR(String userEmail) throws EntityNotFoundException {
 
@@ -42,6 +48,7 @@ public class CsrService implements ICsrService {
 
         user.setStatus(AccountStatus.NON_CERTIFICATED);
         userService.save(user);
+        logService.generateLog(LogGenerator.createdCsr(userEmail), LogLevel.INFO);
     }
 
     @Override
@@ -62,6 +69,7 @@ public class CsrService implements ICsrService {
 
         csr = csrRepository.save(csr);
         webSocketService.sendMessageAboutRejectCsr(user.getEmail(), "Admin didn't accept your csr.");
+        logService.generateLog(LogGenerator.rejectedCsr(user.getEmail()), LogLevel.INFO);
         return new CsrResponse(csr);
     }
 

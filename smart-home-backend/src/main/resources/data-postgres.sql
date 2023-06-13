@@ -23,7 +23,11 @@ insert into privilege (privilege_name) values
                              ('GET_ACTIVE_OWNERS'),         --16
                              ('GET_ALL_OWNERS'),            --17
                              ('FILTER_TENANT_REAL_ESTATES'),--18
-                             ('GET_ACTIVE_TENANTS');        --19
+                             ('GET_ACTIVE_TENANTS'),        --19
+                             ('READ_LOGS'),
+                             ('FILTER_LOGS'),
+                             ('GET_ALL_ALARMS');
+
 
 insert into role_privilege (role_id, privilege_id) values
                                                     (3,2),
@@ -48,7 +52,10 @@ insert into role_privilege (role_id, privilege_id) values
                                                     (3,17),
                                                     (1,18),
                                                     (2,19),
-                                                    (3,19);
+                                                    (3,19),
+                                                    (3,20),
+                                                    (3,21),
+                                                    (3,22);
 
 insert into regular_user (id, email, password, name, surname, salt, status, failed_attempts, locked_until, verified, role_id, pin) values
                         (nextval('users_id_gen'), 'peki@maildrop.cc', '$2y$10$uwgoYpON2hx80Xpfgn4.O.j0Pys.uATCE2gQu3BNr/DwC8qn6G9am', 'Pera', 'Peric', '123', 4, 0, null, true, 1, null),

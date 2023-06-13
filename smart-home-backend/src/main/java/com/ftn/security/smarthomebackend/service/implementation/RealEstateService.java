@@ -8,9 +8,12 @@ import com.ftn.security.smarthomebackend.exception.OwnerAndTenantOverlapExceptio
 import com.ftn.security.smarthomebackend.model.RealEstate;
 import com.ftn.security.smarthomebackend.model.RegularUser;
 import com.ftn.security.smarthomebackend.repository.RealEstateRepository;
+import com.ftn.security.smarthomebackend.service.interfaces.ILogService;
 import com.ftn.security.smarthomebackend.service.interfaces.IRealEstateService;
 import com.ftn.security.smarthomebackend.service.interfaces.IRegularUserService;
+import com.ftn.security.smarthomebackend.util.LogGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.logging.LogLevel;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -29,6 +32,9 @@ public class RealEstateService implements IRealEstateService {
 
     @Autowired
     private IRegularUserService regularUserService;
+
+    @Autowired
+    private ILogService logService;
 
     public List<RealEstateViewResponse> filterRealEstates(boolean ascending, String sqArea, Long ownerId) {
 
@@ -78,7 +84,10 @@ public class RealEstateService implements IRealEstateService {
         realEstate.setStreet(street);
         realEstate.setStreetNum(streetNum);
 
-        return new RealEstateResponse(realEstateRepository.save(realEstate));
+        RealEstate edited = realEstateRepository.save(realEstate);
+        logService.generateLog(LogGenerator.editedRealEstate(edited.getId()), LogLevel.INFO);
+
+        return new RealEstateResponse(edited);
     }
 
     @Override
@@ -92,6 +101,7 @@ public class RealEstateService implements IRealEstateService {
         realEstate.setOwner(owner);
         realEstate.setTenants(tenants);
 
+        logService.generateLog(LogGenerator.editedOwnerRealEstate(realEstate.getId()), LogLevel.INFO);
         return new RealEstateResponse(realEstateRepository.save(realEstate));
     }
 
@@ -99,6 +109,7 @@ public class RealEstateService implements IRealEstateService {
     public boolean delete(Long id) throws EntityNotFoundException {
         RealEstate realEstate =  getRealEstateById(id);
         realEstateRepository.delete(realEstate);
+        logService.generateLog(LogGenerator.deletedRealEstate(id), LogLevel.INFO);
 
         return true;
     }
@@ -112,6 +123,7 @@ public class RealEstateService implements IRealEstateService {
         checkOwnerAndTenantOverlap(realEstate.getOwner(), tenants);
 
         realEstate.setTenants(tenants);
+        logService.generateLog(LogGenerator.editedTenantsRealEstate(id), LogLevel.INFO);
 
         return new RealEstateResponse(realEstateRepository.save(realEstate));
     }
@@ -139,6 +151,8 @@ public class RealEstateService implements IRealEstateService {
                         owner,
                         tenants
                 ));
+
+        logService.generateLog(LogGenerator.createdRealEstate(), LogLevel.INFO);
 
         return true;
     }

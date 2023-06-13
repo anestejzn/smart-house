@@ -10,8 +10,11 @@ import com.ftn.security.smarthomebackend.model.RegistrationVerification;
 import com.ftn.security.smarthomebackend.model.User;
 import com.ftn.security.smarthomebackend.repository.UserRepository;
 import com.ftn.security.smarthomebackend.security.JWTUtils;
+import com.ftn.security.smarthomebackend.service.interfaces.ILogService;
 import com.ftn.security.smarthomebackend.service.interfaces.IUserService;
+import com.ftn.security.smarthomebackend.util.LogGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.logging.LogLevel;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -41,6 +44,9 @@ public class UserService implements IUserService {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private ILogService logService;
+
     @Override
     public User getVerifiedUser(String email) throws EntityNotFoundException {
         return userRepository.getVerifiedUser(email)
@@ -64,14 +70,17 @@ public class UserService implements IUserService {
             String roleName
     ) throws EntityAlreadyExistsException, PasswordsDoNotMatchException, IOException, MailCannotBeSentException, MostCommonPasswordException {
         if (passwordsDontMatch(password, confirmPassword)) {
+            logService.generateLog(LogGenerator.passwordsNotMatch(), LogLevel.ERROR);
             throw new PasswordsDoNotMatchException();
         }
 
         if (this.checkIfUserAlreadyExists(email)) {
+            logService.generateLog(LogGenerator.alreadyExistUser(email), LogLevel.ERROR);
             throw new EntityAlreadyExistsException(String.format("User with email %s already exists.", email));
         }
 
         if(isMostCommonPassword(password)){
+            logService.generateLog(LogGenerator.mostCommonPassword(email), LogLevel.ERROR);
             throw new MostCommonPasswordException();
         }
 

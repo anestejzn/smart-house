@@ -13,16 +13,15 @@ import com.ftn.security.smarthomebackend.model.IssuerData;
 import com.ftn.security.smarthomebackend.model.SubjectData;
 import com.ftn.security.smarthomebackend.model.User;
 import com.ftn.security.smarthomebackend.service.WebSocketService;
-import com.ftn.security.smarthomebackend.service.interfaces.ICertificateService;
-import com.ftn.security.smarthomebackend.service.interfaces.ICsrService;
-import com.ftn.security.smarthomebackend.service.interfaces.IKeyStoreService;
-import com.ftn.security.smarthomebackend.service.interfaces.IUserService;
+import com.ftn.security.smarthomebackend.service.interfaces.*;
 import com.ftn.security.smarthomebackend.util.CertificateUtils;
+import com.ftn.security.smarthomebackend.util.LogGenerator;
 import jakarta.mail.MessagingException;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.logging.LogLevel;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -55,6 +54,8 @@ public class CertificateService implements ICertificateService {
     private CancelCertificateService cancelCertificateService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private ILogService logService;
 
     static {
         Security.addProvider(new BouncyCastleProvider());
@@ -67,8 +68,10 @@ public class CertificateService implements ICertificateService {
             KeyStoreException, MailCannotBeSentException, IOException {
         CSR csr = csrService.getById(certReq.getCsrId());
 
-        if (keyStoreService.containsAlias(csr.getUser().getEmail()))
+        if (keyStoreService.containsAlias(csr.getUser().getEmail())) {
+            logService.generateLog(LogGenerator.existAlias(csr.getUser().getEmail()), LogLevel.ERROR);
             throw new AliasAlreadyExistsException("Alias already exists!");
+        }
 
         IssuerData issuer = keyStoreService.getIssuerBySubjAlias(certReq.getIntermediateAlias());
         KeyPair issuerKeyPair = new KeyPair(
@@ -99,6 +102,7 @@ public class CertificateService implements ICertificateService {
         webSocketService.sendMessageAboutCreateCertificate(user.getEmail());
         sendEmailWithCertificate(user.getEmail());
         csrService.deleteById(csr.getId());
+        logService.generateLog(LogGenerator.createdLeafCertificae(csr.getUser().getEmail()), LogLevel.INFO);
     }
 
     @Override
@@ -114,6 +118,7 @@ public class CertificateService implements ICertificateService {
 
         X509Certificate cert = CertificateUtils.generateX509Certificate(subjectData, issuerData, keyPairRoot.getPublic(), null);
         saveCertToKS(ROOT_CERT_ALIAS, issuerData.getPrivateKey(), cert);
+        logService.generateLog(LogGenerator.createdRootCertificae(), LogLevel.INFO);
     }
 
     @Override
@@ -137,6 +142,7 @@ public class CertificateService implements ICertificateService {
         }
 
         saveCertToKS(alias, keyPairSubject.getPrivate(), subjectCert);
+        logService.generateLog(LogGenerator.createdIntermediateCertificae(), LogLevel.INFO);
     }
 
     @Override
@@ -148,8 +154,10 @@ public class CertificateService implements ICertificateService {
 
     @Override
     public boolean cancelCertificate(final String alias, final String reason) throws EntityNotFoundException, KeyStoreMalfunctionedException {
-        if (!keyStoreService.containsAlias(alias))
+        if (!keyStoreService.containsAlias(alias)) {
+            logService.generateLog(LogGenerator.notFoundCertificate(alias), LogLevel.ERROR);
             throw new EntityNotFoundException(alias, EntityType.CERTIFICATE);
+        }
 
         cancelCertificateService.cancelCertificate(alias, reason);
         return true;
