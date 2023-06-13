@@ -1,0 +1,42 @@
+
+
+.user-container {
+    border: 3px solid gray;
+    border-left: none;
+    background-color: white;
+    height: 25rem;
+    border-radius: 0 1rem 1rem 0;
+    padding: 1rem;
+    overflow-y: hidden;
+
+    mat-icon.person-icon {
+        transform: scale(2.5);
+        margin-left: 45%;
+        margin-right: auto;
+        margin-top: 1.5rem;
+    }
+
+    h1 {
+        margin-top: 1rem;
+        font-weight: bold;
+        margin-bottom: 3rem;
+    }
+
+    p {
+        margin-top: 1rem;
+        margin-left: 1rem;
+        font-size: 1rem;
+        font-weight: bold;
+
+        mat-icon {
+            transform: scale(0.8);
+        }
+    }
+
+    button {
+        margin-top: 6rem;
+        margin-left: 65%;
+        margin-right: auto;
+    }
+
+}

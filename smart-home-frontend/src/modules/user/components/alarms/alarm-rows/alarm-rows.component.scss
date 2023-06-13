@@ -1,0 +1,32 @@
+
+h1 {
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+mat-icon {
+    color: var(--deep-blue);
+}
+
+.filter-button-container {
+    margin-left: 90% !important;
+    margin-top: 0 !important;
+}
+
+button {
+    display: inline-block !important;
+}
+
+.alarm-rows-container {
+    margin: 3rem;
+    max-height: 13rem;
+    overflow-y: auto;
+    max-width: 34rem;
+
+    .no-content {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+}

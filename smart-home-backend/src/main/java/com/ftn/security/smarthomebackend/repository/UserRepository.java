@@ -1,5 +1,6 @@
 package com.ftn.security.smarthomebackend.repository;
 
+import com.ftn.security.smarthomebackend.enums.AccountStatus;
 import com.ftn.security.smarthomebackend.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +26,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
 
+    @Query("select u from User u where u.role.roleName <> 'ROLE_ADMIN' and u.status = ?1 and u.verified=true order by u.name asc")
+    List<User> filterAscendingUsers(AccountStatus status);
+
+    @Query("select u from User u where u.role.roleName <> 'ROLE_ADMIN' and u.status = ?1 and u.verified=true order by u.name desc")
+    List<User> filterDescendingUsers(AccountStatus status);
 }

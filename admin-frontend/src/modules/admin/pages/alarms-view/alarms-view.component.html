@@ -1,13 +1,15 @@
+
 <div style="margin-top:1.5rem;">
-<div style="text-align: right;">
-    <button mat-stroked-button style="color: var(--deep-blue);border: 2px solid var(--deep-blue);" onclick="createRulePage()">Create rule for alarm</button>
-    <button mat-stroked-button style="color: var(--deep-blue);border: 2px solid var(--deep-blue);margin-left:1rem;" onclick="seeCreatedRules()">See created rules</button>
-</div>
-    <div *ngIf="!noAlarms">
-        <h1 style="text-align: center;">Alarms</h1>
-        <app-alarms-table [alarms]="alarms"></app-alarms-table>
+    <div style="text-align: right;">
+        <button mat-stroked-button style="color: var(--deep-blue);border: 2px solid var(--deep-blue);" onclick="createRulePage()">Create rule for alarm</button>
+        <button mat-stroked-button style="color: var(--deep-blue);border: 2px solid var(--deep-blue);margin-left:1rem;" onclick="seeCreatedRules()">See created rules</button>
     </div>
-    <div *ngIf="noAlarms" class="form-container mat-elevation-z1 text-center" >
-        <p style="font-size:1.5rem;">Don't have any alarms.</p>
-     </div> 
+    <div class="form-container" *ngIf="!noAlarms">
+            <h1 style="font-weight: bold;">Alarms</h1>
+        <div class="row">
+            <div class="column certificates-column">
+                <app-alarms-table [alarms]="alarms"></app-alarms-table>
+            </div>
+        </div>
+    </div>
 </div>

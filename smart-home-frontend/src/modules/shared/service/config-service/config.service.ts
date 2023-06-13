@@ -68,4 +68,21 @@ export class ConfigService {
     return `${this.REAL_ESTATE_URL}/${id}`;
   }
 
+  ///////////////////DEVICES//////////////////
+  DEVICES_URL = `${this.API_URL}/devices`;
+
+  getDevicesPerRealEstateURL(id: number): string {
+    return `${this.DEVICES_URL}/devices-per-real-estate/${id}`;
+  }
+
+
+  //////////////////ALARMS///////////////////
+  ALARMS_URL = `${this.API_URL}/alarms`;
+  REPORT_DATA_URL = `${this.ALARMS_URL}/chart-reports`;
+
+  getFilteredAlarms(realEstateId: number, deviceId: number, period: number): string {
+    return `${this.ALARMS_URL}/${realEstateId}/${deviceId}/${period}`;
+  }
+
+
 }

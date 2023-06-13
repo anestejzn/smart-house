@@ -73,6 +73,10 @@ export class ConfigService {
   ALL_CERTIFIED_OWNERS = `${this.USER_URL}/all-certified-owners`;
   ALL_ACTIVE_TENANTS = `${this.USER_URL}/all-active-tenants`;
 
+  getFilterUsersURL(asc: boolean, status: string): string {
+
+    return `${this.USER_URL}/${asc}/${status}`;
+  }
 
   ///////////REAL ESTATE////////
   REAL_ESTATE_URL = `${this.API_URL}/real-estates`;
@@ -98,6 +102,27 @@ export class ConfigService {
   LOG_URL = `${this.API_URL}/logs`;
   FILTER_LOGS_URL = `${this.LOG_URL}/filter`;
 
-  /////////ALARMS/////////
-  ALARM_URL = `${this.API_URL}/alarm`;
+  getUserBlockURL(id: number): string {
+    return `${this.REAL_ESTATE_URL}/block/${id}`;
+  }
+
+  getUserUnblockURL(id: number): string {
+    return `${this.REAL_ESTATE_URL}/unblock/${id}`;
+  }
+
+  ///////////////////DEVICES//////////////////
+  DEVICES_URL = `${this.API_URL}/devices`;
+
+  getDevicesPerRealEstateURL(id: number): string {
+    return `${this.DEVICES_URL}/devices-per-real-estate/${id}`;
+  }
+
+   //////////////////ALARMS///////////////////
+  ALARMS_URL = `${this.API_URL}/alarms`;
+
+  getFilteredAlarms(realEstateId: number, deviceId: number, period: number): string {
+    return `${this.ALARMS_URL}/${realEstateId}/${deviceId}/${period}`;
+  }
+
+
 }

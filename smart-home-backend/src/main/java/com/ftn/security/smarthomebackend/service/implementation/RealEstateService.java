@@ -3,6 +3,7 @@ package com.ftn.security.smarthomebackend.service.implementation;
 import com.ftn.security.smarthomebackend.dto.response.RealEstateResponse;
 import com.ftn.security.smarthomebackend.dto.response.RealEstateViewResponse;
 import com.ftn.security.smarthomebackend.enums.EntityType;
+import com.ftn.security.smarthomebackend.exception.CannotPerformActionException;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 import com.ftn.security.smarthomebackend.exception.OwnerAndTenantOverlapException;
 import com.ftn.security.smarthomebackend.model.RealEstate;
@@ -14,6 +15,7 @@ import com.ftn.security.smarthomebackend.service.interfaces.IRegularUserService;
 import com.ftn.security.smarthomebackend.util.LogGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.logging.LogLevel;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -30,9 +32,11 @@ public class RealEstateService implements IRealEstateService {
     @Autowired
     private RealEstateRepository realEstateRepository;
 
+    @Lazy
     @Autowired
     private IRegularUserService regularUserService;
 
+    @Lazy
     @Autowired
     private ILogService logService;
 
@@ -60,7 +64,7 @@ public class RealEstateService implements IRealEstateService {
     @Override
     public RealEstate getRealEstateById(Long id) throws EntityNotFoundException {
         return realEstateRepository.getRealEstateById(id)
-                .orElseThrow(() -> new EntityNotFoundException(id, EntityType.USER));
+                .orElseThrow(() -> new EntityNotFoundException(id, EntityType.REAL_ESTATE));
     }
 
     @Override
@@ -155,6 +159,52 @@ public class RealEstateService implements IRealEstateService {
         logService.generateLog(LogGenerator.createdRealEstate(), LogLevel.INFO);
 
         return true;
+    }
+    
+    @Override
+    public boolean block(Long userId) throws EntityNotFoundException, CannotPerformActionException {
+        RegularUser regularUser = regularUserService.getRegularUserById(userId);
+        if (regularUser.getRole().getRoleName().equalsIgnoreCase("ROLE_OWNER")) {
+            this.checkIfOwnerHasRealEstates(userId);
+        } else {
+            this.checkIfTenantIsInRealEstate(userId);
+        }
+
+        return regularUserService.block(regularUser);
+    }
+
+    @Override
+    public boolean unblock(Long userId) throws EntityNotFoundException {
+
+        return regularUserService.unblock(userId);
+    }
+
+    @Override
+    public List<RealEstate> getRealEstatesForOwner(Long userId) throws EntityNotFoundException {
+        RegularUser regularUser = regularUserService.getRegularUserById(userId);
+
+        return realEstateRepository.getRealEstatesForOwner(userId);
+    }
+
+    private void checkIfOwnerHasRealEstates(Long userId) throws CannotPerformActionException {
+        List<RealEstate> realEstates = realEstateRepository.getAll();
+
+        for (RealEstate realEstate : realEstates) {
+            if (Objects.equals(realEstate.getOwner().getId(), userId)) {
+                throw new CannotPerformActionException("Owner cannot be blocked while having active real estate.");
+            }
+        }
+    }
+
+    private void checkIfTenantIsInRealEstate(Long userId) throws CannotPerformActionException {
+        List<RealEstate> realEstates = realEstateRepository.getAll();
+
+        for (RealEstate realEstate : realEstates) {
+            for (RegularUser user : realEstate.getTenants()) {
+                if (Objects.equals(user.getId(), userId))
+                    throw new CannotPerformActionException("Tenant cannot be blocked while being active tenant in real estate.");
+            }
+        }
     }
 
     private List<RegularUser> extractTenants(Long[] tenantsIds) throws EntityNotFoundException {

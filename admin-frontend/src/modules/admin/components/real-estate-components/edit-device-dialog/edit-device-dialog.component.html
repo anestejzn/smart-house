@@ -1,0 +1,72 @@
+<div *ngIf="data">
+    <h1 mat-dialog-title class="center-content"><b>{{title}}</b></h1>
+    
+    <mat-dialog-content class="custom-dialog-content">
+        <br>
+        <br>
+        <form color="primary" [formGroup]="addingForm">
+            
+            <div style="display: flex">
+    
+                <mat-form-field class="colomn" appearance="fill">
+                    <mat-label>Name</mat-label>
+                    <input type="text" matInput formControlName="nameFormControl" placeholder="Enter name" />
+                    <mat-error name="emptyName" *ngIf="addingForm.get('nameFormControl').hasError('required')">
+                        Name is <strong>required</strong>
+                    </mat-error>
+                    <mat-error name="invalidName" *ngIf="addingForm.get('nameFormControl').hasError('pattern')">
+                        No special characters & less than 30 characters
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="colomn" appearance="fill">
+                    <mat-label>Filter regex</mat-label>
+                    <input type="text" matInput formControlName="filterRegexFormControl" placeholder="Enter filter" />
+                    <mat-error name="emptyFilter" *ngIf="addingForm.get('filterRegexFormControl').hasError('required')">
+                        Filter is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="colomn" appearance="fill">
+                    <mat-label>Reading period</mat-label>
+                    <input type="number" matInput formControlName="periodReadFormControl" placeholder="Enter read period" />
+                    <mat-error name="emptyRP" *ngIf="addingForm.get('periodReadFormControl').hasError('required')">
+                        Reading period is <strong>required</strong>
+                    </mat-error>
+                    <mat-error name="invalidRP" *ngIf="addingForm.get('periodReadFormControl').hasError('pattern')">
+                        Reading period must be positive number
+                    </mat-error>
+                </mat-form-field>
+        
+            </div>
+
+            <div class="type-container">
+                <h3><b>Pick device type</b></h3>
+                <mat-radio-group>
+                    <mat-radio-button *ngFor="let type of deviceTypes" [value]="type.value" [checked]="type.checked"
+                        (change)="changeDeviceType(type.value)"
+                        class="sort-btn">
+                        {{ type.name }}
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div *ngIf="data.device">
+                <button style="color: white; margin: 1rem 0 0.5rem 2rem;" mat-raised-button color="warn" (click)="deleteDevice()">
+                    Delete
+                </button>
+                <p style="margin-left: 2rem;">*Attention, device deletion cannot be undone.</p>
+            </div>
+
+        </form>
+    
+    </mat-dialog-content>
+    
+    <mat-dialog-actions class="activity-buttons" align="center">
+        <button mat-button class="cancel-button" [mat-dialog-close]="null">Close</button>
+        <button mat-raised-button class="green-button block-button" [disabled]="!addingForm.valid" [mat-dialog-close]="true"
+            (click)="save()">Save</button>
+    </mat-dialog-actions>
+
+
+</div>

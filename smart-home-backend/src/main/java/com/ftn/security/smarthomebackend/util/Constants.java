@@ -2,6 +2,7 @@ package com.ftn.security.smarthomebackend.util;
 
 public class Constants {
     //PATHS
+    public static final String PHOTOS_FILE_PATH = "src/main/resources/static/images/";
     public static final String TEMPLATE_FILE_PATH = "./src/main/resources/static/emailTemplates/";
     public static final String PASSWORDS_FILE_PATH = "./src/main/resources/most_common_passwords.txt";
     //MESSAGES
@@ -25,6 +26,7 @@ public class Constants {
     public static final String SQ_AREA_MESSAGE = "Square area must be between 10m2 and 600m2.";
     public static final String CITY_ERROR_MESSAGE = "City must contain between 1 and 20 characters.";
     public static final String STREET_ERROR_MESSAGE = "Street must contain between 1 and 20 characters.";
+    public static final String WRONG_DATE = "Date is in wrong format.";
 
     //CONSTANTS
     public static final int MIN_SECURITY_NUM = 1000;
@@ -36,6 +38,10 @@ public class Constants {
     public static final int BOTTOM_MARGIN_FILTERING_SQ_AREA = 50;
     public static final int MAX_SQ_AREA = 600;
     public static final Long FILTER_BY_ALL = -1L;
+    public static final int LAST_7_DAYS = 7;
+    public static final int LAST_30_DAYS = 30;
+    public static final int SHOW_ALL = -1;
+    public static final int DAYS_IN_YEAR = 365;
 
     //REGEX
     public static final String LEGIT_PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,100}$";

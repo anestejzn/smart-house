@@ -10,6 +10,7 @@
         &nbsp;&nbsp;
         <a [routerLink]="['/smart-home/user/all-real-estates']" routerLinkActive="active" mat-button color="primary">Real
           Estate</a>
+        <a *ngIf="loggedUser && loggedUser.role.roleName === 'ROLE_OWNER'" [routerLink]="['/smart-home/user/chart']" routerLinkActive="active" mat-button color="primary">Reports</a>
         </div>
     </div>
   

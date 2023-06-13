@@ -1,13 +1,11 @@
 package com.ftn.security.smarthomebackend.service.implementation;
 
 import com.ftn.security.smarthomebackend.dto.response.UserDTO;
+import com.ftn.security.smarthomebackend.enums.AccountStatus;
 import com.ftn.security.smarthomebackend.enums.EntityType;
 
-import com.ftn.security.smarthomebackend.model.Role;
+import com.ftn.security.smarthomebackend.model.*;
 import com.ftn.security.smarthomebackend.exception.*;
-import com.ftn.security.smarthomebackend.model.BlacklistedJWT;
-import com.ftn.security.smarthomebackend.model.RegistrationVerification;
-import com.ftn.security.smarthomebackend.model.User;
 import com.ftn.security.smarthomebackend.repository.UserRepository;
 import com.ftn.security.smarthomebackend.security.JWTUtils;
 import com.ftn.security.smarthomebackend.service.interfaces.ILogService;
@@ -140,6 +138,13 @@ public class UserService implements IUserService {
     public List<UserDTO> getAllActiveTenantUsers() {
 
         return fromUserListToDTO(userRepository.getAllActiveTenantUsers());
+    }
+
+    @Override
+    public List<UserDTO> filterUsers(boolean ascending, AccountStatus status) {
+
+        return fromUserListToDTO(ascending ? userRepository.filterAscendingUsers(status)
+                : userRepository.filterDescendingUsers(status));
     }
 
     private boolean isMostCommonPassword(String password) throws FileNotFoundException {

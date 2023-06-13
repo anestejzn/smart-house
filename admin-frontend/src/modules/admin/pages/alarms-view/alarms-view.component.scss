@@ -1,0 +1,14 @@
+
+div.form-container {
+    min-height: 25rem;
+    min-width: 70rem;
+    padding: 3%;
+
+    .sorting-column {
+            flex-basis: 25% !important;
+        }
+    
+    .certificates-column {
+        flex-basis: 75% !important;
+    }
+}

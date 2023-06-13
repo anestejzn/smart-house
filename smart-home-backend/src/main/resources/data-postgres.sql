@@ -26,8 +26,16 @@ insert into privilege (privilege_name) values
                              ('GET_ACTIVE_TENANTS'),        --19
                              ('READ_LOGS'),
                              ('FILTER_LOGS'),
-                             ('GET_ALL_ALARMS');
-
+                             ('GET_ALL_ALARMS'),
+                             ('FILTER_USERS'),              --20
+                             ('BLOCK_USER'),                --21
+                             ('UNBLOCK_USER'),              --22
+                             ('READ_DEVICES'),              --23
+                             ('DELETE_DEVICE'),             --24
+                             ('CREATE_DEVICES'),            --25
+                             ('EDIT_DEVICES'),              --26
+                             ('GET_FILTERED_ALARMS'),       --27
+                             ('GET_REPORT');                --28
 
 insert into role_privilege (role_id, privilege_id) values
                                                     (3,2),
@@ -55,7 +63,23 @@ insert into role_privilege (role_id, privilege_id) values
                                                     (3,19),
                                                     (3,20),
                                                     (3,21),
-                                                    (3,22);
+                                                    (3,22),
+                                                    (3,23),
+                                                    (3,24),
+                                                    (3,23),
+                                                    (3,24),
+                                                    (3,25),
+                                                    (3,26),
+                                                    (1,26),
+                                                    (2,26),
+                                                    (3,27),
+                                                    (3,28),
+                                                    (3,29),
+                                                    (1,30),
+                                                    (2,30),
+                                                    (3,30),
+                                                    (2,31);
+
 
 insert into regular_user (id, email, password, name, surname, salt, status, failed_attempts, locked_until, verified, role_id, pin) values
                         (nextval('users_id_gen'), 'peki@maildrop.cc', '$2y$10$uwgoYpON2hx80Xpfgn4.O.j0Pys.uATCE2gQu3BNr/DwC8qn6G9am', 'Pera', 'Peric', '123', 4, 0, null, true, 1, null),
@@ -77,6 +101,19 @@ insert into real_estate_tenant(real_estate_id, user_id) values
     (1, 6),
     (1, 5),
     (2, 6);
+
+insert into device(device_type, name, filter_regex, period_read, real_estate_id, photo_path) values
+    (0, 'Samsung Camera 100x', '[1-9]m', 5, 2, 'camera.png'), --m kao stavio za movement za kameru, nmp sta da stavim
+    (0, 'Samsung NighCamera 120x', '[15-25]m', 5, 2, 'camera.png'),
+    (2, 'Bosch TS 1', '[40-60]c', 10, 2, 'temperature-sensor.png'),                -- c kao celsius za temperaturu
+    (1, 'Bosch Smart AirConditioner', '[20-25]c', 5, 1,'air-conditioner.png');
+
+insert into alarm(message, device_id, date_time, admin_only) values
+    ('Camera has detected movement.', 1, '2023-05-01', false),
+    ('Camera has detected movement.', 1, '2023-06-01', false),
+    ('Temperature is too high.', 3, '2023-06-02', false),
+    ('Temperature is too high.', 3, '2023-06-10', false),
+    ('Temperature too low.', 4, '2023-06-02', false);
 
 --  INSERT INTO csr (user_id, common_name, organization_unit, organization, city, state, country, status) VALUES
 --      (1, 'www.example.com', 'IT', 'Example Company', 'San Francisco', 'CA', 'US', 0);

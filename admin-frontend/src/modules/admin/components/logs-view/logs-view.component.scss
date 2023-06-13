@@ -14,3 +14,18 @@ div.form-container {
 .table-column {
     flex-basis: 75% !important;
 }
+
+
+div.form-container {
+    min-height: 25rem;
+    min-width: 80rem;
+    padding: 3%;
+
+    .sorting-column {
+            flex-basis: 20% !important;
+        }
+    
+    .certificates-column {
+        flex-basis: 80% !important;
+    }
+}

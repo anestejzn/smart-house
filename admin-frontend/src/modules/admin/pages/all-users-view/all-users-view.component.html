@@ -1,0 +1,26 @@
+<div class="form-container">
+    <div class="row">
+        <div class="column sorting-column">
+            <h1><b>Users:</b></h1>
+            <app-users-sorting-buttons 
+            (changedFilterByAccStatus)="changeFilterByAccStatus($event)"
+            (changedSortByNameEvent)="changeSortByName($event)"
+            ></app-users-sorting-buttons>
+        </div>
+
+        <div class="column users-column">
+            <app-user-rows [users]="users"
+            (changedUserEvent)="changedUser($event)"
+            ></app-user-rows>
+        </div>
+        
+        <div class="column user-details-column">
+            <app-user-details
+            [selectedUser]="selectedUser"
+            [isBlocked]="userStatus === 'BLOCKED'"
+            (blockEvent)="blockUser($event)"
+            (unblockEvent)="unblockUser($event)"
+            ></app-user-details>
+        </div>
+    </div>
+</div>

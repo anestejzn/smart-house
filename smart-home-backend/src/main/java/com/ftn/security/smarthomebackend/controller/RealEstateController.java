@@ -5,6 +5,7 @@ import com.ftn.security.smarthomebackend.dto.request.RealEstateBasicInfoRequest;
 import com.ftn.security.smarthomebackend.dto.request.RealEstateOwnershipRequest;
 import com.ftn.security.smarthomebackend.dto.response.RealEstateResponse;
 import com.ftn.security.smarthomebackend.dto.response.RealEstateViewResponse;
+import com.ftn.security.smarthomebackend.exception.CannotPerformActionException;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 
 import com.ftn.security.smarthomebackend.exception.OwnerAndTenantOverlapException;
@@ -133,6 +134,24 @@ public class RealEstateController {
             throws EntityNotFoundException {
 
         return realEstateService.delete(id);
+    }
+
+    @PutMapping("/block/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('BLOCK_USER')")
+    public boolean block(@Valid @PathVariable @NotNull(message = MISSING_ID) Long id)
+            throws EntityNotFoundException, CannotPerformActionException {
+
+        return realEstateService.block(id);
+    }
+
+    @PutMapping("/unblock/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('UNBLOCK_USER')")
+    public boolean unblock(@Valid @PathVariable @NotNull(message = MISSING_ID) Long id)
+            throws EntityNotFoundException, CannotPerformActionException {
+
+        return realEstateService.unblock(id);
     }
 
 }

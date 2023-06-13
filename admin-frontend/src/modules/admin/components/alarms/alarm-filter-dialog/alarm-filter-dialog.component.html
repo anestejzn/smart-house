@@ -1,0 +1,31 @@
+<div style="padding: 3%;" class="dialog-container" *ngIf="data">
+    <h1 mat-dialog-title class="center-content"><b>Filter Alarms</b></h1>
+    <mat-dialog-content style="min-height: 7rem; min-width: 7rem;">
+        <br>
+        <h3>Choose wanted time period:</h3>
+        <mat-radio-group>
+            <mat-radio-button *ngFor="let sort of sortPeriod" [value]="sort.value" [checked]="sort.checked"
+                (change)="selectSortPeriod(sort.value)" class="sort-btn">
+                {{ sort.name }}
+            </mat-radio-button>
+        </mat-radio-group>
+
+        <div class="all-devices">
+            <h3>Choose device:</h3>
+            <mat-form-field class="colomn" appearance="fill">
+                <mat-label>{{data.deviceName}}</mat-label>
+                <mat-select (valueChange)="changedDevice($event)">
+                    <mat-option *ngFor="let device of data.devices" [value]="device.id">
+                        {{device.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="activity-buttons" align="center">
+        <button mat-button class="cancel-button" [mat-dialog-close]="null">Close</button>
+        <button mat-raised-button class="green-button block-button" [mat-dialog-close]="data">Filter</button>
+    </mat-dialog-actions>
+</div>

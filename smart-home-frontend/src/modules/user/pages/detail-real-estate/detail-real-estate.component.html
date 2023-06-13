@@ -6,8 +6,7 @@
                     [realEstate]="realEstate"></app-basic-real-estate-info>
             </div>
             <div class="devices-container">
-                <h1 class="center-content">Devices</h1>
-                <p class="center-content">Coming soon</p>
+                <app-devices-tab [realEstateId]="realEstate.id"></app-devices-tab>
             </div>
         </div>
         <div style="display: flex;">
@@ -16,8 +15,7 @@
                     [realEstate]="realEstate"></app-ownership-data-real-estate>
             </div>
             <div class="activity-container">
-                <h1 class="center-content">Activity</h1>
-                <p class="center-content">Coming soon</p>
+                <app-alarm-rows [realEstateId]="realEstate.id"></app-alarm-rows>
             </div>
         </div>
     </div>

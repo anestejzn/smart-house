@@ -5,7 +5,8 @@ public enum EntityType {
     VERIFY,
     CERTIFICATE,
     CSR,
-    DEVICE;
+    DEVICE,
+    REAL_ESTATE;
     public static String getEntityErrorMessage(String id, EntityType entityType) {
         if (entityType == EntityType.USER) {
             return "User is not found.";
@@ -13,13 +14,16 @@ public enum EntityType {
             return "Verify is not found";
         }
         else if(entityType == EntityType.CERTIFICATE){
-            return "Certificate with alias: " + id + " is not found.";
+            return "Certificate with alias is not found.";
         }
         else if (entityType == EntityType.CSR) {
-            return "Csr: " + id + " is not found.";
+            return "Csr is not found.";
         }
         else if (entityType == EntityType.DEVICE) {
-            return "Device: " + id + " is not found.";
+            return "Device is not found.";
+        }
+        else if (entityType == EntityType.REAL_ESTATE) {
+            return "Rela estate is not found.";
         }
         else{
             return "Entity is not found";

@@ -16,4 +16,7 @@ public interface IRegularUserService {
             Role role);
     boolean activateAccount(String userEmail) throws EntityNotFoundException;
     RegularUser getRegularUserById(Long id) throws EntityNotFoundException;
+    boolean block(RegularUser regularUser);
+
+    boolean unblock(Long userId) throws EntityNotFoundException;
 }

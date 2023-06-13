@@ -1,0 +1,26 @@
+<div *ngIf="realEstateId">
+    <div style="position: relative;">
+        <div class="edit-container filter-button-container">
+            <button (click)="openDialog()" mat-mini-fab color="primary">
+                <mat-icon>tune</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <h1 class="center-content">Alarms</h1>
+
+    <div class="alarm-rows-container">
+        <p-carousel *ngIf="alarms.length > 0; else noAlarmsBlock" [value]="alarms" [numVisible]="2" [numScroll]="2">
+            <ng-template let-alarm (onPage)="setIndex($event)" pTemplate="item">
+                <div class="one-alarm">
+                    <app-alarm-row [alarm]="alarm"></app-alarm-row>
+                </div>
+            </ng-template>
+        </p-carousel>
+        <ng-template #noAlarmsBlock>
+            <p class="center-content no-content">There are no alarms yet.</p>
+        </ng-template>
+    </div>
+
+
+</div>

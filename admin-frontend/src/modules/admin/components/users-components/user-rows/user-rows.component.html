@@ -1,0 +1,14 @@
+<div class="all-aliases-container">
+    <div *ngIf="users && users.length > 0; else noContent">
+        <div *ngFor="let user of users; let i=index" [class]="selectedUser?.id === user.id ? 'user-row selected-row' : 'user-row'">
+            <app-user-row [user]="user" 
+             [selected]="selectedUser?.id === user.id ? true : false"
+             [index]="i+1" 
+             (click)="changeSelectedUser(user)"
+             ></app-user-row>
+        </div>
+    </div>
+    <ng-template #noContent>
+        <span class="no-content">There are no objects to show.</span>
+    </ng-template>
+</div>

@@ -36,6 +36,17 @@ import { LogSearchComponent } from './components/log-search/log-search.component
 import { AlarmsTableComponent } from './components/alarms-table/alarms-table.component';
 import { AlarmsViewComponent } from './pages/alarms-view/alarms-view.component';
 import { CreateNewRuleComponent } from './pages/create-new-rule/create-new-rule.component';
+import { AlarmFilterDialogComponent } from './components/alarms/alarm-filter-dialog/alarm-filter-dialog.component';
+import { AlarmRowComponent } from './components/alarms/alarm-row/alarm-row.component';
+import { AlarmRowsComponent } from './components/alarms/alarm-rows/alarm-rows.component';
+import { DevicesTabComponent } from './components/real-estate-components/devices-tab/devices-tab.component';
+import { EditDeviceDialogComponent } from './components/real-estate-components/edit-device-dialog/edit-device-dialog.component';
+import { UserDetailsComponent } from './components/users-components/user-details/user-details.component';
+import { UserRowComponent } from './components/users-components/user-row/user-row.component';
+import { UserRowsComponent } from './components/users-components/user-rows/user-rows.component';
+import { UsersSortingButtonsComponent } from './components/users-components/users-sorting-buttons/users-sorting-buttons.component';
+import { AllUsersViewComponent } from './pages/all-users-view/all-users-view.component';
+import {CarouselModule} from "primeng/carousel";
 
 
 
@@ -72,12 +83,24 @@ import { CreateNewRuleComponent } from './pages/create-new-rule/create-new-rule.
     LogSearchComponent,
     AlarmsTableComponent,
     AlarmsViewComponent,
-    CreateNewRuleComponent
+    CreateNewRuleComponent,
+    AllUsersViewComponent,
+    UsersSortingButtonsComponent,
+    UserRowsComponent,
+    UserRowComponent,
+    UserDetailsComponent,
+    DevicesTabComponent,
+    EditDeviceDialogComponent,
+    AlarmRowsComponent,
+    AlarmRowComponent,
+    AlarmFilterDialogComponent
+
   ],
   imports: [
     CommonModule,
     MaterialModule,
     FormsModule,
+    CarouselModule,
     ReactiveFormsModule,
     RouterModule.forChild(AdminRoutes)
   ]

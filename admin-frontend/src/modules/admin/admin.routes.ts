@@ -7,6 +7,7 @@ import { RoleGuard } from "../auth/guards/role/role.guard";
 import { CsrViewComponent } from "./pages/csr-view/csr-view.component";
 import { LogsViewComponent } from "./components/logs-view/logs-view.component";
 import { CreateNewRuleComponent } from "./pages/create-new-rule/create-new-rule.component";
+import { AllUsersViewComponent } from "./pages/all-users-view/all-users-view.component";
 
 export const AdminRoutes: Routes = [
     {
@@ -55,6 +56,13 @@ export const AdminRoutes: Routes = [
       path: "create-rule",
       pathMatch: "full",
       component: CreateNewRuleComponent,
+      canActivate: [RoleGuard],
+      data: { expectedRoles: 'ROLE_ADMIN' }
+    },
+    {
+      path: "all-users",
+      pathMatch: "full",
+      component: AllUsersViewComponent,
       canActivate: [RoleGuard],
       data: { expectedRoles: 'ROLE_ADMIN' }
     }

@@ -45,6 +45,9 @@ public class RealEstate {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     protected List<RegularUser> tenants = new LinkedList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "realEstate")
+    protected List<Device> devices = new LinkedList<>();
+
     public RealEstate(String name,
                       Integer sqMeters,
                       String city,

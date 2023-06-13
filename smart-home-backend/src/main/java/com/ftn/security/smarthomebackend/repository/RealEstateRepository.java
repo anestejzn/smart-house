@@ -13,6 +13,9 @@ public interface RealEstateRepository extends JpaRepository<RealEstate, Long> {
 
     Optional<RealEstate> getRealEstateById(Long id);
 
+    @Query("select distinct re from RealEstate re")
+    List<RealEstate> getAll();
+
     @Query("select re from RealEstate re where re.sqMeters >= ?1 and re.sqMeters <= ?2 order by re.name asc ")
     List<RealEstate> filterAllRealEstatesAsc(Integer bottomSqArea, Integer topSqArea);
 
@@ -25,4 +28,6 @@ public interface RealEstateRepository extends JpaRepository<RealEstate, Long> {
     @Query("select re from RealEstate re where re.sqMeters >= ?1 and re.sqMeters <= ?2 and re.owner.id = ?3 order by re.name desc ")
     List<RealEstate> filterRealEstatesByOwnerDesc(Integer bottomSqArea, Integer topSqArea, Long id);
 
+    @Query("select re from RealEstate re where re.owner.id = ?1")
+    List<RealEstate> getRealEstatesForOwner(Long userId);
 }

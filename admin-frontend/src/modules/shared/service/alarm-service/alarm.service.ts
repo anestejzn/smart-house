@@ -11,7 +11,7 @@ export class AlarmService {
   constructor(private configService: ConfigService, private http: HttpClient) { }
 
   getAllAlarms(){
-    return this.http.get<Alarm[]>(this.configService.ALARM_URL);
+    return this.http.get<Alarm[]>(this.configService.ALARMS_URL);
   }
 
 }

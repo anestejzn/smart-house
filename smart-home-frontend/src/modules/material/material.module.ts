@@ -23,6 +23,8 @@ import {MatRadioModule} from "@angular/material/radio";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 const MaterialConstants = [
@@ -53,6 +55,8 @@ const MaterialConstants = [
   MatTooltipModule,
   MatSlideToggleModule,
   MatProgressSpinnerModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 ]
 
 @NgModule({

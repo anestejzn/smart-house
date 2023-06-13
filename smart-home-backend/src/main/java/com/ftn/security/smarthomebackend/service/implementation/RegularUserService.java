@@ -5,10 +5,11 @@ import com.ftn.security.smarthomebackend.enums.EntityType;
 import com.ftn.security.smarthomebackend.model.Role;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 import com.ftn.security.smarthomebackend.model.RegularUser;
-import com.ftn.security.smarthomebackend.model.User;
 import com.ftn.security.smarthomebackend.repository.RegularUserRepository;
 import com.ftn.security.smarthomebackend.dto.response.UserDTO;
+
 import com.ftn.security.smarthomebackend.service.interfaces.ILogService;
+
 import com.ftn.security.smarthomebackend.service.interfaces.IRegularUserService;
 import com.ftn.security.smarthomebackend.util.LogGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,4 +64,21 @@ public class RegularUserService implements IRegularUserService {
         logService.generateLog(LogGenerator.activatedAccount(userEmail), LogLevel.INFO);
         return true;
     }
+
+    public boolean block(RegularUser regularUser) {
+        regularUser.setStatus(AccountStatus.BLOCKED);
+        regularUserRepository.save(regularUser);
+
+        return true;
+    }
+
+    public boolean unblock(Long userId) throws EntityNotFoundException {
+        RegularUser regularUser = this.getRegularUserById(userId);
+        regularUser.setStatus(AccountStatus.ACTIVE);
+
+        regularUserRepository.save(regularUser);
+
+        return true;
+    }
+
 }

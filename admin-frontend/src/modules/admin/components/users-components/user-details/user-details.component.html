@@ -1,0 +1,13 @@
+<div class="user-container">
+    <div *ngIf="selectedUser">
+        <mat-icon class="center-content person-icon">person</mat-icon>
+        <h1 class="center">{{selectedUser.name + ' ' + selectedUser.surname }}</h1>
+
+        <p style="display: flex;"><mat-icon>email</mat-icon>&nbsp;{{selectedUser.email}}</p>
+        <p style="display: flex;"><mat-icon>engineering</mat-icon>&nbsp;{{selectedUser.role.roleName.replace('_', ' ')}}</p>
+
+        <button mat-raised-button style="background-color: rgb(145, 23, 23);" (click)="performAction()">
+            {{isBlocked ? 'Unblock' : 'Block'}}
+        </button>
+    </div>
+</div>
