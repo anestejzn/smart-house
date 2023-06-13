@@ -13,8 +13,7 @@
                 <app-ownership-data-real-estate (updatedRealEstateEvent)="updatedData()" [realEstate]="realEstate"></app-ownership-data-real-estate>
             </div>
             <div class="activity-container">
-                <h1 class="center-content">Activity</h1>
-                <p class="center-content">Coming soon</p>
+                <app-alarm-rows [realEstateId]="realEstate.id"></app-alarm-rows>
             </div>
         </div>
     </div>

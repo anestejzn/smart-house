@@ -1,18 +1,19 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { Alarm } from 'src/modules/shared/model/alarm';
-import { Device } from 'src/modules/shared/model/device';
-import { AlarmService } from 'src/modules/user/service/alarm-service/alarm.service';
-import { DeviceService } from 'src/modules/user/service/device-service/device.service';
+import { Device } from 'src/modules/admin/model/device';
+import { AlarmService } from 'src/modules/admin/service/alarm-service/alarm.service';
+import { DeviceService } from 'src/modules/admin/service/device-service/device.service';
 import { AlarmFilterDialogComponent } from '../alarm-filter-dialog/alarm-filter-dialog.component';
+import { Alarm } from 'src/modules/admin/model/alarm';
 
 @Component({
   selector: 'app-alarm-rows',
   templateUrl: './alarm-rows.component.html',
   styleUrls: ['./alarm-rows.component.scss']
 })
-export class AlarmRowsComponent implements OnInit, OnDestroy {
+export class AlarmRowsComponent implements OnInit {
+
   @Input() realEstateId: number;
 
   deviceId: number;

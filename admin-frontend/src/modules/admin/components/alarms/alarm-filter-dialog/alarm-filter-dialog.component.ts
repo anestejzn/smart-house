@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DeviceFilterData } from 'src/modules/shared/model/device';
+import { DeviceFilterData } from 'src/modules/admin/model/device';
 
 @Component({
   selector: 'app-alarm-filter-dialog',
@@ -32,6 +32,5 @@ export class AlarmFilterDialogComponent implements OnInit {
   selectSortPeriod(value: number): void {
     this.data.filterPeriod = value;
   }
-
 
 }

@@ -37,6 +37,9 @@ import { UserDetailsComponent } from './components/users-components/user-details
 import { DevicesTabComponent } from './components/real-estate-components/devices-tab/devices-tab.component';
 import {CarouselModule} from "primeng/carousel";
 import { EditDeviceDialogComponent } from './components/real-estate-components/edit-device-dialog/edit-device-dialog.component';
+import { AlarmRowsComponent } from './components/alarms/alarm-rows/alarm-rows.component';
+import { AlarmRowComponent } from './components/alarms/alarm-row/alarm-row.component';
+import { AlarmFilterDialogComponent } from './components/alarms/alarm-filter-dialog/alarm-filter-dialog.component';
 
 
 @NgModule({
@@ -72,7 +75,10 @@ import { EditDeviceDialogComponent } from './components/real-estate-components/e
     UserRowComponent,
     UserDetailsComponent,
     DevicesTabComponent,
-    EditDeviceDialogComponent
+    EditDeviceDialogComponent,
+    AlarmRowsComponent,
+    AlarmRowComponent,
+    AlarmFilterDialogComponent
   ],
   imports: [
     CommonModule,
