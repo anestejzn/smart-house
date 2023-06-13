@@ -1,0 +1,30 @@
+<div class="chart-container">
+    <div class="row">
+        <div class="column date-column">
+            <h2>Report</h2>
+            <h3>Choose date range</h3>
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Date range</mat-label>
+                <mat-date-range-input [formGroup]="dateFormGroup" [rangePicker]="picker">
+                    <input matStartDate formControlName="start" placeholder="Starting date">
+                    <input matEndDate formControlName="end" placeholder="End date">
+                </mat-date-range-input>
+                <mat-hint>dd/MM/YYYY – dd/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+        
+            <br />
+            <button style="margin-left:10rem; margin-top: 1.5rem;" mat-raised-button
+                (click)="generateReport()">Generate</button>
+        </div>
+        
+        <div class="column chart-column">
+            <div id="divChart" style="margin: 1rem 1.5rem 0 1.5rem">
+                <canvas id="chart" #chartCanvas>
+        
+                </canvas>
+            </div>
+        </div>
+    </div>
+</div>

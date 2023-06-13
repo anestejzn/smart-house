@@ -31,4 +31,6 @@ public interface IRealEstateService {
     boolean block(Long id) throws EntityNotFoundException, CannotPerformActionException;
 
     boolean unblock(Long id) throws EntityNotFoundException;
+
+    List<RealEstate> getRealEstatesForOwner(Long userId) throws EntityNotFoundException;
 }

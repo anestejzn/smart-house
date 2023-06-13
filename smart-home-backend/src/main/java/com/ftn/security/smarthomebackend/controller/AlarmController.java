@@ -1,6 +1,8 @@
 package com.ftn.security.smarthomebackend.controller;
 
+import com.ftn.security.smarthomebackend.dto.request.ReportRequest;
 import com.ftn.security.smarthomebackend.dto.response.AlarmResponse;
+import com.ftn.security.smarthomebackend.dto.response.ReportResponse;
 import com.ftn.security.smarthomebackend.exception.CannotPerformActionException;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 import com.ftn.security.smarthomebackend.service.interfaces.IAlarmService;
@@ -36,6 +38,15 @@ public class AlarmController {
             deviceId,
             time
         );
+    }
+
+    @PostMapping("/chart-reports")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('GET_REPORT')")
+    public List<ReportResponse> getReportData(@RequestBody @Valid ReportRequest request)
+            throws EntityNotFoundException, CannotPerformActionException {
+
+        return alarmService.getReportData(request.getUserId(), request.getStartTime(), request.getEndTime());
     }
 
 }

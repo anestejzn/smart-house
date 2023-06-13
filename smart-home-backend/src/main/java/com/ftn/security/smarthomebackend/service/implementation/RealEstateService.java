@@ -161,7 +161,14 @@ public class RealEstateService implements IRealEstateService {
 
         return regularUserService.unblock(userId);
     }
-    
+
+    @Override
+    public List<RealEstate> getRealEstatesForOwner(Long userId) throws EntityNotFoundException {
+        RegularUser regularUser = regularUserService.getRegularUserById(userId);
+
+        return realEstateRepository.getRealEstatesForOwner(userId);
+    }
+
     private void checkIfOwnerHasRealEstates(Long userId) throws CannotPerformActionException {
         List<RealEstate> realEstates = realEstateRepository.getAll();
 

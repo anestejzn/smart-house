@@ -13,4 +13,7 @@ public interface AlarmRepository extends JpaRepository<Alarm, Long> {
 
     @Query("select distinct a from Alarm a where a.deviceId=?1 and a.dateTime >= ?2")
     List<Alarm> getFilteredAlarms(Long deviceId, LocalDateTime bottomDate);
+
+    @Query("select distinct a from Alarm a where a.deviceId=?1 and a.dateTime >= ?2 and a.dateTime <= ?3 and a.adminOnly=false")
+    List<Alarm> getAlarmByDevice(Long deviceId, LocalDateTime startTime, LocalDateTime endTime);
 }

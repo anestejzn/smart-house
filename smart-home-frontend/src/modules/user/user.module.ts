@@ -21,17 +21,20 @@ import {CarouselModule} from "primeng/carousel";
 import { AlarmRowsComponent } from './components/alarms/alarm-rows/alarm-rows.component';
 import { AlarmRowComponent } from './components/alarms/alarm-row/alarm-row.component';
 import { AlarmFilterDialogComponent } from './components/alarms/alarm-filter-dialog/alarm-filter-dialog.component';
-
-
+import { ChartViewComponent } from './pages/chart-view/chart-view.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
-  declarations: [HomeComponent, AllRealEstatesViesComponent, DetailRealEstateComponent, BasicRealEstateInfoComponent, RealEstateSortingButtonsComponent, RealEstateRowsComponent, RealEstateRowComponent, OwnershipDataRealEstateComponent, EditTenantsReDialogComponent, OwnerDataComponent, TenantDataComponent, DevicesTabComponent, DeviceDetailsDialogComponent, AlarmRowsComponent, AlarmRowComponent, AlarmFilterDialogComponent],
+  declarations: [HomeComponent, AllRealEstatesViesComponent, DetailRealEstateComponent, BasicRealEstateInfoComponent, RealEstateSortingButtonsComponent, RealEstateRowsComponent, RealEstateRowComponent, OwnershipDataRealEstateComponent, EditTenantsReDialogComponent, OwnerDataComponent, TenantDataComponent, DevicesTabComponent, DeviceDetailsDialogComponent, AlarmRowsComponent, AlarmRowComponent, AlarmFilterDialogComponent, ChartViewComponent],
   imports: [
     CommonModule,
     MaterialModule,
     CarouselModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forChild(UserRoutes)
-  ]
+  ],
+  providers:[DatePipe],
 })
 export class UserModule { }

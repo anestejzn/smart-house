@@ -1,6 +1,7 @@
 package com.ftn.security.smarthomebackend.service.implementation;
 
 import com.ftn.security.smarthomebackend.dto.response.AlarmResponse;
+import com.ftn.security.smarthomebackend.dto.response.ReportResponse;
 import com.ftn.security.smarthomebackend.exception.CannotPerformActionException;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 import com.ftn.security.smarthomebackend.model.Device;
@@ -38,6 +39,30 @@ public class AlarmService implements IAlarmService {
 
         return deviceId == SHOW_ALL ? showAlarmsForAllDevices(realEstate, bottomDate)
                 : showAlarmsForCertainDevice(realEstate, deviceId, bottomDate);
+    }
+
+    @Override
+    public List<ReportResponse> getReportData(Long userId, LocalDateTime startTime, LocalDateTime endTime)
+            throws EntityNotFoundException, CannotPerformActionException {
+        checkDateData(startTime, endTime);
+        List<RealEstate> realEstates = realEstateService.getRealEstatesForOwner(userId);
+        List<ReportResponse> responses = new LinkedList<>();
+
+        for (RealEstate realEstate : realEstates) {
+            int numOfAlarms = 0;
+            for (Device device : realEstate.getDevices()) {
+                numOfAlarms += alarmRepository.getAlarmByDevice(device.getId(), startTime, endTime).size();
+            }
+            responses.add(new ReportResponse(realEstate.getId(), realEstate.getName(), numOfAlarms));
+        }
+
+        return responses;
+    }
+
+    private void checkDateData(LocalDateTime startTime, LocalDateTime endTime) throws CannotPerformActionException {
+        if (startTime.isAfter(endTime)) {
+            throw new CannotPerformActionException("Start time is after end time.");
+        }
     }
 
     private List<AlarmResponse> showAlarmsForCertainDevice(RealEstate realEstate, Long deviceId, LocalDateTime bottomDate) {

@@ -26,6 +26,7 @@ public class Constants {
     public static final String SQ_AREA_MESSAGE = "Square area must be between 10m2 and 600m2.";
     public static final String CITY_ERROR_MESSAGE = "City must contain between 1 and 20 characters.";
     public static final String STREET_ERROR_MESSAGE = "Street must contain between 1 and 20 characters.";
+    public static final String WRONG_DATE = "Date is in wrong format.";
 
     //CONSTANTS
     public static final int MIN_SECURITY_NUM = 1000;

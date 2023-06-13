@@ -78,9 +78,11 @@ export class ConfigService {
 
   //////////////////ALARMS///////////////////
   ALARMS_URL = `${this.API_URL}/alarms`;
+  REPORT_DATA_URL = `${this.ALARMS_URL}/chart-reports`;
 
   getFilteredAlarms(realEstateId: number, deviceId: number, period: number): string {
     return `${this.ALARMS_URL}/${realEstateId}/${deviceId}/${period}`;
   }
+
 
 }
