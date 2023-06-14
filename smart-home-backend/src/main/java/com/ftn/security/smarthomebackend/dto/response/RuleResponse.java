@@ -10,16 +10,16 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class RuleResponse {
-    private String regex;
+    private String regexPattern;
     private DeviceType deviceType;
 
-    public RuleResponse(String regex, DeviceType deviceType) {
-        this.regex = regex;
+    public RuleResponse(String regexPattern, DeviceType deviceType) {
+        this.regexPattern = regexPattern;
         this.deviceType = deviceType;
     }
 
     public RuleResponse(Rule rule) {
-        this.regex = rule.getRegexPattern();
+        this.regexPattern = rule.getRegexPattern();
         this.deviceType = rule.getDeviceType();
     }
 

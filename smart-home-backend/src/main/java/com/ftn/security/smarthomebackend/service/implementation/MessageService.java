@@ -54,7 +54,7 @@ public class MessageService implements IMessageService {
         List<Alarm> alarms = new LinkedList<>();
         for(RuleResponse rule : rules){
             for(Message message : messages){
-                if(message.getMessageText().contains(rule.getRegex()) && message.getDeviceType().equals(rule.getDeviceType())){
+                if(message.getMessageText().contains(rule.getRegexPattern()) && message.getDeviceType().equals(rule.getDeviceType())){
                     alarms.add(new Alarm(message.getMessageText(), message.getDeviceId(), message.getDateTime(), false));
                     messages.remove(message);
                 }

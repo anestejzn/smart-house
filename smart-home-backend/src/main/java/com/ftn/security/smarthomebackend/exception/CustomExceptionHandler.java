@@ -101,5 +101,12 @@ public class CustomExceptionHandler {
         return mostCommonPasswordException.getMessage();
     }
 
+    @ExceptionHandler(value = RuleExistException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String ruleExistException(RuleExistException ruleExistException){
+
+        return ruleExistException.getMessage();
+    }
+
 
 }

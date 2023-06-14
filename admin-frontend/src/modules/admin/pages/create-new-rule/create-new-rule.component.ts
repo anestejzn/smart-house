@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RuleService } from '../../service/rule-service/rule.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-new-rule',
@@ -17,7 +18,7 @@ export class CreateNewRuleComponent implements OnInit {
     ]),
   });
 
-  constructor(private ruleService: RuleService, private toast: ToastrService) { }
+  constructor(private ruleService: RuleService, private toast: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -30,11 +31,17 @@ export class CreateNewRuleComponent implements OnInit {
     this.ruleService.saveRule(rule).subscribe(
       rule => {
         this.toast.info("Saved rule");
+        this.ruleForm.get('deviceType').setValue('');
+        this.ruleForm.get('regexPattern').setValue('');
       },
       error => {
         this.toast.error(error.error);
       }
     )
+  }
+
+  seeCreatedRules(){
+    this.router.navigate([`/smart-home/admin/rules`]);
   }
 
 }

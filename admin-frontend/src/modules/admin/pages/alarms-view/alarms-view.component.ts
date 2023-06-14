@@ -40,7 +40,7 @@ export class AlarmsViewComponent implements OnInit {
   }
 
   seeCreatedRules(){
-    console.log("see created");
+    this.router.navigate([`/smart-home/admin/rules`]);
   }
 
 
