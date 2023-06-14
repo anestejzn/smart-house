@@ -1,3 +1,40 @@
-<div class="center">
-    
+<div class="form-container">
+    <h1 class="text-center">Create new rule for alarms</h1>
+    <form color="primary" [formGroup]="ruleForm">
+      <mat-form-field
+        class="full-width"
+        appearance="fill"
+        style="min-height: 30px">
+        <mat-label>Regex pattern</mat-label>
+        <input
+          matInput
+          placeholder="Enter regex pattern"
+          formControlName="regexPattern"
+          name="regexPattern"
+          required />
+          <mat-error *ngIf="ruleForm.get('regexPattern').hasError('required')">
+            Regex pattern is <strong>required</strong>
+          </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Device type</mat-label>
+        <select matNativeControl required formControlName="deviceType">
+          <option value="camera">CAMERA</option>
+          <option value="air_conditioner">AIR_CONDITIONER</option>
+          <option value="mercedes">TEMP_SENSOR</option>
+          <option value="audi">WATER_SENSOR</option>
+          <option value="audi">AIR_SENSOR</option>
+          <option value="audi">WIN_LOCKED_SENSOR</option>
+        </select>
+        <mat-error *ngIf="ruleForm.get('deviceType').hasError('required')">
+            Device type is <strong>required</strong>
+          </mat-error>
+      </mat-form-field>
+  
+      <div class="center margin-top">
+        <button mat-raised-button (click)="createRule()" class="login-button" id="submit-login">
+          Create rule
+        </button>
+      </div>
+    </form>
 </div>

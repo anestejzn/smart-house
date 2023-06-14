@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { RuleService } from '../../service/rule-service/rule.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-new-rule',
@@ -7,9 +10,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateNewRuleComponent implements OnInit {
 
-  constructor() { }
+  ruleForm = new FormGroup({
+    regexPattern: new FormControl('', [Validators.required]),
+    deviceType: new FormControl('', [
+      Validators.required,
+    ]),
+  });
+
+  constructor(private ruleService: RuleService, private toast: ToastrService) { }
 
   ngOnInit(): void {
+  }
+
+  createRule(){
+    const rule = {
+      deviceType: this.ruleForm.get('deviceType').value,
+      regexPattern: this.ruleForm.get('regexPattern').value
+    }
+    this.ruleService.saveRule(rule).subscribe(
+      rule => {
+        this.toast.info("Saved rule");
+      },
+      error => {
+        this.toast.error(error.error);
+      }
+    )
   }
 
 }

@@ -1,8 +1,8 @@
 
 <div style="margin-top:1.5rem;">
     <div style="text-align: right;">
-        <button mat-stroked-button style="color: var(--deep-blue);border: 2px solid var(--deep-blue);" onclick="createRulePage()">Create rule for alarm</button>
-        <button mat-stroked-button style="color: var(--deep-blue);border: 2px solid var(--deep-blue);margin-left:1rem;" onclick="seeCreatedRules()">See created rules</button>
+        <button mat-stroked-button style="color: var(--deep-blue);border: 2px solid var(--deep-blue);" (click)="createRulePage()">Create rule for alarm</button>
+        <button mat-stroked-button style="color: var(--deep-blue);border: 2px solid var(--deep-blue);margin-left:1rem;" (click)="seeCreatedRules()">See created rules</button>
     </div>
     <div class="form-container" *ngIf="!noAlarms">
             <h1 style="font-weight: bold;">Alarms</h1>

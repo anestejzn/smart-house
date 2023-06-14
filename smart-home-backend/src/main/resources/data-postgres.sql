@@ -35,7 +35,9 @@ insert into privilege (privilege_name) values
                              ('CREATE_DEVICES'),            --25
                              ('EDIT_DEVICES'),              --26
                              ('GET_FILTERED_ALARMS'),       --27
-                             ('GET_REPORT');                --28
+                             ('GET_REPORT'),
+                             ('SAVE_RULE'),
+                             ('GET_RULES');
 
 insert into role_privilege (role_id, privilege_id) values
                                                     (3,2),
@@ -78,7 +80,9 @@ insert into role_privilege (role_id, privilege_id) values
                                                     (1,30),
                                                     (2,30),
                                                     (3,30),
-                                                    (2,31);
+                                                    (2,31),
+                                                    (3,32),
+                                                    (3,33);
 
 
 insert into regular_user (id, email, password, name, surname, salt, status, failed_attempts, locked_until, verified, role_id, pin) values
