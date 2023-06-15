@@ -53,10 +53,12 @@ public class MessageService implements IMessageService {
         List<RuleResponse> rules = ruleService.getAllRules();
         List<Alarm> alarms = new LinkedList<>();
         for(RuleResponse rule : rules){
-            for(Message message : messages){
+            for(int ind = 0; ind < messages.size(); ind++) {
+                Message message = messages.get(ind);
                 if(message.getMessageText().contains(rule.getRegexPattern()) && message.getDeviceType().equals(rule.getDeviceType())){
                     alarms.add(new Alarm(message.getMessageText(), message.getDeviceId(), message.getDateTime(), false));
                     messages.remove(message);
+                    ind--;
                 }
             }
         }
