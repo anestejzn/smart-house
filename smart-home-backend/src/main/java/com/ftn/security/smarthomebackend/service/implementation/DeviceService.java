@@ -1,5 +1,6 @@
 package com.ftn.security.smarthomebackend.service.implementation;
 
+import com.ftn.security.smarthomebackend.dto.response.DevSimDataResponse;
 import com.ftn.security.smarthomebackend.dto.response.DeviceResponse;
 import com.ftn.security.smarthomebackend.enums.DeviceType;
 import com.ftn.security.smarthomebackend.enums.EntityType;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.ftn.security.smarthomebackend.dto.response.DeviceResponse.fromDevicesToResponses;
 
@@ -70,6 +72,13 @@ public class DeviceService implements IDeviceService {
         Device device = new Device(deviceType, name, filterRegex, periodRead, realEstate, getPhotoPathByDeviceType(deviceType));
 
         return new DeviceResponse(deviceRepository.save(device));
+    }
+
+    @Override
+    public List<DevSimDataResponse> getSimulationData() {
+        return deviceRepository.findAll().stream().
+                map(d -> new DevSimDataResponse(d.getId(), d.getDeviceType()))
+                .collect(Collectors.toList());
     }
 
     private static String getPhotoPathByDeviceType(DeviceType deviceType) {

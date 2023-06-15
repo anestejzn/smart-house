@@ -2,6 +2,7 @@ package com.ftn.security.smarthomebackend.controller;
 
 import com.ftn.security.smarthomebackend.dto.request.DeviceRequest;
 import com.ftn.security.smarthomebackend.dto.request.MessageRequest;
+import com.ftn.security.smarthomebackend.dto.response.DevSimDataResponse;
 import com.ftn.security.smarthomebackend.dto.response.DeviceResponse;
 import com.ftn.security.smarthomebackend.exception.CannotPerformActionException;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
@@ -83,8 +84,13 @@ public class DeviceController {
 
     @PostMapping(value="/saveDeviceMessages")
     @ResponseStatus(HttpStatus.OK)
-    public void saveMessages(List<MessageRequest> deviceMessages) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+    public void saveMessages(@RequestBody List<MessageRequest> deviceMessages) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         messageService.saveAllMessages(deviceMessages);
     }
 
+    @GetMapping(value="/deviceSimulationData")
+    @ResponseStatus(HttpStatus.OK)
+    public List<DevSimDataResponse> getIdsAndTypesOfDevicesForSimulation()  {
+        return deviceService.getSimulationData();
+    }
 }

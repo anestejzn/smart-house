@@ -119,6 +119,10 @@ insert into alarm(message, device_id, date_time, admin_only) values
     ('Temperature is too high.', 3, '2023-06-10', false),
     ('Temperature too low.', 4, '2023-06-02', false);
 
+insert into rule(regex_pattern, device_type) values
+    ('detected', 0),
+    ('critical low', 2),
+    ('critical high', 2);
 --  INSERT INTO csr (user_id, common_name, organization_unit, organization, city, state, country, status) VALUES
 --      (1, 'www.example.com', 'IT', 'Example Company', 'San Francisco', 'CA', 'US', 0);
 
