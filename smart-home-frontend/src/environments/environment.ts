@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080',
-  webSocketUrl: '//localhost:8080/ws',
+  apiUrl: 'https://localhost:8443',
+  webSocketUrl: '//localhost:8443/ws',
   publisherUrl: '/user/',
 };
 

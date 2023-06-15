@@ -76,7 +76,10 @@
               "browserTarget": "admin-frontend:build:production"
             },
             "development": {
-              "browserTarget": "admin-frontend:build:development"
+              "browserTarget": "admin-frontend:build:development",
+              "ssl": true,
+              "sslCert": "client-admin.crt",
+              "sslKey": "client.key"
             }
           },
           "defaultConfiguration": "development"
