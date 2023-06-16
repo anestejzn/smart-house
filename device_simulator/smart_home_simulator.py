@@ -15,11 +15,11 @@ def simulation(requester: HTTPRequester):
 
 def main():
     requester = HTTPRequester()
-    schedule.every(3).seconds.do(lambda: simulation(requester))
+    schedule.every(10).seconds.do(lambda: simulation(requester))
 
     while True:
         schedule.run_pending()
-        time.sleep(2)
+        time.sleep(4)
 
 
 if __name__ == "__main__":
