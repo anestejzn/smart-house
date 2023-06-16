@@ -7,7 +7,7 @@ from message_request import MessageRequest
 
 
 class HTTPRequester:
-    _API_BASE_URL: str = "http://localhost:8080/"
+    _API_BASE_URL: str = "https://localhost:8443/"
     _EMAIL: str = "admin@gmail.com"
     _PASSWORD: str = "sifra1234A2@"
 
@@ -44,7 +44,7 @@ class HTTPRequester:
     def send_generated_messages(self, data: List[MessageRequest]):
         print("Sending generated messages!")
         requests.post(
-            f"{self._API_BASE_URL}devices/saveDeviceMessages",
+            f"{self._API_BASE_URL}messages/saveDeviceMessages",
             headers=self.headers,
             json=list(map(lambda req: req.get_json(), data)),
             verify=False

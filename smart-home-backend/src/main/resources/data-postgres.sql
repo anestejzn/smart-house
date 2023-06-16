@@ -24,20 +24,21 @@ insert into privilege (privilege_name) values
                              ('GET_ALL_OWNERS'),            --17
                              ('FILTER_TENANT_REAL_ESTATES'),--18
                              ('GET_ACTIVE_TENANTS'),        --19
-                             ('READ_LOGS'),
-                             ('FILTER_LOGS'),
-                             ('GET_ALL_ALARMS'),
-                             ('FILTER_USERS'),              --20
-                             ('BLOCK_USER'),                --21
-                             ('UNBLOCK_USER'),              --22
-                             ('READ_DEVICES'),              --23
-                             ('DELETE_DEVICE'),             --24
-                             ('CREATE_DEVICES'),            --25
-                             ('EDIT_DEVICES'),              --26
-                             ('GET_FILTERED_ALARMS'),       --27
-                             ('GET_REPORT'),
-                             ('SAVE_RULE'),
-                             ('GET_RULES');
+                             ('READ_LOGS'),                 --20
+                             ('FILTER_LOGS'),               --21
+                             ('GET_ALL_ALARMS'),            --22
+                             ('FILTER_USERS'),              --23
+                             ('BLOCK_USER'),                --24
+                             ('UNBLOCK_USER'),              --25
+                             ('READ_DEVICES'),              --26
+                             ('DELETE_DEVICE'),             --27
+                             ('CREATE_DEVICES'),            --28
+                             ('EDIT_DEVICES'),              --29
+                             ('GET_FILTERED_ALARMS'),       --30
+                             ('GET_REPORT'),                --31
+                             ('SAVE_RULE'),                 --32
+                             ('GET_RULES'),                 --33
+                             ('READ_DEVICE_MESSAGES');      --34
 
 insert into role_privilege (role_id, privilege_id) values
                                                     (3,2),
@@ -82,7 +83,9 @@ insert into role_privilege (role_id, privilege_id) values
                                                     (3,30),
                                                     (2,31),
                                                     (3,32),
-                                                    (3,33);
+                                                    (3,33),
+                                                    (1,34),
+                                                    (2,34);
 
 
 insert into regular_user (id, email, password, name, surname, salt, status, failed_attempts, locked_until, verified, role_id, pin) values
@@ -106,11 +109,16 @@ insert into real_estate_tenant(real_estate_id, user_id) values
     (1, 5),
     (2, 6);
 
-insert into device(device_type, name, filter_regex, period_read, real_estate_id, photo_path) values
-    (0, 'Samsung Camera 100x', '[1-9]m', 5, 2, 'camera.png'), --m kao stavio za movement za kameru, nmp sta da stavim
-    (0, 'Samsung NighCamera 120x', '[15-25]m', 5, 2, 'camera.png'),
-    (2, 'Bosch TS 1', '[40-60]c', 10, 2, 'temperature-sensor.png'),                -- c kao celsius za temperaturu
-    (1, 'Bosch Smart AirConditioner', '[20-25]c', 5, 1,'air-conditioner.png');
+insert into device(device_type, name, filter_regex, period_read, real_estate_id, photo_path, last_read) values
+    (0, 'Samsung Camera 100x', '\bmovement\b', 5, 2, 'camera.png', null), --m kao stavio za movement za kameru, nmp sta da stavim
+    (0, 'Samsung NighCamera 120x', '\bmovement\b', 5, 2, 'camera.png', null),
+    (2, 'Bosch TS 1', '[40-60]c', 10, 2, '\blow\b', null),                -- c kao celsius za temperaturu
+    (1, 'Bosch Smart AirConditioner', '\bhigh\b', 5, 1,'air-conditioner.png', null);
+
+insert into message(message_text, date_time, device_id, device_type) values
+    ('Room temperature is at optimal level.', '2023-06-16 15:00', 3, 2),
+    ('No movement.', '2023-06-16 15:00', 1, 0),
+    ('No signal.', '2023-06-16 15:08', 1, 0);
 
 insert into alarm(message, device_id, date_time, admin_only) values
     ('Camera has detected movement.', 1, '2023-05-01', false),

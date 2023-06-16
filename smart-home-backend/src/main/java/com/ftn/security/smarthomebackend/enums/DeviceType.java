@@ -8,5 +8,4 @@ public enum DeviceType {
     WATER_SENSOR,
     AIR_SENSOR,
     WIN_LOCKED_SENSOR //PROZORI
-
 }

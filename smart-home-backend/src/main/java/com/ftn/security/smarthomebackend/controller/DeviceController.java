@@ -1,13 +1,11 @@
 package com.ftn.security.smarthomebackend.controller;
 
 import com.ftn.security.smarthomebackend.dto.request.DeviceRequest;
-import com.ftn.security.smarthomebackend.dto.request.MessageRequest;
 import com.ftn.security.smarthomebackend.dto.response.DevSimDataResponse;
 import com.ftn.security.smarthomebackend.dto.response.DeviceResponse;
 import com.ftn.security.smarthomebackend.exception.CannotPerformActionException;
 import com.ftn.security.smarthomebackend.exception.EntityNotFoundException;
 import com.ftn.security.smarthomebackend.service.interfaces.IDeviceService;
-import com.ftn.security.smarthomebackend.service.interfaces.IMessageService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import static com.ftn.security.smarthomebackend.util.Constants.MISSING_ID;
@@ -31,8 +23,6 @@ public class DeviceController {
 
     @Autowired
     private IDeviceService deviceService;
-    @Autowired
-    private IMessageService messageService;
 
     @GetMapping("/devices-per-real-estate/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -80,12 +70,6 @@ public class DeviceController {
     {
 
         return deviceService.deleteDevice(id);
-    }
-
-    @PostMapping(value="/saveDeviceMessages")
-    @ResponseStatus(HttpStatus.OK)
-    public void saveMessages(@RequestBody List<MessageRequest> deviceMessages) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
-        messageService.saveAllMessages(deviceMessages);
     }
 
     @GetMapping(value="/deviceSimulationData")

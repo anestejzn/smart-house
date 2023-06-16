@@ -44,7 +44,6 @@ export class ChartViewComponent implements OnInit, OnDestroy {
     this.authSubscription = this.authService.getSubjectCurrentUser().subscribe(
       res => {
         this.loggedUser = res;
-        this.generateReport();
       }
     )
 

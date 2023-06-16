@@ -21,4 +21,5 @@ public interface IDeviceService {
     DeviceResponse createDevice(DeviceType deviceType, String name, String filterRegex, int periodRead, Long realEstateId) throws EntityNotFoundException, CannotPerformActionException;
 
     List<DevSimDataResponse> getSimulationData();
+    void save(Device device);
 }

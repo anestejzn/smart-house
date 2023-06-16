@@ -81,6 +81,11 @@ public class DeviceService implements IDeviceService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void save(Device device) {
+        deviceRepository.save(device);
+    }
+
     private static String getPhotoPathByDeviceType(DeviceType deviceType) {
         switch (deviceType){
             case CAMERA -> { return "camera.png"; }

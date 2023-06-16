@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "device")
 @Getter
@@ -32,6 +34,9 @@ public class Device {
     @Column(name="photo_path")
     private String photoPath;
 
+    @Column(name = "last_read", nullable = true)
+    private LocalDateTime lastRead;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "real_estate_id", referencedColumnName = "id")
@@ -44,5 +49,6 @@ public class Device {
         this.periodRead = periodRead;
         this.realEstate = realEstate;
         this.photoPath = photoPath;
+        this.lastRead = null;
     }
 }

@@ -24,9 +24,11 @@ import { AlarmFilterDialogComponent } from './components/alarms/alarm-filter-dia
 import { ChartViewComponent } from './pages/chart-view/chart-view.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { MessageRowsComponent } from './components/messages/message-rows/message-rows.component';
+import { MessageRowComponent } from './components/messages/message-row/message-row.component';
 
 @NgModule({
-  declarations: [HomeComponent, AllRealEstatesViesComponent, DetailRealEstateComponent, BasicRealEstateInfoComponent, RealEstateSortingButtonsComponent, RealEstateRowsComponent, RealEstateRowComponent, OwnershipDataRealEstateComponent, EditTenantsReDialogComponent, OwnerDataComponent, TenantDataComponent, DevicesTabComponent, DeviceDetailsDialogComponent, AlarmRowsComponent, AlarmRowComponent, AlarmFilterDialogComponent, ChartViewComponent],
+  declarations: [HomeComponent, AllRealEstatesViesComponent, DetailRealEstateComponent, BasicRealEstateInfoComponent, RealEstateSortingButtonsComponent, RealEstateRowsComponent, RealEstateRowComponent, OwnershipDataRealEstateComponent, EditTenantsReDialogComponent, OwnerDataComponent, TenantDataComponent, DevicesTabComponent, DeviceDetailsDialogComponent, AlarmRowsComponent, AlarmRowComponent, AlarmFilterDialogComponent, ChartViewComponent, MessageRowsComponent, MessageRowComponent],
   imports: [
     CommonModule,
     MaterialModule,
