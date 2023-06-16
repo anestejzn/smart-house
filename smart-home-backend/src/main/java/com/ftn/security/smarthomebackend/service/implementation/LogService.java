@@ -6,6 +6,7 @@ import com.ftn.security.smarthomebackend.model.Log;
 import com.ftn.security.smarthomebackend.repository.mongo.LogRepository;
 import com.ftn.security.smarthomebackend.service.interfaces.IAlarmService;
 import com.ftn.security.smarthomebackend.service.interfaces.ILogService;
+import org.eclipse.sisu.inject.Logs;
 import org.kie.api.runtime.ClassObjectFilter;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -17,7 +18,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,19 +72,29 @@ public class LogService implements ILogService {
 
     @Override
     public List<LogResponse> getFilterLogs(String regex, String dateTime, String logLevel) {
-        if(regex.equals("")){
+        List<Log> logs = new LinkedList<>();
             if(dateTime.equals("All") && logLevel.equals("All")){
-                return this.getAllLogs();
+                logs =  logRepository.findAll();
+            }
+            else if(logLevel.equals("All")) {
+                LocalDateTime second = getDateTime(dateTime);
+                logs = logRepository
+                        .findAllByDateTimeBetweenOrderByDateTimeDesc(second, LocalDateTime.now());
+            }
+            else if(dateTime.equals("All")) {
+                LocalDateTime second = getDateTime(dateTime);
+                logs = logRepository
+                        .findAllByLogLevelOrderByDateTimeDesc(logLevel);
             }
             else{
-                return noRegexWithDateTimeAndLogLevel(dateTime, logLevel);
+                LocalDateTime second = getDateTime(dateTime);
+                logs = logRepository
+                        .findAllByDateTimeBetweenAndLogLevelOrderByDateTimeDesc(second, LocalDateTime.now(), logLevel);
             }
-        }
-        else{
-            byte[] decodedBytes = Base64.getDecoder().decode(regex);
-            regex = new String(decodedBytes);
-            return regexWithDateTimeAndLogLevel(dateTime, logLevel, regex);
-        }
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        logs.removeIf(l -> !(pattern.matcher(l.getLogMessage()).find()));
+
+        return logs.stream().map(LogResponse::new).collect(Collectors.toList());
     }
 
     private List<LogResponse> noRegexWithDateTimeAndLogLevel(String dateTime, String logLevel){
