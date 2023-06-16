@@ -7,7 +7,7 @@
         <div class="column certificates-column">
             <mat-form-field style="width: 35rem;color:var(deep-blue);background-color: var(deep-blue);">
                 <mat-label>Message regex</mat-label>
-                <input id="messageRegexInput" matInput type="text" placeholder="Enter message regex to search" [(ngModel)]="messageRegex" (change)="filter()">
+                <input id="messageRegexInput" matInput type="text" placeholder="Enter message regex to search" [(ngModel)]="messageRegex">
                 <button id="clearMessageRegex" matSuffix
                     mat-icon-button aria-label="Clear"
                     (click)="filter()"
