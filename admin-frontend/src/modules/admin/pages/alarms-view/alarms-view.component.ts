@@ -3,6 +3,7 @@ import { LogDataSource } from '../../model/log-data-source';
 import { Subscription } from 'rxjs';
 import { AlarmService } from 'src/modules/shared/service/alarm-service/alarm.service';
 import { AlarmDataSource } from '../../model/alarm-data-source';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-alarms-view',
@@ -14,7 +15,7 @@ export class AlarmsViewComponent implements OnInit {
   alarms: AlarmDataSource;
   noAlarms = false;
 
-  constructor(private alarmService: AlarmService) { }
+  constructor(private alarmService: AlarmService, private router: Router) { }
 
   ngOnInit(): void {
     this.getAlarms();
@@ -35,11 +36,11 @@ export class AlarmsViewComponent implements OnInit {
   }
 
   createRulePage(){
-    console.log("create");
+    this.router.navigate([`/smart-home/admin/create-rule`]);
   }
 
   seeCreatedRules(){
-    console.log("see created");
+    this.router.navigate([`/smart-home/admin/rules`]);
   }
 
 

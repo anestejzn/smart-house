@@ -125,4 +125,9 @@ export class ConfigService {
   }
 
 
+  //////////RULES/////////
+  RULES_URL = `${this.API_URL}/rules`;
+  
+
+
 }

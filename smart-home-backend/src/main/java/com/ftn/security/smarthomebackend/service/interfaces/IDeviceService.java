@@ -1,5 +1,6 @@
 package com.ftn.security.smarthomebackend.service.interfaces;
 
+import com.ftn.security.smarthomebackend.dto.response.DevSimDataResponse;
 import com.ftn.security.smarthomebackend.dto.response.DeviceResponse;
 import com.ftn.security.smarthomebackend.enums.DeviceType;
 import com.ftn.security.smarthomebackend.exception.CannotPerformActionException;
@@ -19,4 +20,5 @@ public interface IDeviceService {
 
     DeviceResponse createDevice(DeviceType deviceType, String name, String filterRegex, int periodRead, Long realEstateId) throws EntityNotFoundException, CannotPerformActionException;
 
+    List<DevSimDataResponse> getSimulationData();
 }

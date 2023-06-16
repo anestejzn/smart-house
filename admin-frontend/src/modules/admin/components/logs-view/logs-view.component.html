@@ -1,26 +1,3 @@
-<!-- <div style="display:flex; padding: 2rem;">
-    <app-log-search [noLogs]="noLogs" style="flex:1" (checkedRadioButtons)="filterLogs($event)"></app-log-search>
-    <div style="margin-left:1.3rem;" *ngIf="!noLogs">
-        <mat-form-field style="width: 35rem;color:var(deep-blue);background-color: var(deep-blue);">
-            <mat-label>Message regex</mat-label>
-            <input id="messageRegexInput" matInput type="text" placeholder="Enter message regex to search" [(ngModel)]="messageRegex">
-            <button id="clearMessageRegex" matSuffix
-                mat-icon-button aria-label="Clear"
-                (click)="messageRegex=''"
-                *ngIf="messageRegex"
-                style="color:var(--deep-blue)"
-                >
-                <mat-icon>close</mat-icon>
-            </button>
-        </mat-form-field>
-        <app-log-table [logs]="dataSource" [noLogs]="noLogs" *ngIf="!noLogs"></app-log-table>
-
-        <div *ngIf="noLogs" class="form-container mat-elevation-z1 text-center">
-            <p style="font-size:1.5rem;">Don't have any logs.</p>
-        </div> 
-    </div>
-</div> -->
-
 <div class="form-container">
     <div class="row">
         <div class="column sorting-column">

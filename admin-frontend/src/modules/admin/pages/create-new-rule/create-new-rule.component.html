@@ -1,3 +1,45 @@
-<div class="center">
-    
+<div>
+    <div style="text-align: right;margin-right:2rem;">
+        <button mat-stroked-button style="color: var(--deep-blue);border: 2px solid var(--deep-blue);margin-right:2rem;margin-top:1.5rem;" (click)="seeCreatedRules()">See created rules</button>
+    </div>
+    <div class="form-container">
+        <h1 class="text-center">Create new rule for alarms</h1>
+        <form color="primary" [formGroup]="ruleForm">
+          <mat-form-field
+            class="full-width"
+            appearance="fill"
+            style="min-height: 30px">
+            <mat-label>Regex pattern</mat-label>
+            <input
+              matInput
+              placeholder="Enter regex pattern"
+              formControlName="regexPattern"
+              name="regexPattern"
+              required />
+              <mat-error *ngIf="ruleForm.get('regexPattern').hasError('required')">
+                Regex pattern is <strong>required</strong>
+              </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Device type</mat-label>
+            <select matNativeControl required formControlName="deviceType">
+              <option value="CAMERA">CAMERA</option>
+              <option value="AIR_CONDITIONER">AIR_CONDITIONER</option>
+              <option value="TEMP_SENSOR">TEMP_SENSOR</option>
+              <option value="WATER_SENSOR">WATER_SENSOR</option>
+              <option value="AIR_SENSOR">AIR_SENSOR</option>
+              <option value="WIN_LOCKED_SENSOR">WIN_LOCKED_SENSOR</option>
+            </select>
+            <mat-error *ngIf="ruleForm.get('deviceType').hasError('required')">
+                Device type is <strong>required</strong>
+              </mat-error>
+          </mat-form-field>
+      
+          <div class="center margin-top">
+            <button mat-raised-button (click)="createRule()" class="login-button" id="submit-login">
+              Create rule
+            </button>
+          </div>
+        </form>
+    </div>
 </div>

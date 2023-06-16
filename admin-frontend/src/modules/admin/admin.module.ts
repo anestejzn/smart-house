@@ -47,6 +47,7 @@ import { UserRowsComponent } from './components/users-components/user-rows/user-
 import { UsersSortingButtonsComponent } from './components/users-components/users-sorting-buttons/users-sorting-buttons.component';
 import { AllUsersViewComponent } from './pages/all-users-view/all-users-view.component';
 import {CarouselModule} from "primeng/carousel";
+import { RulesViewComponent } from './pages/rules-view/rules-view.component';
 
 
 
@@ -93,7 +94,8 @@ import {CarouselModule} from "primeng/carousel";
     EditDeviceDialogComponent,
     AlarmRowsComponent,
     AlarmRowComponent,
-    AlarmFilterDialogComponent
+    AlarmFilterDialogComponent,
+    RulesViewComponent
 
   ],
   imports: [
