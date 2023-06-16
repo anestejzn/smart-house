@@ -18,6 +18,9 @@
                     <mat-icon>close</mat-icon>
                 </button>
             </mat-form-field>
+            <div *ngIf="noLogs">
+                <p class="no-content">There are no logs for this parameters.</p>
+            </div>
             <app-log-table [logs]="dataSource" [noLogs]="noLogs" *ngIf="!noLogs"></app-log-table>
         </div>
     </div>

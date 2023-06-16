@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LogDataSource } from '../../model/log-data-source';
 import { Subscription } from 'rxjs';
 import { LogsService } from '../../service/log-service/logs.service';
+import { Log } from '../../model/log';
 
 @Component({
   selector: 'app-logs-view',
@@ -9,7 +10,7 @@ import { LogsService } from '../../service/log-service/logs.service';
   styleUrls: ['./logs-view.component.scss']
 })
 export class LogsViewComponent implements OnInit {
-  logs = [];
+  logs: Log[] = [];
   logSubscription: Subscription;
   dataSource: LogDataSource;
   noLogs = false;
@@ -30,6 +31,7 @@ export class LogsViewComponent implements OnInit {
         else{
           this.dataSource = new LogDataSource(logs);
           this.logs = logs;
+          this.noLogs = false;
         }
       }
     )
@@ -50,6 +52,7 @@ export class LogsViewComponent implements OnInit {
         }
         else{
           this.dataSource = new LogDataSource(logs);
+          this.noLogs = false;
           this.logs = logs;
         }
       }

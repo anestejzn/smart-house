@@ -41,15 +41,17 @@ public class AlarmService implements IAlarmService {
     }
 
     @Override
-    public List<AlarmResponse> getAllAlarms() throws EntityNotFoundException {
+    public List<AlarmResponse> getAllAlarms() {
         List<Alarm> alarms = alarmRepository.findAll();
         List<AlarmResponse> alarmResponses = new LinkedList<>();
         for (Alarm alarm : alarms) {
             if (alarm.getDeviceId() == null) {
                 alarmResponses.add(new AlarmResponse(alarm.getDateTime(), null, alarm.getMessage()));
             } else {
-                Device device = deviceService.getDeviceById(alarm.getDeviceId());
-                alarmResponses.add(new AlarmResponse(alarm.getDateTime(), device, alarm.getMessage()));
+                try {
+                    Device device = deviceService.getDeviceById(alarm.getDeviceId());
+                    alarmResponses.add(new AlarmResponse(alarm.getDateTime(), device, alarm.getMessage()));
+                } catch (EntityNotFoundException ignored) {}
             }
         }
 

@@ -44,7 +44,7 @@ public class AlarmController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('GET_ALL_ALARMS')")
-    public List<AlarmResponse> getAllAlarms() throws EntityNotFoundException {
+    public List<AlarmResponse> getAllAlarms() {
         return alarmService.getAllAlarms();
     }
 

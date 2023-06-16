@@ -12,7 +12,7 @@ public interface IAlarmService {
 
     void saveAll(List<Alarm> alarms);
 
-    List<AlarmResponse> getAllAlarms() throws EntityNotFoundException;
+    List<AlarmResponse> getAllAlarms();
 
     List<AlarmResponse> getFilteredAlarms(Long realEstateId, Long deviceId, int time) throws EntityNotFoundException, CannotPerformActionException;
 
