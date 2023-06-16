@@ -14,7 +14,7 @@ export class LogSearchComponent implements OnInit {
 
   showDateAndTime = ['Today', 'This week', 'Two weeks', 'This month', 'All'];
 
-  showLogLevels = ['INFO', 'WARN', 'ERROR', 'FATAL', 'All'];
+  showLogLevels = ['INFO', 'ERROR', 'All'];
   constructor() { }
 
   ngOnInit(): void {

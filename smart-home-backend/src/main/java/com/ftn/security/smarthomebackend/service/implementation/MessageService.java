@@ -47,7 +47,7 @@ public class MessageService implements IMessageService {
         List<Message> decryptedMessages = decryptAllMessages(messages);
         List<Alarm> alarms = createAlarmsFromMessage(decryptedMessages);
         alarmService.saveAll(alarms);
-        messageRepository.saveAll(decryptedMessages); //nzm da li da cuvamo poruke
+        messageRepository.saveAll(decryptedMessages);
     }
 
     @Override

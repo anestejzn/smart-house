@@ -14,6 +14,8 @@ export class LogsViewComponent implements OnInit {
   dataSource: LogDataSource;
   noLogs = false;
   messageRegex = '';
+  selectedLogLevel = 'All';
+  selectedDateTime = 'All';
 
   constructor(private logService: LogsService) { }
 
@@ -28,6 +30,7 @@ export class LogsViewComponent implements OnInit {
           this.noLogs = true;
         }
         else{
+          this.noLogs = false;
           this.dataSource = new LogDataSource(logs);
           this.logs = logs;
         }
@@ -41,6 +44,8 @@ export class LogsViewComponent implements OnInit {
       dateTime: event.dateTime,
       regex: this.messageRegex
     };
+    this.selectedDateTime = event.dateTime;
+    this.selectedLogLevel = event.logLevel;
 
     this.logService.filterLogs(logFilterRequest).subscribe(
       logs => {
@@ -49,12 +54,35 @@ export class LogsViewComponent implements OnInit {
           
         }
         else{
+          this.noLogs = false;
           this.dataSource = new LogDataSource(logs);
           this.logs = logs;
         }
       }
     );
 
+  }
+
+  filter(){
+    const logFilterRequest = {
+      logLevel: this.selectedLogLevel,
+      dateTime: this.selectedDateTime,
+      regex: this.messageRegex
+    };
+
+    this.logService.filterLogs(logFilterRequest).subscribe(
+      logs => {
+        if(logs.length === 0){
+          this.noLogs = true;
+          
+        }
+        else{
+          this.noLogs = false;
+          this.dataSource = new LogDataSource(logs);
+          this.logs = logs;
+        }
+      }
+    );
   }
 
 }

@@ -3,21 +3,24 @@
         <div class="column sorting-column">
             <h1 style="font-weight: bold;">Logs</h1>
             <app-log-search [noLogs]="noLogs" style="flex:1" (checkedRadioButtons)="filterLogs($event)"></app-log-search>
-    
         </div>
         <div class="column certificates-column">
             <mat-form-field style="width: 35rem;color:var(deep-blue);background-color: var(deep-blue);">
                 <mat-label>Message regex</mat-label>
-                <input id="messageRegexInput" matInput type="text" placeholder="Enter message regex to search" [(ngModel)]="messageRegex">
+                <input id="messageRegexInput" matInput type="text" placeholder="Enter message regex to search" [(ngModel)]="messageRegex" (change)="filter()">
                 <button id="clearMessageRegex" matSuffix
                     mat-icon-button aria-label="Clear"
-                    (click)="messageRegex=''"
-                    *ngIf="messageRegex"
-                    style="color:var(--deep-blue)"
+                    (click)="filter()"
+                    style="color:var(--deep-blue);font-size:2rem;"
                     >
-                    <mat-icon>close</mat-icon>
+                    <mat-icon>search</mat-icon>
                 </button>
             </mat-form-field>
+            <div *ngIf="noLogs">
+                <p>
+                    No logs
+                </p>
+            </div>
             <app-log-table [logs]="dataSource" [noLogs]="noLogs" *ngIf="!noLogs"></app-log-table>
         </div>
     </div>
