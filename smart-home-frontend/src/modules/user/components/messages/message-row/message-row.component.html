@@ -1,1 +1,6 @@
-<p>message-row works!</p>
+<div *ngIf="message" class="alarm-row">
+    <p style="margin-top: 0.2rem;"><b>{{message.dateTime.toString().split("T")[0] + " " +
+            message.dateTime.toString().split("T")[1].split(":")[0] + ":" +
+            message.dateTime.toString().split(":")[1]}}</b></p>
+    <p style="font-size: 1.2rem;"><b>{{message.messageText}}</b></p>
+</div>

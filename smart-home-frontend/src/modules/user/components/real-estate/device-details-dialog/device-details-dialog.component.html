@@ -4,6 +4,10 @@
     <p>Filter:<b>{{data.device.filterRegex}}</b></p>
     <p>Read period:<b>{{data.device.periodRead}}</b></p>
 
+    <br>
+
+    <app-message-rows [messages]="messages"></app-message-rows>
+
     <mat-dialog-actions class="activity-buttons" align="center">
         <button mat-button class="cancel-button" [mat-dialog-close]="null">Close</button>
     </mat-dialog-actions>

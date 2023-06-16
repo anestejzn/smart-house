@@ -112,13 +112,13 @@ insert into real_estate_tenant(real_estate_id, user_id) values
 insert into device(device_type, name, filter_regex, period_read, real_estate_id, photo_path, last_read) values
     (0, 'Samsung Camera 100x', '\bmovement\b', 5, 2, 'camera.png', null), --m kao stavio za movement za kameru, nmp sta da stavim
     (0, 'Samsung NighCamera 120x', '\bmovement\b', 5, 2, 'camera.png', null),
-    (2, 'Bosch TS 1', '[40-60]c', 10, 2, '\blow\b', null),                -- c kao celsius za temperaturu
+    (2, 'Bosch TS 1', '\blow\b', 10, 2, 'temperature-sensor.png', null),                -- c kao celsius za temperaturu
     (1, 'Bosch Smart AirConditioner', '\bhigh\b', 5, 1,'air-conditioner.png', null);
 
 insert into message(message_text, date_time, device_id, device_type) values
     ('Room temperature is at optimal level.', '2023-06-16 15:00', 3, 2),
     ('No movement.', '2023-06-16 15:00', 1, 0),
-    ('No signal.', '2023-06-16 15:08', 1, 0);
+    ('No movement.', '2023-06-16 16:08', 1, 0);
 
 insert into alarm(message, device_id, date_time, admin_only) values
     ('Camera has detected movement.', 1, '2023-05-01', false),

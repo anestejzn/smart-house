@@ -2,7 +2,7 @@
 
     <h1 class="center-content">Devices</h1>
 
-    <p-carousel *ngIf="devices?.length > 0; else noDevicesBlock" [value]="devices" [numVisible]="4" [numScroll]="2">
+    <p-carousel *ngIf="devices?.length > 0; else noDevicesBlock" [value]="devices" [numVisible]="3" [numScroll]="3">
         <ng-template let-device (onPage)="setIndex($event)" pTemplate="item">
             <div class="one-device">
                 <img class="img-device" [matTooltip]="device.name" [src]="'data:image/png;base64,' + device.base64Photo"

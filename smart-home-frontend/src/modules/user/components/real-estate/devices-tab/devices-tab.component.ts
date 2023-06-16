@@ -41,8 +41,8 @@ export class DevicesTabComponent implements OnInit, OnDestroy {
 
   openDialog(device: Device): void {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.minWidth = '30rem'; 
-    dialogConfig.minHeight = '20rem'; 
+    dialogConfig.minWidth = '40rem'; 
+    dialogConfig.minHeight = '30rem'; 
     dialogConfig.maxHeight = '90vh'; 
     dialogConfig.maxWidth = '90vw'; 
     dialogConfig.data = {device: device, realEstateId: this.realEstateId};

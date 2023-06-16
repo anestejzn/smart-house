@@ -84,5 +84,12 @@ export class ConfigService {
     return `${this.ALARMS_URL}/${realEstateId}/${deviceId}/${period}`;
   }
 
+  //////////////////MESSAGES///////////////////
+  MESSAGES_URL = `${this.API_URL}/messages`;
+
+  getMessagesForDeviceURL(deviceId: number): string {
+    return `${this.MESSAGES_URL}/${deviceId}`;
+  }
+
 
 }

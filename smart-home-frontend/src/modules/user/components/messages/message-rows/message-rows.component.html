@@ -1,1 +1,12 @@
-<p>message-rows works!</p>
+<div class="alarm-rows-container">
+    <p-carousel *ngIf="messages.length > 0; else noMessagesBlock" [value]="messages" [numVisible]="2" [numScroll]="2">
+        <ng-template let-message (onPage)="setIndex($event)" pTemplate="item">
+            <div class="one-message">
+                <app-message-row [message]="message"></app-message-row>
+            </div>
+        </ng-template>
+    </p-carousel>
+    <ng-template #noMessagesBlock>
+        <p class="center-content no-content">There are no messages yet.</p>
+    </ng-template>
+</div>
