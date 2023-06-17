@@ -1,0 +1,23 @@
+
+
+[*] starting @ 16:21:19 /2023-06-17/
+
+[1/1] URL:
+GET https://localhost:8443/auth/login-reg-user
+POST data: email=peki%40maildrop.cc&password=sifra1234A2%40
+do you want to test this URL? [Y/n/q]
+> Y
+[16:21:19] [INFO] testing URL 'https://localhost:8443/auth/login-reg-user'
+[16:21:19] [INFO] using 'C:\Users\Korisnik\AppData\Local\sqlmap\output\results-06172023_0421pm.csv' as the CSV results file in multiple targets mode
+[16:21:19] [INFO] testing connection to the target URL
+[16:21:19] [WARNING] the web server responded with an HTTP error code (415) which could interfere with the results of the tests
+[16:21:19] [INFO] testing if the target URL content is stable
+[16:21:20] [WARNING] target URL content is not stable (i.e. content differs). sqlmap will base the page comparison on a sequence matcher. If no dynamic nor injectable parameters are detected, or in case of junk results, refer to user's manual paragraph 'Page comparison'
+how do you want to proceed? [(C)ontinue/(s)tring/(r)egex/(q)uit] C
+[16:21:20] [INFO] searching for dynamic content
+[16:21:20] [INFO] dynamic content marked for removal (1 region)
+[16:21:20] [WARNING] heuristic (basic) test shows that POST parameter 'email' might not be injectable
+[16:21:20] [INFO] testing for SQL injection on POST parameter 'email'
+[16:21:20] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[16:21:37] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause'
+

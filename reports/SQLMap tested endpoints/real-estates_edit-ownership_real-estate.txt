@@ -1,0 +1,62 @@
+
+[*] starting @ 19:56:12 /2023-06-17/
+
+[1/1] URL:
+GET https://localhost:8443/real-estates/edit-ownership/real-estate
+PUT data: ownerId=2&tenantsIds=%5B%5Did=2
+do you want to test this URL? [Y/n/q]
+> Y
+[19:56:12] [INFO] testing URL 'https://localhost:8443/real-estates/edit-ownership/real-estate'
+[19:56:12] [INFO] using 'C:\Users\Korisnik\AppData\Local\sqlmap\output\results-06172023_0756pm.csv' as the CSV results file in multiple targets mode
+[19:56:12] [INFO] testing connection to the target URL
+[19:56:12] [WARNING] the web server responded with an HTTP error code (400) which could interfere with the results of the tests
+[19:56:12] [INFO] checking if the target is protected by some kind of WAF/IPS
+[19:56:12] [INFO] testing if the target URL content is stable
+[19:56:13] [WARNING] target URL content is not stable (i.e. content differs). sqlmap will base the page comparison on a sequence matcher. If no dynamic nor injectable parameters are detected, or in case of junk results, refer to user's manual paragraph 'Page comparison'
+how do you want to proceed? [(C)ontinue/(s)tring/(r)egex/(q)uit] C
+[19:56:13] [WARNING] heuristic (basic) test shows that PUT parameter 'ownerId' might not be injectable
+[19:56:13] [INFO] testing for SQL injection on PUT parameter 'ownerId'
+[19:56:13] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[19:56:14] [INFO] testing 'Boolean-based blind - Parameter replace (original value)'
+[19:56:15] [INFO] testing 'MySQL >= 5.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)'
+[19:56:15] [INFO] testing 'PostgreSQL AND error-based - WHERE or HAVING clause'
+[19:56:16] [INFO] testing 'Microsoft SQL Server/Sybase AND error-based - WHERE or HAVING clause (IN)'
+[19:56:16] [INFO] testing 'Oracle AND error-based - WHERE or HAVING clause (XMLType)'
+[19:56:17] [INFO] testing 'Generic inline queries'
+[19:56:17] [INFO] testing 'PostgreSQL > 8.1 stacked queries (comment)'
+[19:56:17] [INFO] testing 'Microsoft SQL Server/Sybase stacked queries (comment)'
+[19:56:18] [INFO] testing 'Oracle stacked queries (DBMS_PIPE.RECEIVE_MESSAGE - comment)'
+[19:56:18] [INFO] testing 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)'
+[19:56:19] [INFO] testing 'PostgreSQL > 8.1 AND time-based blind'
+[19:56:19] [INFO] testing 'Microsoft SQL Server/Sybase time-based blind (IF)'
+[19:56:20] [INFO] testing 'Oracle AND time-based blind'
+it is recommended to perform only basic UNION tests if there is not at least one other (potential) technique found. Do you want to reduce the number of requests? [Y/n] Y
+[19:56:20] [INFO] testing 'Generic UNION query (NULL) - 1 to 10 columns'
+[19:56:22] [WARNING] PUT parameter 'ownerId' does not seem to be injectable
+[19:56:22] [WARNING] heuristic (basic) test shows that PUT parameter 'tenantsIds' might not be injectable
+[19:56:22] [INFO] testing for SQL injection on PUT parameter 'tenantsIds'
+[19:56:22] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[19:56:22] [INFO] PUT parameter 'tenantsIds' appears to be 'AND boolean-based blind - WHERE or HAVING clause' injectable 
+[19:56:28] [INFO] testing 'MySQL >= 5.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)'
+[19:56:28] [INFO] testing 'PostgreSQL AND error-based - WHERE or HAVING clause'
+[19:56:29] [INFO] testing 'Microsoft SQL Server/Sybase AND error-based - WHERE or HAVING clause (IN)'
+[19:56:29] [INFO] testing 'Oracle AND error-based - WHERE or HAVING clause (XMLType)'
+[19:56:29] [INFO] testing 'Generic inline queries'
+[19:56:29] [INFO] testing 'PostgreSQL > 8.1 stacked queries (comment)'
+[19:56:29] [INFO] testing 'Microsoft SQL Server/Sybase stacked queries (comment)'
+[19:56:29] [INFO] testing 'Oracle stacked queries (DBMS_PIPE.RECEIVE_MESSAGE - comment)'
+[19:56:29] [INFO] testing 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)'
+[19:56:29] [INFO] testing 'PostgreSQL > 8.1 AND time-based blind'
+[19:56:29] [INFO] testing 'Microsoft SQL Server/Sybase time-based blind (IF)'
+[19:56:30] [INFO] testing 'Oracle AND time-based blind'
+[19:56:30] [INFO] testing 'Generic UNION query (NULL) - 1 to 20 columns'
+[19:56:30] [INFO] automatically extending ranges for UNION query injection technique tests as there is at least one other (potential) technique found
+[19:56:30] [INFO] 'ORDER BY' technique appears to be usable. This should reduce the time needed to find the right number of query columns. Automatically extending the range for current UNION query injection technique test
+[19:56:30] [INFO] target URL appears to have 28 columns in query
+[19:56:30] [WARNING] applying generic concatenation (CONCAT)
+injection not exploitable with NULL values. Do you want to try with a random integer value for option '--union-char'? [Y/n] Y
+[19:56:55] [WARNING] if UNION based SQL injection is not detected, please consider forcing the back-end DBMS (e.g. '--dbms=mysql') 
+[19:56:57] [INFO] checking if the injection point on POST parameter 'tenantsIds' is a false positive
+[19:56:57] [WARNING] false positive or unexploitable injection point detected
+[19:56:57] [WARNING] PUT parameter 'tenantsIds' does not seem to be injectable
+

@@ -1,0 +1,63 @@
+Starting Nmap 7.94 ( https://nmap.org ) at 2023-06-17 20:03 Central Europe Daylight Time
+NSE: Loaded 105 scripts for scanning.
+NSE: Script Pre-scanning.
+NSE: Starting runlevel 1 (of 2) scan.
+Initiating NSE at 20:03
+Completed NSE at 20:04, 10.03s elapsed
+NSE: Starting runlevel 2 (of 2) scan.
+Initiating NSE at 20:04
+Completed NSE at 20:04, 0.00s elapsed
+Warning: Hostname localhost resolves to 2 IPs. Using 127.0.0.1.
+Initiating Parallel DNS resolution of 1 host. at 20:04
+Completed Parallel DNS resolution of 1 host. at 20:04, 0.02s elapsed
+Initiating SYN Stealth Scan at 20:04
+Scanning localhost (127.0.0.1) [1 port]
+Discovered open port 8443/tcp on 127.0.0.1
+Completed SYN Stealth Scan at 20:04, 0.01s elapsed (1 total ports)
+NSE: Script scanning 127.0.0.1.
+NSE: Starting runlevel 1 (of 2) scan.
+Initiating NSE at 20:04
+NSE Timing: About 96.30% done; ETC: 20:04 (0:00:01 remaining)
+NSE Timing: About 96.30% done; ETC: 20:05 (0:00:02 remaining)
+Completed NSE at 20:05, 80.97s elapsed
+NSE: Starting runlevel 2 (of 2) scan.
+Initiating NSE at 20:05
+Completed NSE at 20:05, 0.02s elapsed
+Nmap scan report for localhost (127.0.0.1)
+Host is up, received localhost-response (0.0010s latency).
+Other addresses for localhost (not scanned): ::1
+Scanned at 2023-06-17 20:04:01 Central Europe Daylight Time for 81s
+
+PORT     STATE SERVICE   REASON
+8443/tcp open  https-alt syn-ack ttl 128
+|_http-jsonp-detection: Couldn't find any JSONP endpoints.
+| ssl-dh-params: 
+|   VULNERABLE:
+|   Diffie-Hellman Key Exchange Insufficient Group Strength
+|     State: VULNERABLE
+|       Transport Layer Security (TLS) services that use Diffie-Hellman groups
+|       of insufficient strength, especially those using one of a few commonly
+|       shared groups, may be susceptible to passive eavesdropping attacks.
+|     Check results:
+|       WEAK DH GROUP 1
+|             Cipher Suite: TLS_DHE_RSA_WITH_AES_128_CBC_SHA256
+|             Modulus Type: Safe prime
+|             Modulus Source: RFC2409/Oakley Group 2
+|             Modulus Length: 1024
+|             Generator Length: 8
+|             Public Key Length: 1024
+|     References:
+|_      https://weakdh.org
+|_http-wordpress-users: [Error] Wordpress installation was not found. We couldn't find wp-login.php
+|_http-litespeed-sourcecode-download: Request with null byte did not work. This web server might not be vulnerable
+
+NSE: Script Post-scanning.
+NSE: Starting runlevel 1 (of 2) scan.
+Initiating NSE at 20:05
+Completed NSE at 20:05, 0.00s elapsed
+NSE: Starting runlevel 2 (of 2) scan.
+Initiating NSE at 20:05
+Completed NSE at 20:05, 0.00s elapsed
+Read data files from: C:\Program Files (x86)\Nmap
+Nmap done: 1 IP address (1 host up) scanned in 92.67 seconds
+           Raw packets sent: 1 (44B) | Rcvd: 2 (88B)

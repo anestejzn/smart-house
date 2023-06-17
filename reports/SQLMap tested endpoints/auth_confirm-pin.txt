@@ -1,0 +1,41 @@
+[*] starting @ 16:09:44 /2023-06-17/
+
+[1/1] URL:
+GET https://localhost:8443/auth/confirm-pin
+PUT data: email=peki%40maildrop.cc&pin=1234
+do you want to test this URL? [Y/n/q]
+> Y
+[16:09:44] [INFO] testing URL 'https://localhost:8443/auth/confirm-pin'
+[16:09:44] [INFO] using 'C:\Users\Korisnik\AppData\Local\sqlmap\output\results-06172023_0409pm.csv' as the CSV results file in multiple targets mode
+[16:09:44] [INFO] testing connection to the target URL
+[16:09:44] [WARNING] the web server responded with an HTTP error code (415) which could interfere with the results of the tests
+[16:09:44] [INFO] testing if the target URL content is stable
+[16:09:45] [WARNING] target URL content is not stable (i.e. content differs). sqlmap will base the page comparison on a sequence matcher. If no dynamic nor injectable parameters are detected, or in case of junk results, refer to user's manual paragraph 'Page comparison'
+how do you want to proceed? [(C)ontinue/(s)tring/(r)egex/(q)uit] C
+[16:09:45] [WARNING] heuristic (basic) test shows that PUT parameter 'email' might not be injectable
+[16:09:45] [INFO] testing for SQL injection on PUT parameter 'email'
+[16:09:45] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[16:09:45] [INFO] PUT parameter 'email' appears to be 'AND boolean-based blind - WHERE or HAVING clause' injectable 
+[16:09:45] [INFO] heuristic (extended) test shows that the back-end DBMS could be 'Altibase' 
+it looks like the back-end DBMS is 'Altibase'. Do you want to skip test payloads specific for other DBMSes? [Y/n] Y
+[16:09:45] [INFO] testing 'Generic inline queries'
+[16:09:46] [INFO] testing 'Generic UNION query (NULL) - 1 to 20 columns'
+[16:09:46] [INFO] automatically extending ranges for UNION query injection technique tests as there is at least one other (potential) technique found
+[16:09:48] [INFO] testing 'Generic UNION query (random number) - 1 to 20 columns'
+[16:09:50] [INFO] testing 'Generic UNION query (NULL) - 21 to 40 columns'
+[16:09:52] [INFO] testing 'Generic UNION query (random number) - 21 to 40 columns'
+[16:09:54] [INFO] testing 'Generic UNION query (NULL) - 41 to 60 columns'
+[16:09:57] [INFO] testing 'Generic UNION query (random number) - 41 to 60 columns'
+[16:09:59] [INFO] testing 'Generic UNION query (NULL) - 61 to 80 columns'
+[16:10:01] [INFO] testing 'Generic UNION query (random number) - 61 to 80 columns'
+[16:10:03] [INFO] testing 'Generic UNION query (NULL) - 81 to 100 columns'
+[16:10:05] [INFO] testing 'Generic UNION query (random number) - 81 to 100 columns'
+[16:10:07] [INFO] checking if the injection point on POST parameter 'email' is a false positive
+[16:10:07] [WARNING] false positive or unexploitable injection point detected
+[16:10:07] [WARNING] PUT parameter 'email' does not seem to be injectable
+[16:10:07] [WARNING] heuristic (basic) test shows that PUT parameter 'pin' might not be injectable
+[16:10:08] [INFO] testing for SQL injection on PUT parameter 'pin'
+[16:10:08] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[16:10:14] [INFO] PUT parameter 'pin' appears to be 'AND boolean-based blind - WHERE or HAVING clause' injectable 
+
+

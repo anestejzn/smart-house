@@ -1,0 +1,60 @@
+[*] starting @ 16:38:31 /2023-06-17/
+
+[1/1] URL:
+GET https://localhost:8443/users/activate-account
+PUT data: verifyId=23523&securityCode=23523&
+do you want to test this URL? [Y/n/q]
+> Y
+[16:38:31] [INFO] testing URL 'https://localhost:8443/users/activate-account'
+[16:38:31] [INFO] using 'C:\Users\Korisnik\AppData\Local\sqlmap\output\results-06172023_0438pm.csv' as the CSV results file in multiple targets mode
+[16:38:31] [INFO] testing connection to the target URL
+[16:38:31] [WARNING] the web server responded with an HTTP error code (415) which could interfere with the results of the tests
+[16:38:31] [INFO] testing if the target URL content is stable
+[16:38:32] [WARNING] target URL content is not stable (i.e. content differs). sqlmap will base the page comparison on a sequence matcher. If no dynamic nor injectable parameters are detected, or in case of junk results, refer to user's manual paragraph 'Page comparison'
+how do you want to proceed? [(C)ontinue/(s)tring/(r)egex/(q)uit] C
+[16:38:32] [INFO] searching for dynamic content
+[16:38:32] [INFO] dynamic content marked for removal (1 region)
+[16:38:32] [WARNING] heuristic (basic) test shows that PUT parameter 'verifyId' might not be injectable
+[16:38:32] [INFO] testing for SQL injection on PUT parameter 'verifyId'
+[16:38:32] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[16:38:49] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause'
+[16:38:51] [INFO] PUT parameter 'verifyId' appears to be 'OR boolean-based blind - WHERE or HAVING clause' injectable 
+[16:38:51] [INFO] heuristic (extended) test shows that the back-end DBMS could be 'InterSystems Cache' 
+it looks like the back-end DBMS is 'InterSystems Cache'. Do you want to skip test payloads specific for other DBMSes? [Y/n] Y
+[16:38:51] [INFO] testing 'Generic inline queries'
+[16:38:51] [INFO] testing 'Generic UNION query (NULL) - 1 to 20 columns'
+[16:38:51] [INFO] automatically extending ranges for UNION query injection technique tests as there is at least one other (potential) technique found
+[16:38:54] [INFO] testing 'Generic UNION query (random number) - 1 to 20 columns'
+[16:38:56] [INFO] testing 'Generic UNION query (NULL) - 21 to 40 columns'
+[16:38:58] [INFO] testing 'Generic UNION query (random number) - 21 to 40 columns'
+[16:39:00] [INFO] testing 'Generic UNION query (NULL) - 41 to 60 columns'
+[16:39:02] [INFO] testing 'Generic UNION query (random number) - 41 to 60 columns'
+[16:39:04] [INFO] testing 'Generic UNION query (NULL) - 61 to 80 columns'
+[16:39:06] [INFO] testing 'Generic UNION query (random number) - 61 to 80 columns'
+[16:39:08] [INFO] testing 'Generic UNION query (NULL) - 81 to 100 columns'
+[16:39:10] [INFO] testing 'Generic UNION query (random number) - 81 to 100 columns'
+[16:39:13] [WARNING] in OR boolean-based injection cases, please consider usage of switch '--drop-set-cookie' if you experience any problems during data retrieval
+[16:39:13] [INFO] checking if the injection point on POST parameter 'verifyId' is a false positive
+[16:39:13] [WARNING] false positive or unexploitable injection point detected
+[16:39:13] [WARNING] PUT parameter 'verifyId' does not seem to be injectable
+[16:39:13] [WARNING] heuristic (basic) test shows that PUT parameter 'securityCode' might not be injectable
+[16:39:13] [INFO] testing for SQL injection on PUT parameter 'securityCode'
+[16:39:13] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[16:39:24] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause'
+[16:39:32] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (NOT)'
+[16:39:42] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause (subquery - comment)'
+[16:39:49] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (subquery - comment)'
+[16:39:53] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause (comment)'
+[16:39:54] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (comment)'
+[16:39:55] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (NOT - comment)'
+[16:39:56] [INFO] testing 'Boolean-based blind - Parameter replace (original value)'
+[16:39:56] [INFO] testing 'Boolean-based blind - Parameter replace (DUAL)'
+[16:39:56] [INFO] testing 'Boolean-based blind - Parameter replace (DUAL - original value)'
+[16:39:56] [INFO] testing 'Boolean-based blind - Parameter replace (CASE)'
+[16:39:57] [INFO] testing 'Boolean-based blind - Parameter replace (CASE - original value)'
+[16:39:57] [INFO] testing 'HAVING boolean-based blind - WHERE, GROUP BY clause'
+[16:40:04] [INFO] testing 'Generic inline queries'
+it is recommended to perform only basic UNION tests if there is not at least one other (potential) technique found. Do you want to reduce the number of requests? [Y/n] Y
+[16:40:04] [INFO] testing 'Generic UNION query (NULL) - 1 to 10 columns'
+[16:40:12] [INFO] testing 'Generic UNION query (random number) - 1 to 10 columns'
+[16:40:20] [WARNING] PUT parameter 'securityCode' does not seem to be injectable

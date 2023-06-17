@@ -1,0 +1,78 @@
+
+[*] starting @ 19:53:53 /2023-06-17/
+
+[1/1] URL:
+GET https://localhost:8443/real-estates/edit-basic-info/real-estate
+PUT data: name=asfasasf&sqMeters=124&city=asfasfas&street=fsfas&streetNum=124&id=2
+do you want to test this URL? [Y/n/q]
+> Y
+[19:53:54] [INFO] testing URL 'https://localhost:8443/real-estates/edit-basic-info/real-estate'
+[19:53:54] [INFO] using 'C:\Users\Korisnik\AppData\Local\sqlmap\output\results-06172023_0753pm.csv' as the CSV results file in multiple targets mode
+[19:53:54] [INFO] testing connection to the target URL
+[19:53:54] [WARNING] the web server responded with an HTTP error code (400) which could interfere with the results of the tests
+[19:53:54] [INFO] checking if the target is protected by some kind of WAF/IPS
+[19:53:54] [INFO] testing if the target URL content is stable
+[19:53:54] [WARNING] target URL content is not stable (i.e. content differs). sqlmap will base the page comparison on a sequence matcher. If no dynamic nor injectable parameters are detected, or in case of junk results, refer to user's manual paragraph 'Page comparison'
+how do you want to proceed? [(C)ontinue/(s)tring/(r)egex/(q)uit] C
+[19:53:55] [WARNING] heuristic (basic) test shows that PUT parameter 'name' might not be injectable
+[19:53:55] [INFO] testing for SQL injection on PUT parameter 'name'
+[19:53:55] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[19:53:56] [INFO] testing 'Boolean-based blind - Parameter replace (original value)'
+[19:53:57] [INFO] PUT parameter 'name' appears to be 'Boolean-based blind - Parameter replace (original value)' injectable 
+[19:54:00] [INFO] heuristic (extended) test shows that the back-end DBMS could be 'MimerSQL' 
+it looks like the back-end DBMS is 'MimerSQL'. Do you want to skip test payloads specific for other DBMSes? [Y/n] Y
+for the remaining tests, do you want to include all tests for 'MimerSQL' extending provided level (1) and risk (1) values? [Y/n] Y
+[19:54:00] [INFO] testing 'Generic inline queries'
+[19:54:00] [INFO] testing 'Generic UNION query (NULL) - 1 to 20 columns'
+[19:54:00] [INFO] automatically extending ranges for UNION query injection technique tests as there is at least one other (potential) technique found
+[19:54:02] [INFO] checking if the injection point on POST parameter 'name' is a false positive
+[19:54:02] [WARNING] false positive or unexploitable injection point detected
+[19:54:02] [WARNING] PUT parameter 'name' does not seem to be injectable
+[19:54:03] [WARNING] heuristic (basic) test shows that PUT parameter 'sqMeters' might not be injectable
+[19:54:03] [INFO] testing for SQL injection on PUT parameter 'sqMeters'
+[19:54:03] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[19:54:04] [INFO] PUT parameter 'sqMeters' appears to be 'AND boolean-based blind - WHERE or HAVING clause' injectable 
+[19:54:04] [INFO] testing 'Generic inline queries'
+[19:54:04] [INFO] testing 'Generic UNION query (NULL) - 1 to 20 columns'
+[19:54:06] [INFO] checking if the injection point on POST parameter 'sqMeters' is a false positive
+[19:54:07] [WARNING] false positive or unexploitable injection point detected
+[19:54:07] [WARNING] PUT parameter 'sqMeters' does not seem to be injectable
+[19:54:07] [WARNING] heuristic (basic) test shows that PUT parameter 'city' might not be injectable
+[19:54:07] [INFO] testing for SQL injection on PUT parameter 'city'
+[19:54:07] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[19:54:08] [INFO] PUT parameter 'city' appears to be 'AND boolean-based blind - WHERE or HAVING clause' injectable 
+[19:54:08] [INFO] testing 'Generic inline queries'
+[19:54:08] [INFO] testing 'Generic UNION query (NULL) - 1 to 20 columns'
+[19:54:10] [INFO] checking if the injection point on POST parameter 'city' is a false positive
+[19:54:10] [WARNING] false positive or unexploitable injection point detected
+[19:54:10] [WARNING] PUT parameter 'city' does not seem to be injectable
+[19:54:10] [WARNING] heuristic (basic) test shows that PUT parameter 'street' might not be injectable
+[19:54:11] [INFO] testing for SQL injection on PUT parameter 'street'
+[19:54:11] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[19:54:12] [INFO] PUT parameter 'street' appears to be 'AND boolean-based blind - WHERE or HAVING clause' injectable 
+[19:54:12] [INFO] testing 'Generic inline queries'
+[19:54:12] [INFO] testing 'Generic UNION query (NULL) - 1 to 20 columns'
+[19:54:14] [INFO] checking if the injection point on POST parameter 'street' is a false positive
+[19:54:15] [WARNING] false positive or unexploitable injection point detected
+[19:54:15] [WARNING] PUT parameter 'street' does not seem to be injectable
+[19:54:15] [WARNING] heuristic (basic) test shows that PUT parameter 'streetNum' might not be injectable
+[19:54:15] [INFO] testing for SQL injection on PUT parameter 'streetNum'
+[19:54:15] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[19:54:16] [INFO] PUT parameter 'streetNum' appears to be 'AND boolean-based blind - WHERE or HAVING clause' injectable 
+[19:54:16] [INFO] testing 'Generic inline queries'
+[19:54:16] [INFO] testing 'Generic UNION query (NULL) - 1 to 20 columns'
+[19:54:18] [INFO] checking if the injection point on POST parameter 'streetNum' is a false positive
+[19:54:18] [WARNING] false positive or unexploitable injection point detected
+[19:54:18] [WARNING] PUT parameter 'streetNum' does not seem to be injectable
+[19:54:18] [WARNING] heuristic (basic) test shows that PUT parameter 'id' might not be injectable
+[19:54:18] [INFO] testing for SQL injection on PUT parameter 'id'
+[19:54:18] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[19:54:20] [INFO] testing 'Boolean-based blind - Parameter replace (original value)'
+[19:54:20] [INFO] testing 'Generic inline queries'
+it is recommended to perform only basic UNION tests if there is not at least one other (potential) technique found. Do you want to reduce the number of requests? [Y/n] Y
+[19:54:20] [INFO] testing 'Generic UNION query (NULL) - 1 to 10 columns'
+[19:54:20] [INFO] 'ORDER BY' technique appears to be usable. This should reduce the time needed to find the right number of query columns. Automatically extending the range for current UNION query injection technique test
+[19:54:21] [INFO] target URL appears to have 1 column in query
+do you want to (re)try to find proper UNION column types with fuzzy test? [y/N] N
+[19:54:21] [WARNING] if UNION based SQL injection is not detected, please consider and/or try to force the back-end DBMS (e.g. '--dbms=mysql') 
+[19:54:26] [WARNING] PUT parameter 'id' does not seem to be injectable
