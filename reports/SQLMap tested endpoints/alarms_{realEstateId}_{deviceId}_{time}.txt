@@ -1,0 +1,86 @@
+[*] starting @ 16:45:56 /2023-06-17/
+
+[1/1] URL:
+GET https://localhost:8443/alarms/realEstateId*/deviceId*/time*
+do you want to test this URL? [Y/n/q]
+> Y
+[16:45:56] [INFO] testing URL 'https://localhost:8443/alarms/realEstateId*/deviceId*/time*'
+custom injection marker ('*') found in option '-u'. Do you want to process it? [Y/n/q] Y
+[16:45:56] [INFO] using 'C:\Users\Korisnik\AppData\Local\sqlmap\output\results-06172023_0445pm.csv' as the CSV results file in multiple targets mode
+[16:45:56] [INFO] testing connection to the target URL
+[16:45:57] [WARNING] the web server responded with an HTTP error code (400) which could interfere with the results of the tests
+[16:45:57] [INFO] checking if the target is protected by some kind of WAF/IPS
+[16:45:57] [INFO] testing if the target URL content is stable
+[16:45:57] [WARNING] target URL content is not stable (i.e. content differs). sqlmap will base the page comparison on a sequence matcher. If no dynamic nor injectable parameters are detected, or in case of junk results, refer to user's manual paragraph 'Page comparison'
+how do you want to proceed? [(C)ontinue/(s)tring/(r)egex/(q)uit] C
+[16:45:57] [INFO] searching for dynamic content
+[16:45:57] [INFO] dynamic content marked for removal (1 region)
+other non-custom parameters found. Do you want to process them too? [Y/n/q] Y
+[16:45:57] [INFO] testing if URI parameter '#1*' is dynamic
+[16:45:57] [INFO] URI parameter '#1*' appears to be dynamic
+[16:45:57] [WARNING] heuristic (basic) test shows that URI parameter '#1*' might not be injectable
+[16:45:57] [INFO] testing for SQL injection on URI parameter '#1*'
+[16:45:57] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[16:45:58] [WARNING] reflective value(s) found and filtering out
+[16:46:08] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause'
+[16:46:09] [INFO] URI parameter '#1*' appears to be 'OR boolean-based blind - WHERE or HAVING clause' injectable 
+[16:46:10] [INFO] heuristic (extended) test shows that the back-end DBMS could be 'CrateDB' 
+it looks like the back-end DBMS is 'CrateDB'. Do you want to skip test payloads specific for other DBMSes? [Y/n] Y
+[16:46:10] [INFO] testing 'Generic inline queries'
+[16:46:11] [INFO] testing 'Generic UNION query (NULL) - 1 to 20 columns'
+[16:46:11] [INFO] automatically extending ranges for UNION query injection technique tests as there is at least one other (potential) technique found
+[16:46:11] [INFO] testing 'Generic UNION query (random number) - 1 to 20 columns'
+[16:46:12] [INFO] testing 'Generic UNION query (NULL) - 21 to 40 columns'
+[16:46:13] [INFO] testing 'Generic UNION query (random number) - 21 to 40 columns'
+[16:46:13] [INFO] testing 'Generic UNION query (NULL) - 41 to 60 columns'
+[16:46:14] [INFO] testing 'Generic UNION query (random number) - 41 to 60 columns'
+[16:46:14] [INFO] testing 'Generic UNION query (NULL) - 61 to 80 columns'
+[16:46:15] [INFO] testing 'Generic UNION query (random number) - 61 to 80 columns'
+[16:46:16] [INFO] testing 'Generic UNION query (NULL) - 81 to 100 columns'
+[16:46:16] [INFO] testing 'Generic UNION query (random number) - 81 to 100 columns'
+[16:46:17] [WARNING] in OR boolean-based injection cases, please consider usage of switch '--drop-set-cookie' if you experience any problems during data retrieval
+[16:46:17] [INFO] checking if the injection point on URI parameter '#1*' is a false positive
+[16:46:17] [WARNING] false positive or unexploitable injection point detected
+[16:46:17] [WARNING] URI parameter '#1*' does not seem to be injectable
+[16:46:17] [INFO] testing if URI parameter '#2*' is dynamic
+[16:46:17] [WARNING] URI parameter '#2*' does not appear to be dynamic
+[16:46:17] [WARNING] heuristic (basic) test shows that URI parameter '#2*' might not be injectable
+[16:46:17] [INFO] testing for SQL injection on URI parameter '#2*'
+[16:46:17] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[16:46:28] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause'
+[16:46:29] [INFO] URI parameter '#2*' appears to be 'OR boolean-based blind - WHERE or HAVING clause' injectable 
+[16:46:29] [INFO] testing 'Generic inline queries'
+[16:46:29] [INFO] testing 'Generic UNION query (NULL) - 1 to 20 columns'
+[16:46:30] [INFO] testing 'Generic UNION query (random number) - 1 to 20 columns'
+[16:46:30] [INFO] testing 'Generic UNION query (NULL) - 21 to 40 columns'
+[16:46:31] [INFO] testing 'Generic UNION query (random number) - 21 to 40 columns'
+[16:46:32] [INFO] testing 'Generic UNION query (NULL) - 41 to 60 columns'
+[16:46:32] [INFO] testing 'Generic UNION query (random number) - 41 to 60 columns'
+[16:46:33] [INFO] target URL appears to be UNION injectable with 56 columns
+[16:46:40] [WARNING] if UNION based SQL injection is not detected, please consider and/or try to force the back-end DBMS (e.g. '--dbms=mysql') 
+[16:46:40] [INFO] testing 'Generic UNION query (NULL) - 61 to 80 columns'
+injection not exploitable with NULL values. Do you want to try with a random integer value for option '--union-char'? [Y/n] Y
+[16:46:55] [WARNING] if UNION based SQL injection is not detected, please consider forcing the back-end DBMS (e.g. '--dbms=mysql') 
+[16:46:55] [INFO] testing 'Generic UNION query (52) - 81 to 100 columns'
+[16:47:04] [WARNING] in OR boolean-based injection cases, please consider usage of switch '--drop-set-cookie' if you experience any problems during data retrieval
+[16:47:04] [INFO] checking if the injection point on URI parameter '#2*' is a false positive
+[16:47:04] [WARNING] false positive or unexploitable injection point detected
+[16:47:04] [WARNING] URI parameter '#2*' does not seem to be injectable
+[16:47:04] [INFO] testing if URI parameter '#3*' is dynamic
+[16:47:04] [WARNING] URI parameter '#3*' does not appear to be dynamic
+[16:47:04] [WARNING] heuristic (basic) test shows that URI parameter '#3*' might not be injectable
+[16:47:04] [INFO] testing for SQL injection on URI parameter '#3*'
+[16:47:04] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[16:47:14] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause'
+[16:47:15] [INFO] URI parameter '#3*' appears to be 'OR boolean-based blind - WHERE or HAVING clause' injectable 
+[16:47:15] [INFO] testing 'Generic inline queries'
+[16:47:15] [INFO] testing 'Generic UNION query (52) - 1 to 20 columns'
+[16:47:16] [INFO] testing 'Generic UNION query (52) - 21 to 40 columns'
+[16:47:17] [INFO] testing 'Generic UNION query (52) - 41 to 60 columns'
+[16:47:17] [INFO] testing 'Generic UNION query (52) - 61 to 80 columns'
+[16:47:27] [INFO] testing 'Generic UNION query (52) - 81 to 100 columns'
+[16:47:27] [WARNING] in OR boolean-based injection cases, please consider usage of switch '--drop-set-cookie' if you experience any problems during data retrieval
+[16:47:27] [INFO] checking if the injection point on URI parameter '#3*' is a false positive
+[16:47:28] [WARNING] false positive or unexploitable injection point detected
+[16:47:28] [WARNING] URI parameter '#3*' does not seem to be injectable
+

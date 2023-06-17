@@ -1,0 +1,79 @@
+
+[*] starting @ 19:38:15 /2023-06-17/
+
+[1/1] URL:
+GET https://localhost:8443/real-estates/owner-real-estates/ascending*/sqArea*/ownerId*
+do you want to test this URL? [Y/n/q]
+> Y
+[19:38:16] [INFO] testing URL 'https://localhost:8443/real-estates/owner-real-estates/ascending*/sqArea*/ownerId*'
+custom injection marker ('*') found in option '-u'. Do you want to process it? [Y/n/q] Y
+[19:38:16] [INFO] using 'C:\Users\Korisnik\AppData\Local\sqlmap\output\results-06172023_0738pm.csv' as the CSV results file in multiple targets mode
+[19:38:16] [INFO] testing connection to the target URL
+[19:38:16] [WARNING] the web server responded with an HTTP error code (400) which could interfere with the results of the tests
+[19:38:16] [INFO] checking if the target is protected by some kind of WAF/IPS
+[19:38:16] [INFO] testing if the target URL content is stable
+[19:38:16] [WARNING] target URL content is not stable (i.e. content differs). sqlmap will base the page comparison on a sequence matcher. If no dynamic nor injectable parameters are detected, or in case of junk results, refer to user's manual paragraph 'Page comparison'
+how do you want to proceed? [(C)ontinue/(s)tring/(r)egex/(q)uit] C
+other non-custom parameters found. Do you want to process them too? [Y/n/q] Y
+[19:38:16] [INFO] testing if URI parameter '#1*' is dynamic
+[19:38:16] [INFO] URI parameter '#1*' appears to be dynamic
+[19:38:17] [WARNING] heuristic (basic) test shows that URI parameter '#1*' might not be injectable
+[19:38:17] [INFO] testing for SQL injection on URI parameter '#1*'
+[19:38:17] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[19:38:17] [WARNING] reflective value(s) found and filtering out
+[19:38:18] [INFO] testing 'Boolean-based blind - Parameter replace (original value)'
+[19:38:18] [INFO] testing 'MySQL >= 5.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)'
+[19:38:18] [INFO] testing 'PostgreSQL AND error-based - WHERE or HAVING clause'
+[19:38:19] [INFO] testing 'Microsoft SQL Server/Sybase AND error-based - WHERE or HAVING clause (IN)'
+[19:38:19] [INFO] testing 'Oracle AND error-based - WHERE or HAVING clause (XMLType)'
+[19:38:20] [INFO] testing 'Generic inline queries'
+[19:38:20] [INFO] testing 'PostgreSQL > 8.1 stacked queries (comment)'
+[19:38:21] [INFO] testing 'Microsoft SQL Server/Sybase stacked queries (comment)'
+[19:38:21] [INFO] testing 'Oracle stacked queries (DBMS_PIPE.RECEIVE_MESSAGE - comment)'
+[19:38:21] [INFO] testing 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)'
+[19:38:22] [INFO] testing 'PostgreSQL > 8.1 AND time-based blind'
+[19:38:22] [INFO] testing 'Microsoft SQL Server/Sybase time-based blind (IF)'
+[19:38:23] [INFO] testing 'Oracle AND time-based blind'
+it is recommended to perform only basic UNION tests if there is not at least one other (potential) technique found. Do you want to reduce the number of requests? [Y/n] Y
+[19:38:24] [INFO] testing 'Generic UNION query (NULL) - 1 to 10 columns'
+[19:38:24] [WARNING] URI parameter '#1*' does not seem to be injectable
+[19:38:24] [INFO] testing if URI parameter '#2*' is dynamic
+[19:38:24] [INFO] URI parameter '#2*' appears to be dynamic
+[19:38:24] [WARNING] heuristic (basic) test shows that URI parameter '#2*' might not be injectable
+[19:38:24] [INFO] testing for SQL injection on URI parameter '#2*'
+[19:38:24] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[19:38:25] [INFO] testing 'Boolean-based blind - Parameter replace (original value)'
+[19:38:26] [INFO] testing 'MySQL >= 5.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)'
+[19:38:26] [INFO] testing 'PostgreSQL AND error-based - WHERE or HAVING clause'
+[19:38:27] [INFO] testing 'Microsoft SQL Server/Sybase AND error-based - WHERE or HAVING clause (IN)'
+[19:38:27] [INFO] testing 'Oracle AND error-based - WHERE or HAVING clause (XMLType)'
+[19:38:28] [INFO] testing 'Generic inline queries'
+[19:38:28] [INFO] testing 'PostgreSQL > 8.1 stacked queries (comment)'
+[19:38:28] [INFO] testing 'Microsoft SQL Server/Sybase stacked queries (comment)'
+[19:38:28] [INFO] testing 'Oracle stacked queries (DBMS_PIPE.RECEIVE_MESSAGE - comment)'
+[19:38:29] [INFO] testing 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)'
+[19:38:29] [INFO] testing 'PostgreSQL > 8.1 AND time-based blind'
+[19:38:30] [INFO] testing 'Microsoft SQL Server/Sybase time-based blind (IF)'
+[19:38:31] [INFO] testing 'Oracle AND time-based blind'
+[19:38:31] [INFO] testing 'Generic UNION query (NULL) - 1 to 10 columns'
+[19:38:32] [WARNING] URI parameter '#2*' does not seem to be injectable
+[19:38:32] [INFO] testing if URI parameter '#3*' is dynamic
+[19:38:32] [INFO] URI parameter '#3*' appears to be dynamic
+[19:38:32] [WARNING] heuristic (basic) test shows that URI parameter '#3*' might not be injectable
+[19:38:32] [INFO] testing for SQL injection on URI parameter '#3*'
+[19:38:32] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[19:38:33] [INFO] testing 'Boolean-based blind - Parameter replace (original value)'
+[19:38:33] [INFO] testing 'MySQL >= 5.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)'
+[19:38:34] [INFO] testing 'PostgreSQL AND error-based - WHERE or HAVING clause'
+[19:38:34] [INFO] testing 'Microsoft SQL Server/Sybase AND error-based - WHERE or HAVING clause (IN)'
+[19:38:35] [INFO] testing 'Oracle AND error-based - WHERE or HAVING clause (XMLType)'
+[19:38:35] [INFO] testing 'Generic inline queries'
+[19:38:35] [INFO] testing 'PostgreSQL > 8.1 stacked queries (comment)'
+[19:38:36] [INFO] testing 'Microsoft SQL Server/Sybase stacked queries (comment)'
+[19:38:36] [INFO] testing 'Oracle stacked queries (DBMS_PIPE.RECEIVE_MESSAGE - comment)'
+[19:38:36] [INFO] testing 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)'
+[19:38:37] [INFO] testing 'PostgreSQL > 8.1 AND time-based blind'
+[19:38:37] [INFO] testing 'Microsoft SQL Server/Sybase time-based blind (IF)'
+[19:38:38] [INFO] testing 'Oracle AND time-based blind'
+[19:38:38] [INFO] testing 'Generic UNION query (NULL) - 1 to 10 columns'
+

@@ -1,0 +1,32 @@
+
+[*] starting @ 19:35:54 /2023-06-17/
+
+[1/1] URL:
+GET https://localhost:8443/real-estates/id*
+do you want to test this URL? [Y/n/q]
+> Y
+[19:35:55] [INFO] testing URL 'https://localhost:8443/real-estates/id*'
+custom injection marker ('*') found in option '-u'. Do you want to process it? [Y/n/q] Y
+[19:35:55] [INFO] using 'C:\Users\Korisnik\AppData\Local\sqlmap\output\results-06172023_0735pm.csv' as the CSV results file in multiple targets mode
+[19:35:55] [INFO] testing connection to the target URL
+[19:35:55] [WARNING] the web server responded with an HTTP error code (400) which could interfere with the results of the tests
+[19:35:55] [INFO] testing if the target URL content is stable
+[19:35:55] [WARNING] target URL content is not stable (i.e. content differs). sqlmap will base the page comparison on a sequence matcher. If no dynamic nor injectable parameters are detected, or in case of junk results, refer to user's manual paragraph 'Page comparison'
+how do you want to proceed? [(C)ontinue/(s)tring/(r)egex/(q)uit] C
+other non-custom parameters found. Do you want to process them too? [Y/n/q] Y
+[19:35:55] [INFO] testing if URI parameter '#1*' is dynamic
+[19:35:56] [INFO] URI parameter '#1*' appears to be dynamic
+[19:35:56] [WARNING] heuristic (basic) test shows that URI parameter '#1*' might not be injectable
+[19:35:56] [INFO] testing for SQL injection on URI parameter '#1*'
+[19:35:56] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[19:35:56] [WARNING] reflective value(s) found and filtering out
+[19:35:57] [INFO] URI parameter '#1*' appears to be 'AND boolean-based blind - WHERE or HAVING clause' injectable 
+[19:35:57] [INFO] heuristic (extended) test shows that the back-end DBMS could be 'Altibase' 
+it looks like the back-end DBMS is 'Altibase'. Do you want to skip test payloads specific for other DBMSes? [Y/n] Y
+for the remaining tests, do you want to include all tests for 'Altibase' extending provided level (1) and risk (1) values? [Y/n] Y
+[19:35:57] [INFO] testing 'Generic inline queries'
+[19:35:57] [INFO] testing 'Generic UNION query (NULL) - 1 to 20 columns'
+[19:35:57] [INFO] automatically extending ranges for UNION query injection technique tests as there is at least one other (potential) technique found
+[19:35:59] [INFO] checking if the injection point on URI parameter '#1*' is a false positive
+[19:36:00] [WARNING] false positive or unexploitable injection point detected
+[19:36:00] [WARNING] URI parameter '#1*' does not seem to be injectable

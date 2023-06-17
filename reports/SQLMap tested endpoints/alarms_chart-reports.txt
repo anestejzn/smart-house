@@ -1,0 +1,86 @@
+
+[*] starting @ 16:58:59 /2023-06-17/
+
+[1/1] URL:
+GET https://localhost:8443/alarms/chart-reports
+POST data: userId=1&startTime=2023-12-12T00%3A00%3A00&endTime=2023-12-12T00%3A00%3A00
+do you want to test this URL? [Y/n/q]
+> Y
+[16:58:59] [INFO] testing URL 'https://localhost:8443/alarms/chart-reports'
+[16:58:59] [INFO] using 'C:\Users\Korisnik\AppData\Local\sqlmap\output\results-06172023_0458pm.csv' as the CSV results file in multiple targets mode
+[16:58:59] [INFO] testing connection to the target URL
+[16:58:59] [WARNING] the web server responded with an HTTP error code (415) which could interfere with the results of the tests
+[16:58:59] [INFO] testing if the target URL content is stable
+[16:59:00] [WARNING] target URL content is not stable (i.e. content differs). sqlmap will base the page comparison on a sequence matcher. If no dynamic nor injectable parameters are detected, or in case of junk results, refer to user's manual paragraph 'Page comparison'
+how do you want to proceed? [(C)ontinue/(s)tring/(r)egex/(q)uit] C
+[16:59:00] [INFO] searching for dynamic content
+[16:59:00] [INFO] dynamic content marked for removal (1 region)
+[16:59:00] [WARNING] heuristic (basic) test shows that POST parameter 'userId' might not be injectable
+[16:59:00] [INFO] testing for SQL injection on POST parameter 'userId'
+[16:59:00] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[16:59:17] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause'
+[16:59:26] [INFO] POST parameter 'userId' appears to be 'OR boolean-based blind - WHERE or HAVING clause' injectable 
+[16:59:26] [INFO] heuristic (extended) test shows that the back-end DBMS could be 'Altibase' 
+it looks like the back-end DBMS is 'Altibase'. Do you want to skip test payloads specific for other DBMSes? [Y/n] Y
+[16:59:26] [INFO] testing 'Generic inline queries'
+[16:59:26] [INFO] testing 'Generic UNION query (NULL) - 1 to 20 columns'
+[16:59:26] [INFO] automatically extending ranges for UNION query injection technique tests as there is at least one other (potential) technique found
+[16:59:28] [INFO] testing 'Generic UNION query (random number) - 1 to 20 columns'
+[16:59:31] [INFO] testing 'Generic UNION query (NULL) - 21 to 40 columns'
+[16:59:33] [INFO] testing 'Generic UNION query (random number) - 21 to 40 columns'
+[16:59:36] [INFO] testing 'Generic UNION query (NULL) - 41 to 60 columns'
+[16:59:38] [INFO] testing 'Generic UNION query (random number) - 41 to 60 columns'
+[16:59:40] [INFO] testing 'Generic UNION query (NULL) - 61 to 80 columns'
+[16:59:42] [INFO] testing 'Generic UNION query (random number) - 61 to 80 columns'
+[16:59:44] [INFO] testing 'Generic UNION query (NULL) - 81 to 100 columns'
+[16:59:46] [INFO] testing 'Generic UNION query (random number) - 81 to 100 columns'
+[16:59:49] [WARNING] in OR boolean-based injection cases, please consider usage of switch '--drop-set-cookie' if you experience any problems during data retrieval
+[16:59:49] [INFO] checking if the injection point on POST parameter 'userId' is a false positive
+[16:59:49] [WARNING] false positive or unexploitable injection point detected
+[16:59:49] [WARNING] POST parameter 'userId' does not seem to be injectable
+[16:59:49] [WARNING] heuristic (basic) test shows that POST parameter 'startTime' might not be injectable
+[16:59:49] [INFO] testing for SQL injection on POST parameter 'startTime'
+[16:59:49] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[17:00:00] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause'
+[17:00:08] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (NOT)'
+[17:00:18] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause (subquery - comment)'
+[17:00:25] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (subquery - comment)'
+[17:00:31] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause (comment)'
+[17:00:32] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (comment)'
+[17:00:34] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (NOT - comment)'
+[17:00:36] [INFO] testing 'Boolean-based blind - Parameter replace (original value)'
+[17:00:36] [INFO] testing 'Boolean-based blind - Parameter replace (DUAL)'
+[17:00:36] [INFO] testing 'Boolean-based blind - Parameter replace (DUAL - original value)'
+[17:00:36] [INFO] testing 'Boolean-based blind - Parameter replace (CASE)'
+[17:00:36] [INFO] testing 'Boolean-based blind - Parameter replace (CASE - original value)'
+[17:00:37] [INFO] testing 'HAVING boolean-based blind - WHERE, GROUP BY clause'
+[17:00:43] [INFO] testing 'Generic inline queries'
+it is recommended to perform only basic UNION tests if there is not at least one other (potential) technique found. Do you want to reduce the number of requests? [Y/n] Y
+[17:00:44] [INFO] testing 'Generic UNION query (NULL) - 1 to 10 columns'
+[17:00:50] [INFO] 'ORDER BY' technique appears to be usable. This should reduce the time needed to find the right number of query columns. Automatically extending the range for current UNION query injection technique test
+[17:00:51] [INFO] target URL appears to have 9 columns in query
+do you want to (re)try to find proper UNION column types with fuzzy test? [y/N] N
+injection not exploitable with NULL values. Do you want to try with a random integer value for option '--union-char'? [Y/n] Y
+[17:00:58] [WARNING] if UNION based SQL injection is not detected, please consider forcing the back-end DBMS (e.g. '--dbms=mysql') 
+[17:01:05] [INFO] target URL appears to be UNION injectable with 9 columns
+injection not exploitable with NULL values. Do you want to try with a random integer value for option '--union-char'? [Y/n] Y
+[17:01:12] [WARNING] POST parameter 'startTime' does not seem to be injectable
+[17:01:13] [WARNING] heuristic (basic) test shows that POST parameter 'endTime' might not be injectable
+[17:01:13] [INFO] testing for SQL injection on POST parameter 'endTime'
+[17:01:13] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause'
+[17:01:23] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause'
+[17:01:32] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (NOT)'
+[17:01:41] [INFO] testing 'AND boolean-based blind - WHERE or HAVING clause (subquery - comment)'
+[17:01:48] [INFO] testing 'OR boolean-based blind - WHERE or HAVING clause (subquery - comment)'
+[17:01:50] [INFO] POST parameter 'endTime' appears to be 'OR boolean-based blind - WHERE or HAVING clause (subquery - comment)' injectable 
+[17:01:50] [INFO] testing 'Generic inline queries'
+[17:01:50] [INFO] testing 'Generic UNION query (40) - 1 to 20 columns'
+[17:01:52] [INFO] testing 'Generic UNION query (40) - 21 to 40 columns'
+[17:02:09] [INFO] testing 'Generic UNION query (40) - 41 to 60 columns'
+[17:02:30] [INFO] testing 'Generic UNION query (80) - 61 to 80 columns'
+[17:02:54] [INFO] testing 'Generic UNION query (40) - 81 to 100 columns'
+[17:02:56] [WARNING] in OR boolean-based injection cases, please consider usage of switch '--drop-set-cookie' if you experience any problems during data retrieval
+[17:02:57] [INFO] checking if the injection point on POST parameter 'endTime' is a false positive
+[17:02:57] [WARNING] false positive or unexploitable injection point detected
+[17:02:57] [WARNING] POST parameter 'endTime' does not seem to be injectable
+
